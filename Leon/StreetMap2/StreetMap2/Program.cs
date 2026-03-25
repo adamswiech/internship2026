@@ -17,24 +17,21 @@ foreach (var line in lines)
 {
     string city = line.Split(',')[0].Trim();
     var url = $"https://nominatim.openstreetmap.org/search?q={Uri.EscapeDataString(city)}+Polska&format=json&limit=1&email={Uri.EscapeDataString(gmail)}&addressdetails=1";
-    try
+    using (StreamWriter sw = new StreamWriter(filePathOut, append: true))
     {
-        using (StreamWriter sw = new StreamWriter(filePathOut, append: true))
+        try
         {
             var response = client.GetStringAsync(url).Result;
             var content = JsonDocument.Parse(response);
             var place = JsonSerializer.Deserialize<place[]>(content);
             var p = place[0];
 
-
             sw.WriteLine($"{p.name},{p.address.country},{p.lat},{p.lon}");
-
-
         }
-
-    } catch (Exception ex)
-    {
-        Console.WriteLine(ex.ToString());
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+        }
     }
     await Task.Delay(1000);
 }
