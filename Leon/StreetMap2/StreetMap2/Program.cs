@@ -51,3 +51,22 @@ public class address
     public string country { get; set; }
 
 }
+
+
+
+
+//using System.Text.Json;
+//using var client = new HttpClient();
+//client.DefaultRequestHeaders.UserAgent.ParseAdd("CityCoordsApp/1.0 (zedowlamacz295@gmail.com)");
+//if (File.Exists(Path.GetFullPath(@"..\..\..\Out.txt"))) File.Delete(Path.GetFullPath(@"..\..\..\Out.txt"));
+//foreach (var line in File.ReadAllLines(Path.GetFullPath(@"..\..\..\miasta.txt")))
+//{
+//    using (StreamWriter sw = new StreamWriter(Path.GetFullPath(@"..\..\..\Out.txt"), append: true))
+//    {
+//        var place = JsonSerializer.Deserialize<place[]>(await client.GetStringAsync($"https://nominatim.openstreetmap.org/search?q={Uri.EscapeDataString(line.Split(',')[0].Trim())}+Polska&format=json&limit=1&email={Uri.EscapeDataString("zedowlamacz295@gmail.com")}&addressdetails=1"));
+//        sw.WriteLine($"{place[0].name},{place[0].address.country},{place[0].lat},{place[0].lon}");
+//    }
+//    await Task.Delay(1000);
+//}
+//record place(string name, address address, string lat, string lon);
+//record address(string country);
