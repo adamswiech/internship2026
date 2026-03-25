@@ -1,38 +1,100 @@
-Abramy, gmina Kałuszyn, powiat miński, województwo mazowieckie, Polska, 52.2544383, 21.8002877
-Abramów, gmina Goraj, powiat biłgorajski, województwo lubelskie, Polska, 50.6977857, 22.7006074
-Abramów, gmina Abramów, powiat lubartowski, województwo lubelskie, Polska, 51.4565215, 22.3154548
-Abramów, Bychawka Druga-Kolonia, gmina Bychawa, powiat lubelski, województwo lubelskie, 23-100, Polska, 51.0461820, 22.5333466
-Abramów, Cięcina, gmina Węgierska Górka, powiat żywiecki, województwo śląskie, Polska, 49.5780556, 19.1802778
-Abramów, Rycerka Górna, gmina Rajcza, powiat żywiecki, województwo śląskie, Polska, 49.4076147, 19.0256350
-gmina Abramów, powiat lubartowski, województwo lubelskie, 21-143, Polska, 51.4712557, 22.2787549
-Adamów, gmina Adamów, powiat łukowski, województwo lubelskie, 21-412, Polska, 51.7436921, 22.2623567
-Adamów, gmina Poddębice, powiat poddębicki, województwo łódzkie, 99-200, Polska, 51.8719064, 19.0036657
-Adamów, gmina Kutno, powiat kutnowski, województwo łódzkie, Polska, 52.2666667, 19.2833333
-Adamów, gmina Szczawin Kościelny, powiat gostyniński, województwo mazowieckie, 09-550, Polska, 52.3500000, 19.6500000
-Adamów, gmina Brzeziny, powiat brzeziński, województwo łódzkie, Polska, 51.7723297, 19.6896471
-Adamów, gmina Żarnów, powiat opoczyński, województwo łódzkie, Polska, 51.1957227, 20.1344192
-Adamów, gmina Głowaczów, powiat kozienicki, województwo mazowieckie, Polska, 51.6210005, 21.3695678
-Adamów, gmina Dobre, powiat miński, województwo mazowieckie, Polska, 52.2805393, 21.7042440
-Adamów, gmina Bełchatów, powiat bełchatowski, województwo łódzkie, 97-400, Polska, 51.4064853, 19.3026615
-Adamów, gmina Opoczno, powiat opoczyński, województwo łódzkie, Polska, 51.3593731, 20.3964625
-Adamówka, gmina Żółkiewka, powiat krasnostawski, województwo lubelskie, Polska, 50.9354279, 22.8049559
-Adamówka, gmina Adamówka, powiat przeworski, województwo podkarpackie, 37-534, Polska, 50.2586320, 22.6941189
-Adamówka, Święcica, gmina Rytwiany, powiat staszowski, województwo świętokrzyskie, 28-236, Polska, 50.5186112, 21.1718983
-Adamówka (Zwalisko), Wieprzec, gmina Maków Podhalański, powiat suski, województwo małopolskie, 34-234, Polska, 49.7229881, 19.7581105
-Adamówka, Trojanów, Sochaczew, powiat sochaczewski, województwo mazowieckie, 95-500, Polska, 52.2380816, 20.2450038
-Adamówka, Staszów, gmina Staszów, powiat staszowski, województwo świętokrzyskie, 28-236, Polska, 50.5372222, 21.1661111
-Adamówka, Kobierne, gmina Dębe Wielkie, powiat miński, województwo mazowieckie, 05-311, Polska, 52.2066667, 21.4613889
-Adamówka, Kopki, gmina Wiązowna, powiat otwocki, województwo mazowieckie, 05-460, Polska, 52.1291667, 21.3594444
-Adamówka, Góra Puławska, gmina Puławy, powiat puławski, województwo lubelskie, 24-122, Polska, 51.3965192, 21.9255576
-Adamówka, Wronowice, gmina Werbkowice, powiat hrubieszowski, województwo lubelskie, 22-546, Polska, 50.6803537, 23.7319876
-Aleksandria Pierwsza, Aleksandria, gmina Konopiska, powiat częstochowski, województwo śląskie, 42-274, Polska, 50.7386111, 18.9550000
-Aleksandrów, gmina Biała Rawska, powiat rawski, województwo łódzkie, 96-230, Polska, 51.8190659, 20.5122926
-Aleksandrów, gmina Pińczów, powiat pińczowski, województwo świętokrzyskie, Polska, 50.4274160, 20.5145130
-Aleksandrów, gmina Wiskitki, powiat żyrardowski, województwo mazowieckie, Polska, 52.1402651, 20.3205437
-Aleksandrów, gmina Łuków, powiat łukowski, województwo lubelskie, 21-400, Polska, 51.9016531, 22.4591710
-Aleksandrów, gmina Góra Kalwaria, powiat piaseczyński, województwo mazowieckie, Polska, 51.9435186, 21.1790710
-Aleksandrów, gmina Pniewy, powiat grójecki, województwo mazowieckie, Polska, 51.9251556, 20.7166394
-Aleksandrów, gmina Czosnów, powiat nowodworski, województwo mazowieckie, Polska, 52.3385258, 20.6309521
-Aleksandrów, Dąbrówka, gmina Sienno, powiat lipski, województwo mazowieckie, Polska, 51.0141040, 21.4649973
-Aleksandrów, gmina Aleksandrów, powiat piotrkowski, województwo łódzkie, 26-337, Polska, 51.2662122, 19.9794519
-Aleksandrów, gmina Żychlin, powiat kutnowski, województwo łódzkie, 99-320, Polska, 52.2373078, 19.5665753
+Abramy, 52.2544383, 21.8002877
+Abramów, 50.6977857, 22.7006074
+Abramów, 51.4565215, 22.3154548
+Abramów, 51.0461820, 22.5333466
+Abramów, 49.5780556, 19.1802778
+Abramów, 49.4076120, 19.0256327
+gmina Abramów, 51.4712557, 22.2787549
+Adamów, 51.7436921, 22.2623567
+Adamów, 51.8719064, 19.0036657
+Adamów, 52.2666667, 19.2833333
+Adamów, 52.3500000, 19.6500000
+Adamów, 51.7723297, 19.6896471
+Adamów, 51.1957227, 20.1344192
+Adamów, 51.6210005, 21.3695678
+Adamów, 52.2805393, 21.7042440
+Adamów, 51.4064853, 19.3026615
+Adamów, 51.3593731, 20.3964625
+Adamówka, 50.9354279, 22.8049559
+Adamówka, 50.2586320, 22.6941189
+Adamówka, 50.5186112, 21.1718983
+Adamówka (Zwalisko), 49.7229881, 19.7581105
+Adamówka, 52.2380816, 20.2450038
+Adamówka, 50.5372222, 21.1661111
+Adamówka, 52.2066667, 21.4613889
+Adamówka, 52.1291667, 21.3594444
+Adamówka, 51.3965192, 21.9255576
+Adamówka, 50.6803537, 23.7319876
+Aleksandria Pierwsza, 50.7386111, 18.9550000
+Aleksandrów, 51.8190659, 20.5122926
+Aleksandrów, 50.4274160, 20.5145130
+Aleksandrów, 52.1402651, 20.3205437
+Aleksandrów, 51.9016531, 22.4591710
+Aleksandrów, 51.9435186, 21.1790710
+Aleksandrów, 51.9251556, 20.7166394
+Aleksandrów, 52.3385258, 20.6309521
+Aleksandrów, 51.0141040, 21.4649973
+Aleksandrów, 51.2662122, 19.9794519
+Aleksandrów, 52.2373078, 19.5665753
+Aleksandrów Kujawski, 52.8764647, 18.6940710
+Aleksandrów Kujawski, 52.8765365, 18.6935744
+Aleksandrów Łódzki, 51.8196533, 19.3035375
+Alwernia, 50.0690434, 19.5396737
+Andrespol, 51.7253891, 19.6386480
+gmina Andrespol, 51.7213138, 19.6545456
+Andrychów, 49.8555791, 19.3436756
+Andrzejewo, 52.8305612, 22.2006931
+Andrzejewo, 54.2820800, 23.0920100
+Andrzejewo, 53.7586111, 23.1088889
+Andrzejewo, 53.5425000, 23.5044445
+Andrzejewo, 53.9178267, 19.2734175
+Andrzejewo, 52.3884934, 17.2202078
+Andrzejewo, 52.3884908, 17.9743685
+gmina Andrzejewo, 52.8316011, 22.1484775
+Annopol, 50.8851655, 21.8550836
+Annopol, 51.8167546, 20.5725814
+Annopol, 52.4112000, 19.6394000
+Annopol, 52.9740177, 20.8914973
+Annopol, 50.9077575, 23.9000977
+Annopol, 51.0065458, 23.7725350
+Annopol, 52.4301675, 21.7021284
+Annopol, 51.8717549, 18.3536910
+Annopol, 51.6698477, 22.3854403
+Annopol, 52.3041960, 21.0155510
+Antoniów, 51.2135391, 20.1727167
+Antoniów, 51.4691712, 20.2081545
+Antoniów, 51.1303417, 19.5668781
+Antoniów, 51.2618978, 21.2179889
+Antoniów, 51.2008200, 21.3992100
+Antoniów, 50.8685696, 19.0941986
+Antoniów, 50.6928920, 18.1961801
+Antoniów, 51.0503029, 21.5309368
+Jantoniów, 50.7060088, 21.4702937
+Antoniów, 51.2034763, 20.6987876
+Augustów, 53.8449595, 23.0183546
+Augustów, 53.8437331, 22.9802357
+Augustów, 52.9385005, 20.9530722
+Augustów, 51.5231685, 21.4715516
+Augustów, 51.6875468, 21.1745185
+Augustów, 51.3404306, 21.0628253
+Augustów, 51.2927810, 19.0833308
+Augustów, 51.4363026, 20.4610909
+Augustów, 51.1089155, 16.3516925
+Augustów, 50.9943478, 15.3356960
+Babiak, 52.3445230, 18.6667068
+Babiak, 54.1744204, 20.3536685
+Babiak, 52.0472746, 18.3861230
+Babiak, 53.0421056, 19.0380014
+Babiak, 49.9213889, 22.0597222
+Babiak, 52.8738520, 18.6699955
+Babice, 49.8195400, 22.4746900
+Babice, 51.7741622, 19.2481954
+Babice, 51.6970961, 21.8560395
+Babice, 50.0525108, 19.2090750
+Babice, 50.0708337, 19.4486172
+Babice, 50.1720241, 17.9131706
+Babice, 50.3495880, 22.9242476
+Babice, 50.1367505, 18.2994021
+Babice, 49.4887383, 19.8126919
+Babice, 49.9256292, 22.5766001
+Babimost, 52.1653120, 15.8285175
