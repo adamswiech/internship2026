@@ -10,9 +10,9 @@ string outputFile = Path.Combine(projectRoot, "out.txt");
 File.WriteAllText(outputFile, string.Empty);
 
 foreach (string line in content.Split('\n'))
+{
+    try
     {
-        try
-        {
         using (StreamWriter writer = new StreamWriter(outputFile, append: true))
         {
             string query = line;
@@ -29,15 +29,17 @@ foreach (string line in content.Split('\n'))
                 string cityName = place.GetProperty("name").GetString();
                 string lat = place.GetProperty("lat").GetString();
                 string lon = place.GetProperty("lon").GetString();
-                Console.WriteLine("New data added!");
 
-                writer.WriteLine($"{cityName}, lat: {lat}, lon: {lon}");
+                writer.WriteLine($"{cityName}, {lat}, {lon}");
             }
-        }
-    } catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-        }
 
-        await Task.Delay(1100);
+            writer.Close();
+        }
     }
+    catch (Exception e)
+    {
+        Console.WriteLine(e.Message);
+    }
+
+    await Task.Delay(1000);
+}
