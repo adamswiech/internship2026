@@ -1,0 +1,23 @@
+Abramów,Polska,52.2544383,21.8002877
+Adamów,Polska,51.7436921,22.2623567
+Adamówka,Polska,50.9354279,22.8049559
+Aleksandria Pierwsza,Polska,50.7386111,18.9550000
+Aleksandrów,Polska,51.8190659,20.5122926
+Aleksandrów Kujawski,Polska,52.8764647,18.6940710
+Aleksandrów Łódzki,Polska,51.8196533,19.3035375
+Alwernia,Polska,50.0690434,19.5396737
+Andrespol,Polska,51.7253891,19.6386480
+Andrychów,Polska,49.8555791,19.3436756
+Andrzejewo,Polska,52.8305612,22.2006931
+Annopol,Polska,50.8851655,21.8550836
+Antoniów,Polska,51.2135391,20.1727167
+Augustów,Polska,53.8437331,22.9802357
+Babiak,Polska,52.3445230,18.6667068
+Babice,Polska,49.8195400,22.4746900
+Babimost,Polska,52.1653120,15.8285175
+Babin,Polska,52.3274400,17.8799471
+Baborów,Polska,50.1563566,17.9859393
+Baboszewo,Polska,52.6813829,20.2582764
+Baćkowice,Polska,50.7950478,21.2328522
+Bakałarzewo,Polska,54.0937511,22.6516364
+Baligród,Polska,49.3367963,22.2866341
