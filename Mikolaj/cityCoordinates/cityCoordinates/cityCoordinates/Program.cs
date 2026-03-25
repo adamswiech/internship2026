@@ -7,7 +7,9 @@ client.DefaultRequestHeaders.Add("User-Agent", "MyGeoApp/1.0 (jewq1.asdh@gmail.c
 string content = File.ReadAllText("miasta.txt");
 string outputFile = Path.Combine(projectRoot, "out.txt");
 
-    foreach (string line in content.Split('\n'))
+File.WriteAllText(outputFile, string.Empty);
+
+foreach (string line in content.Split('\n'))
     {
         try
         {
@@ -27,7 +29,7 @@ string outputFile = Path.Combine(projectRoot, "out.txt");
                 string cityName = place.GetProperty("name").GetString();
                 string lat = place.GetProperty("lat").GetString();
                 string lon = place.GetProperty("lon").GetString();
-                Console.WriteLine($"{cityName}, lat: {lat}, lon: {lon}");
+                Console.WriteLine("New data added!");
 
                 writer.WriteLine($"{cityName}, lat: {lat}, lon: {lon}");
             }
