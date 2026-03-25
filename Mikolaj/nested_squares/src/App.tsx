@@ -33,7 +33,7 @@ function App() {
             name=""
             id=""
             min={0}
-            max={100}
+            max={360}
             value={inputValue}
             defaultValue={0}
             onChange={(e) => setInputValue(Number(e.target.value))}
