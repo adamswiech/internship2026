@@ -11,14 +11,16 @@
   align-items: center;
   position: relative;
   height: 600px;
-  width: 600px;
+  width: 500px;
   margin-bottom: 20px;
   border: 1px solid black;
+  /* overflow: hidden; */
 }
 
 .square {
   border: 1px solid black;
   position: absolute;
+  /* overflow: hidden; */
 }
 
 label {

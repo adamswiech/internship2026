@@ -11,7 +11,7 @@ function App() {
             <div
               key={i}
               className="square"
-              style={{ transform: `rotate(${inputValue + (i+1) * inputValue}deg)`, width: 15*(i+1), height: 25*(i+1) }}
+              style={{ transform: `rotate(${i*inputValue}deg)`, width: 450-(i*10), height: 550-(i*10) }}
             ></div>
           ))}
         </div>
@@ -34,6 +34,7 @@ function App() {
             id=""
             min={0}
             max={100}
+            value={inputValue}
             defaultValue={0}
             onChange={(e) => setInputValue(Number(e.target.value))}
           />
