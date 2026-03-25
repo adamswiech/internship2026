@@ -1,0 +1,4 @@
+Abramy,Polska,52.2544383,21.8002877
+Adamów,Polska,51.7436921,22.2623567
+Adamówka,Polska,50.9354279,22.8049559
+Aleksandria Pierwsza,Polska,50.7386111,18.9550000

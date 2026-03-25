@@ -99,7 +99,7 @@ foreach (var line in lines)
     {
         using var sw = new StreamWriter(filePathOut, append: true);
         Console.WriteLine(url);
-        var response = await client.GetStringAsync(url);
+        var response = client.GetStringAsync(url);
         var json = JsonDocument.Parse(response);
         if (json.RootElement.GetArrayLength() > 0)
         {
