@@ -104,17 +104,19 @@ foreach (var line in lines)
             var element = json.RootElement[0];
             var lat = element.GetProperty("lat").GetString();
             var lon = element.GetProperty("lon").GetString();
+            Console.WriteLine($"{city} -> {lat}, {lon}");
             sw.WriteLine($"{city} -> {lat}, {lon}");
         }
         else
         {
+            Console.WriteLine($"{city};NOT_FOUND");
             sw.WriteLine($"{city};NOT_FOUND");
         }
     }
     catch (Exception ex)
     {
-        sw.WriteLine($"{city};ERROR");
-        sw.WriteLine($"Error for {city}: {ex.Message}");
+        Console.WriteLine($"{city};ERROR");
+        Console.WriteLine($"Error for {city}: {ex.Message}");
     }
     await Task.Delay(1000);
 }
