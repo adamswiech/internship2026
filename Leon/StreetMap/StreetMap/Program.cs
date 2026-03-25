@@ -104,7 +104,8 @@ foreach (var line in lines)
             var element = json.RootElement[0];
             var lat = element.GetProperty("lat").GetString();
             var lon = element.GetProperty("lon").GetString();
-            sw.WriteLine($"{city} -> {lat}, {lon}");
+            Console.WriteLine(lat);
+            sw.WriteLine($"{city},Polska,{lat.ToString(System.Globalization.CultureInfo.InvariantCulture)},{lon.ToString(System.Globalization.CultureInfo.InvariantCulture)}");
         }
         else
         {
