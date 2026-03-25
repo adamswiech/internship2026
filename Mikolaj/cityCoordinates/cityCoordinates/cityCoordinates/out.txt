@@ -1,0 +1,44 @@
+Abramy, lat: 52.2544383, lon: 21.8002877
+Abramów, lat: 50.6977857, lon: 22.7006074
+Abramów, lat: 51.4565215, lon: 22.3154548
+Abramów, lat: 51.0461820, lon: 22.5333466
+Abramów, lat: 49.5780556, lon: 19.1802778
+Abramów, lat: 49.4076147, lon: 19.0256350
+gmina Abramów, lat: 51.4712557, lon: 22.2787549
+Adamów, lat: 51.7436921, lon: 22.2623567
+Adamów, lat: 51.8719064, lon: 19.0036657
+Adamów, lat: 52.2666667, lon: 19.2833333
+Adamów, lat: 52.3500000, lon: 19.6500000
+Adamów, lat: 51.7723297, lon: 19.6896471
+Adamów, lat: 51.1957227, lon: 20.1344192
+Adamów, lat: 51.6210005, lon: 21.3695678
+Adamów, lat: 52.2805393, lon: 21.7042440
+Adamów, lat: 51.4064853, lon: 19.3026615
+Adamów, lat: 51.3593731, lon: 20.3964625
+Adamówka, lat: 50.9354279, lon: 22.8049559
+Adamówka, lat: 50.2586320, lon: 22.6941189
+Adamówka, lat: 50.5186112, lon: 21.1718983
+Adamówka (Zwalisko), lat: 49.7229881, lon: 19.7581105
+Adamówka, lat: 52.2380816, lon: 20.2450038
+Adamówka, lat: 50.5372222, lon: 21.1661111
+Adamówka, lat: 52.2066667, lon: 21.4613889
+Adamówka, lat: 52.1291667, lon: 21.3594444
+Adamówka, lat: 51.3965192, lon: 21.9255576
+Adamówka, lat: 50.6803537, lon: 23.7319876
+Aleksandria Pierwsza, lat: 50.7386111, lon: 18.9550000
+Aleksandrów, lat: 51.8190659, lon: 20.5122926
+Aleksandrów, lat: 50.4274160, lon: 20.5145130
+Aleksandrów, lat: 52.1402651, lon: 20.3205437
+Aleksandrów, lat: 51.9016531, lon: 22.4591710
+Aleksandrów, lat: 51.9435186, lon: 21.1790710
+Aleksandrów, lat: 51.9251556, lon: 20.7166394
+Aleksandrów, lat: 52.3385258, lon: 20.6309521
+Aleksandrów, lat: 51.0141040, lon: 21.4649973
+Aleksandrów, lat: 51.2662122, lon: 19.9794519
+Aleksandrów, lat: 52.2373078, lon: 19.5665753
+Aleksandrów Kujawski, lat: 52.8764647, lon: 18.6940710
+Aleksandrów Kujawski, lat: 52.8765365, lon: 18.6935744
+Aleksandrów Łódzki, lat: 51.8196533, lon: 19.3035375
+Alwernia, lat: 50.0690434, lon: 19.5396737
+Andrespol, lat: 51.7253891, lon: 19.6386480
+gmina Andrespol, lat: 51.7213138, lon: 19.6545456

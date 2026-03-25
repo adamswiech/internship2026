@@ -1,27 +1,41 @@
 ﻿using System.Text.Json;
+
+string projectRoot = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\"));
 using HttpClient client = new HttpClient();
-client.DefaultRequestHeaders.Add("User-Agent", "MyGeoApp/1.0 (j.sjahw@gmail.com)");
+client.DefaultRequestHeaders.Add("User-Agent", "MyGeoApp/1.0 (jewq1.asdh@gmail.com)");
 
 string content = File.ReadAllText("miasta.txt");
+string outputFile = Path.Combine(projectRoot, "out.txt");
 
-foreach (string line in content.Split('\n'))
-{
-    string query = line;
-    string url = $"https://nominatim.openstreetmap.org/search?q={Uri.EscapeDataString(query)}&format=json&polygon_kml=1&addressdetails=1";
-
-    HttpResponseMessage response = await client.GetAsync(url);
-    response.EnsureSuccessStatusCode();
-
-    string json = await response.Content.ReadAsStringAsync();
-    var results = JsonDocument.Parse(json);
-
-    foreach (var place in results.RootElement.EnumerateArray())
+    foreach (string line in content.Split('\n'))
     {
-        string cityName = place.GetProperty("name").GetString();
-        string lat = place.GetProperty("lat").GetString();
-        string lon = place.GetProperty("lon").GetString();
-        Console.WriteLine($"{cityName}, lat: {lat}, lon: {lon}");
-    }
+        try
+        {
+        using (StreamWriter writer = new StreamWriter(outputFile, append: true))
+        {
+            string query = line;
+            string url = $"https://nominatim.openstreetmap.org/search?q={Uri.EscapeDataString(query)}&format=json&polygon_kml=1&addressdetails=1";
 
-    await Task.Delay(1100);
-}
+            HttpResponseMessage response = client.GetAsync(url).Result;
+            response.EnsureSuccessStatusCode();
+
+            string json = response.Content.ReadAsStringAsync().Result;
+            var results = JsonDocument.Parse(json);
+
+            foreach (var place in results.RootElement.EnumerateArray())
+            {
+                string cityName = place.GetProperty("name").GetString();
+                string lat = place.GetProperty("lat").GetString();
+                string lon = place.GetProperty("lon").GetString();
+                Console.WriteLine($"{cityName}, lat: {lat}, lon: {lon}");
+
+                writer.WriteLine($"{cityName}, lat: {lat}, lon: {lon}");
+            }
+        }
+    } catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+
+        await Task.Delay(1100);
+    }
