@@ -88,15 +88,16 @@ string filePathOut = Path.GetFullPath(@"..\..\..\out.txt");
 var lines = File.ReadAllLines(filePath);
 string gmail = "zedowlamacz295@gmail.com";
 
-using var sw = new StreamWriter(filePathOut, append: true);
 
 foreach (var line in lines)
 {
+    //sw.WriteLine("123");
     string city = line.Split(',')[0].Trim();
-    var url = $"https://nominatim.openstreetmap.org/search?q={Uri.EscapeDataString(city)}+Polska&format=json&limit=1&email={Uri.EscapeDataString(gmail)}";
-    try
-    {   
-        Console.WriteLine(url);
+        var url = $"https://nominatim.openstreetmap.org/search?q={Uri.EscapeDataString(city)}+Polska&format=json&limit=1&email={Uri.EscapeDataString(gmail)}";
+        try
+    {
+        var sw = new StreamWriter(filePathOut, append: true);
+            Console.WriteLine(url);
         var response = await client.GetStringAsync(url);
         var json = JsonDocument.Parse(response);
         if (json.RootElement.GetArrayLength() > 0)
@@ -105,13 +106,14 @@ foreach (var line in lines)
             var lat = element.GetProperty("lat").GetString();
             var lon = element.GetProperty("lon").GetString();
             Console.WriteLine(lat);
-            sw.WriteLine($"{city},Polska,{lat.ToString(System.Globalization.CultureInfo.InvariantCulture)},{lon.ToString(System.Globalization.CultureInfo.InvariantCulture)}");
-        }
-        else
+                //sw.WriteLine("123");
+    }
+            else
         {
             Console.WriteLine($"{city};NOT_FOUND");
             sw.WriteLine($"{city};NOT_FOUND");
         }
+        sw.Close();
     }
     catch (Exception ex)
     {
@@ -120,5 +122,3 @@ foreach (var line in lines)
     }
     await Task.Delay(1000);
 }
-
-sw.Close();
