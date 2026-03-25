@@ -80,7 +80,6 @@ using System.Text.Json;
 
 
 using var client = new HttpClient();
-var results = new List<string>();
 client.DefaultRequestHeaders.UserAgent.ParseAdd("CityCoordsApp/1.0 (zedowlamacz295@gmail.com)");
 
 string filePath = Path.GetFullPath(@"..\..\..\miasta.txt");
@@ -89,6 +88,8 @@ string filePathOut = Path.GetFullPath(@"..\..\..\out.txt");
 var lines = File.ReadAllLines(filePath);
 string gmail = "zedowlamacz295@gmail.com";
 
+using var sw = new StreamWriter(filePathOut, append: true);
+
 foreach (var line in lines)
 {
     string city = line.Split(',')[0].Trim();
@@ -96,27 +97,26 @@ foreach (var line in lines)
     try
     {   
         Console.WriteLine(url);
-        var response = client.GetStringAsync(url).Result;
+        var response = await client.GetStringAsync(url);
         var json = JsonDocument.Parse(response);
         if (json.RootElement.GetArrayLength() > 0)
         {
             var element = json.RootElement[0];
             var lat = element.GetProperty("lat").GetString();
             var lon = element.GetProperty("lon").GetString();
-            results.Add($"{city};{lat};{lon}");
-            Console.WriteLine($"{city} -> {lat}, {lon}");
+            sw.WriteLine($"{city} -> {lat}, {lon}");
         }
         else
         {
-            results.Add($"{city};NOT_FOUND");
+            sw.WriteLine($"{city};NOT_FOUND");
         }
     }
     catch (Exception ex)
     {
-        results.Add($"{city};ERROR");
-        Console.WriteLine($"Error for {city}: {ex.Message}");
+        sw.WriteLine($"{city};ERROR");
+        sw.WriteLine($"Error for {city}: {ex.Message}");
     }
     await Task.Delay(1000);
 }
 
-File.WriteAllLines(filePathOut, results);
+sw.Close();
