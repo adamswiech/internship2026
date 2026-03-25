@@ -81,16 +81,18 @@ using System.Text.Json;
 
 using var client = new HttpClient();
 var results = new List<string>();
+client.DefaultRequestHeaders.UserAgent.ParseAdd("CityCoordsApp/1.0 (zedowlamacz295@gmail.com)");
 
 string filePath = Path.GetFullPath(@"..\..\..\miasta.txt");
 string filePathOut = Path.GetFullPath(@"..\..\..\out.txt");
 
 var lines = File.ReadAllLines(filePath);
+string gmail = "zedowlamacz295@gmail.com";
 
 foreach (var line in lines)
 {
     string city = line.Split(',')[0].Trim();
-    var url = $"https://nominatim.openstreetmap.org/search?q={city}&format=json&limit=1";
+    var url = $"https://nominatim.openstreetmap.org/search?q={Uri.EscapeDataString(city)}+Polska&format=json&limit=1&email={Uri.EscapeDataString(gmail)}";
     try
     {   
         Console.WriteLine(url);
