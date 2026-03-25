@@ -116,6 +116,7 @@ foreach (var line in lines)
         results.Add($"{city};ERROR");
         Console.WriteLine($"Error for {city}: {ex.Message}");
     }
+    await Task.Delay(1000);
 }
 
 File.WriteAllLines(filePathOut, results);
