@@ -3,14 +3,14 @@ import './App.css';
 
 function App() {
   const [steps, setSteps] = useState(10);
-  const initialWidth = 399;
+  const initialWidth = 400;
   const initialHeight = 400;
 
   const Box = ({
     step,
     width,
     height,
-    angle =2,
+    angle =5,
   }: {
     step: number;
     width: number;
