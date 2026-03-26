@@ -1,103 +1,56 @@
 import { useMemo, useState } from 'react'
 import './App.css'
 
-type Point = {
-  x: number
-  y: number
-}
+const h = 400;
+const w = 200;
 
-type Quad = [Point, Point, Point, Point]
 
-function lerp(a: Point, b: Point, t: number): Point {
-  return {
-    x: a.x + (b.x - a.x) * t,
-    y: a.y + (b.y - a.y) * t,
-  }
-}
 
-function nextQuad([a, b, c, d]: Quad, t: number): Quad {
+var l=[];
+const kw = [[20,30],[20,170],[80,170],[80,30]];
+
+function lerp (x: number,y: number,t: number) { return x+(y-x)*t; }
+function nextkw (t: number, kw: number[][]): number[][] {
   return [
-    lerp(a, b, t),
-    lerp(b, c, t),
-    lerp(c, d, t),
-    lerp(d, a, t),
+    [lerp(kw[0][0],kw[1][0],t),lerp(kw[0][1],kw[1][1],t)],
+    [lerp(kw[1][0],kw[2][0],t),lerp(kw[1][1],kw[2][1],t)],
+    [lerp(kw[2][0],kw[3][0],t),lerp(kw[2][1],kw[3][1],t)],
+    [lerp(kw[3][0],kw[0][0],t),lerp(kw[3][1],kw[0][1],t)],
   ]
 }
+const e = nextkw(0.2,kw);
+console.log(e);
 
-function generateSpiral(width: number, height: number, steps: number, t: number): Quad[] {
-  const result: Quad[] = []
-  let current: Quad = [
-    { x: 0, y: 0 },
-    { x: width, y: 0 },
-    { x: width, y: height },
-    { x: 0, y: height },
-  ]
-
-  result.push(current)
-
-  for (let i = 0; i < steps; i += 1) {
-    current = nextQuad(current, t)
-    result.push(current)
-  }
-
-  return result
-}
 
 function App() {
-  const [ratio, setRatio] = useState(0.12)
-  const [steps, setSteps] = useState(64)
+  const [t, setT] = useState(0.01);
+  const [count, setCount] = useState(20);
 
-  const width = 360
-  const height = 520
-
-  const quads = useMemo(() => generateSpiral(width, height, steps, ratio), [height, ratio, steps, width])
+const shapes = useMemo(() => {
+  const out: number[][][] = [kw];
+  for (let i = 1; i < count; i++) {
+    out.push(nextkw(t, out[i - 1]));
+  }
+  return out;
+}, [t, count]);
 
   return (
-    <main className="rotation-page">
-      <div className="stage" aria-label="Spirala z prostokata">
-        <svg viewBox={`0 0 ${width} ${height}`} className="spiral-svg" role="img" aria-hidden="true">
-          {quads.map((quad, index) => {
-            const points = [...quad, quad[0]].map((point) => `${point.x},${point.y}`).join(' ')
-            const alpha = 0.9 - (index / quads.length) * 0.6
-
-            return (
-              <polyline
-                key={index}
-                points={points}
-                fill="none"
-                stroke="rgba(17, 17, 17, 1)"
-                strokeOpacity={alpha}
-                strokeWidth="1.2"
-              />
-            )
-          })}
+    <>
+      <input type="range" min="0" max="1" step="0.01" value={t} onChange={(e) => setT(parseFloat(e.target.value))}/>
+        <svg width={1600} height={800} viewBox={`0 0 ${w} ${h}`} >
+          {/* <rect x={rectX} y={rectY} width={rectW} height={rectH} fill="none" stroke="black" /> */}
+          {shapes.map((p, i) => (
+          <polygon
+            key={i}
+            points={p.map(([x, y]) => `${x},${y}`).join(' ')}
+            fill="none"
+            stroke="black"
+            strokeWidth={1}
+            opacity={0.25 + 0.75 * (i / Math.max(1, shapes.length - 1))}
+          />
+          ))}
         </svg>
-      </div>
-
-      <label className="control">
-        t (przesuniecie na bokach): {ratio.toFixed(2)}
-        <input
-          type="range"
-          min="0.02"
-          max="0.35"
-          step="0.01"
-          value={ratio}
-          onChange={(event) => setRatio(Number(event.currentTarget.value))}
-        />
-      </label>
-
-      <label className="control">
-        liczba warstw: {steps}
-        <input
-          type="range"
-          min="12"
-          max="120"
-          step="1"
-          value={steps}
-          onChange={(event) => setSteps(Number(event.currentTarget.value))}
-        />
-      </label>
-    </main>
+    </>
   )
 }
 
