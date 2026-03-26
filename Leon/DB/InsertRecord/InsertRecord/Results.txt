@@ -22,3 +22,101 @@ DataTable creation: 1.26 sec
 Bulk copy insert: 3.84 sec
 Total time: 9.76 sec
 ----------------------------------------
+
+Run Time: 3/26/2026 1:56:41 PM
+Data generation: 5.15 sec
+Multi-query insert: 0.00 sec
+DataTable creation: 1.32 sec
+Bulk copy insert: 4.51 sec
+Total time: 10.98 sec
+----------------------------------------
+
+Run Time: 3/26/2026 3:08:03 PM
+Data generation: 7.95 sec
+Multi-query insert: 0.00 sec
+DataTable creation: 1.34 sec
+Bulk copy insert: 5.55 sec
+Total time: 14.84 sec
+----------------------------------------
+
+Run Time: 3/26/2026 3:08:22 PM
+Data generation: 5.03 sec
+Multi-query insert: 0.00 sec
+DataTable creation: 1.40 sec
+Bulk copy insert: 6.64 sec
+Total time: 13.07 sec
+----------------------------------------
+
+Run Time: 3/26/2026 3:08:36 PM
+Data generation: 5.62 sec
+Multi-query insert: 0.00 sec
+DataTable creation: 1.40 sec
+Bulk copy insert: 5.44 sec
+Total time: 12.46 sec
+----------------------------------------
+
+Run Time: 3/26/2026 3:08:52 PM
+Data generation: 5.17 sec
+Multi-query insert: 0.00 sec
+DataTable creation: 1.36 sec
+Bulk copy insert: 5.47 sec
+Total time: 12.00 sec
+----------------------------------------
+
+Run Time: 3/26/2026 3:09:10 PM
+Data generation: 4.76 sec
+Multi-query insert: 0.00 sec
+DataTable creation: 1.23 sec
+Bulk copy insert: 4.11 sec
+Total time: 10.10 sec
+----------------------------------------
+
+Run Time: 3/26/2026 3:09:25 PM
+Data generation: 5.31 sec
+Multi-query insert: 0.00 sec
+DataTable creation: 1.44 sec
+Bulk copy insert: 6.45 sec
+Total time: 13.20 sec
+----------------------------------------
+
+Run Time: 3/26/2026 3:56:09 PM
+Data generation: 41.56 sec
+DataTable creation: 14.25 sec
+Bulk copy insert: 35.55 sec
+Total time: 91.37 sec
+----------------------------------------
+
+Run Time: 3/26/2026 3:57:40 PM
+Data generation: 34.07 sec
+DataTable creation: 9.85 sec
+Bulk copy insert: 29.80 sec
+Total time: 73.72 sec
+----------------------------------------
+
+Run Time: 3/26/2026 3:58:45 PM
+Data generation: 18.95 sec
+DataTable creation: 5.59 sec
+Bulk copy insert: 24.11 sec
+Total time: 48.65 sec
+----------------------------------------
+
+Run Time: 3/26/2026 3:59:56 PM
+Data generation: 33.59 sec
+DataTable creation: 9.72 sec
+Bulk copy insert: 27.89 sec
+Total time: 71.20 sec
+----------------------------------------
+
+Run Time: 3/26/2026 4:05:47 PM
+Data generation: 65.19 sec
+DataTable creation: 19.00 sec
+Bulk copy insert: 35.48 sec
+Total time: 119.68 sec
+----------------------------------------
+
+Run Time: 3/26/2026 4:09:20 PM
+Data generation: 46.68 sec
+DataTable creation: 15.53 sec
+Bulk copy insert: 56.12 sec
+Total time: 118.33 sec
+----------------------------------------
