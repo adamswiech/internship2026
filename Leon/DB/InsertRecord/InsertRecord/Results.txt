@@ -1,0 +1,8 @@
+
+Run Time: 3/26/2026 1:16:48 PM
+Data generation: 4.54 sec
+Multi-query insert: 553.15 sec
+DataTable creation: 2.02 sec
+Bulk copy insert: 5.89 sec
+Total time: 565.59 sec
+----------------------------------------
