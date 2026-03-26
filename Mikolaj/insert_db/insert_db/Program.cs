@@ -1,4 +1,5 @@
 ﻿using insert_db;
+using System.Diagnostics;
 
 string[] firstNames = { "John", "Emma", "Luca", "Sophie", "Carlos", "Yuki", "Ahmed", "Anna", "James", "Maria" };
 string[] lastNames = { "Smith", "Johnson", "Rossi", "Müller", "García", "Tanaka", "Hassan", "Kowalski", "Brown", "Silva" };
@@ -13,7 +14,7 @@ int[] ages = { 28, 34, 45, 22, 31, 27, 39, 26, 52, 41 };
 string connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=mikolaj_db;Integrated Security=True;TrustServerCertificate=True;";
 
 DatabaseHelper db = new DatabaseHelper(connectionString);
-List<PersonalDataModel> people = new List<PersonalDataModel>();
+List<PersonalDataModel> people_list = new List<PersonalDataModel>();
 
 Random random = new Random();
 int iterator = 0;
@@ -35,10 +36,19 @@ while (iterator < 1000000)
         age = ages[index]
     };
 
-    people.Add(person);
+    people_list.Add(person);
     iterator++;
 }
 
 Console.WriteLine("Inserting 1,000,000 records...");
-db.Insert(people);
+Stopwatch stopwatch = new Stopwatch();
+
+stopwatch.Start();
+
+db.Insert(people_list);
+
+stopwatch.Stop();
+TimeSpan elapsedTime = stopwatch.Elapsed;
+
 Console.WriteLine("Done!");
+Console.WriteLine($"Elapsed time: {elapsedTime}");
