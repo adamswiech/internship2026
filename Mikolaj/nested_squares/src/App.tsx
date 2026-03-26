@@ -1,18 +1,16 @@
 import { useState } from "react";
+import Square from "./components/Square";
 import "./App.css";
 
 function App() {
   const [inputValue, setInputValue] = useState<number>(0);
+
   return (
     <>
       <div className="app-container">
         <div className="picture">
-          {Array.from({ length: 20 }, (_, i) => (
-            <div
-              key={i}
-              className="square"
-              style={{ transform: `rotate(${i*inputValue}deg)`, width: 450-(i*10), height: 550-(i*10) }}
-            ></div>
+          {Array.from({ length: 2 }, (_, i) => (
+            <Square key={i} inputValue={inputValue} ileMniejszy={i*50}></Square>
           ))}
         </div>
 
