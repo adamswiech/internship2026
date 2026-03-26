@@ -1,44 +1,48 @@
 import { useState } from "react";
-import Square from "./components/Square";
 import "./App.css";
+import Square from "./components/Square";
 
 function App() {
-  const [inputValue, setInputValue] = useState<number>(0);
+  const [larp, setLarp] = useState(0.1);
+  const [counter, setCounter] = useState(5);
+
+  const squarePoints = [
+    { x: 0, y: 0 },
+    { x: 200, y: 0 },
+    { x: 200, y: 200 },
+    { x: 0, y: 200 },
+  ];
 
   return (
-    <>
-      <div className="app-container">
-        <div className="picture">
-          {Array.from({ length: 2 }, (_, i) => (
-            <Square key={i} inputValue={inputValue} ileMniejszy={i*50}></Square>
-          ))}
-        </div>
+    <section>
+      <Square counter={counter} points={squarePoints} l={larp} />
 
-        <div>
-          <label htmlFor="">
-            <p>Rotate:</p>
-            <input
-              type="number"
-              max={100}
-              value={inputValue}
-              onChange={(e) => {
-                setInputValue(Number(e.target.value));
-              }}
-            />
-          </label>
-          <input
-            type="range"
-            name=""
-            id=""
-            min={0}
-            max={360}
-            value={inputValue}
-            defaultValue={0}
-            onChange={(e) => setInputValue(Number(e.target.value))}
-          />
-        </div>
-      </div>
-    </>
+      <label htmlFor="">
+        larp
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.001"
+          value={larp}
+          onChange={(e) => setLarp(parseFloat(e.target.value))}
+        />
+        <p>larp = {larp}</p>
+      </label>
+
+      <label htmlFor="">
+        depth
+        <input
+          type="range"
+          min="1"
+          max="100"
+          step="1"
+          value={counter}
+          onChange={(e) => setCounter(parseInt(e.target.value))}
+        />
+        <p>depth = {counter}</p>
+      </label>
+    </section>
   );
 }
 
