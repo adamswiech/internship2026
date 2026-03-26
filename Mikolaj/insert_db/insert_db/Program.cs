@@ -10,28 +10,35 @@ string[] postCodes = { "10001", "SW1A", "00100", "10115", "28001", "100-0001", "
 string[] genders = { "Male", "Female", "Male", "Female", "Male", "Female", "Male", "Female", "Male", "Female" };
 int[] ages = { 28, 34, 45, 22, 31, 27, 39, 26, 52, 41 };
 
+string connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=mikolaj_db;Integrated Security=True;TrustServerCertificate=True;";
 
+DatabaseHelper db = new DatabaseHelper(connectionString);
+List<PersonalDataModel> people = new List<PersonalDataModel>();
 
+Random random = new Random();
 int iterator = 0;
 
-
-while (iterator != 1000000)
+while (iterator < 1000000)
 {
-    PersonalDataModel person = new PersonalDataModel();
+    int index = random.Next(0, 10);
+
+    PersonalDataModel person = new PersonalDataModel
+    {
+        firstName = firstNames[index],
+        lastName = lastNames[index],
+        phoneNumber = phoneNumbers[index],
+        emailAddress = emailAddresses[index],
+        country = countries[index],
+        city = cities[index],
+        postCode = postCodes[index],
+        gender = genders[index],
+        age = ages[index]
+    };
+
+    people.Add(person);
     iterator++;
 }
 
-
-
-//string firstName = "";
-//string lastName = "";
-//string phoneNumber = "";
-//string emailAddress = "";
-//string country = "";
-//string city = "";
-//string postCode = "";
-//string gender = "";
-//int age = 0;
-
-//string query = $"INSERT INTO PersonalData VALUES ({firstName}, {lastName}, {phoneNumber}, {emailAddress}, {country}, {city}, {postCode}, {gender}, {age})";
-
+Console.WriteLine("Inserting 1,000,000 records...");
+db.Insert(people);
+Console.WriteLine("Done!");
