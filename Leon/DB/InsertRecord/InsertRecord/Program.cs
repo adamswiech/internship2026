@@ -38,34 +38,34 @@ string query = @"INSERT INTO [InterDB].[dbo].[people]
 
 Stopwatch multiQueryTime = Stopwatch.StartNew();
 
-using (SqlConnection connection = new(connectionString))
-{
-    connection.Open();
+//using (SqlConnection connection = new(connectionString))
+//{
+//    connection.Open();
 
-    foreach (var p in peoples)
-    {
-        using (SqlCommand cmd = new(query, connection))
-        {
-            cmd.Parameters.AddWithValue("@FirstName", p.FirstName);
-            cmd.Parameters.AddWithValue("@MiddleName", p.MiddleName);
-            cmd.Parameters.AddWithValue("@LastName", p.LastName);
-            cmd.Parameters.AddWithValue("@Age", p.Age);
-            cmd.Parameters.AddWithValue("@HeightCm", p.HeightCm);
-            cmd.Parameters.AddWithValue("@WeightKg", p.WeightKg);
-            cmd.Parameters.AddWithValue("@City", p.City);
-            cmd.Parameters.AddWithValue("@Country", p.Country);
-            cmd.Parameters.AddWithValue("@FavoriteNumber", p.FavoriteNumber);
-            try
-            {
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-    }
-}
+//    foreach (var p in peoples)
+//    {
+//        using (SqlCommand cmd = new(query, connection))
+//        {
+//            cmd.Parameters.AddWithValue("@FirstName", p.FirstName);
+//            cmd.Parameters.AddWithValue("@MiddleName", p.MiddleName);
+//            cmd.Parameters.AddWithValue("@LastName", p.LastName);
+//            cmd.Parameters.AddWithValue("@Age", p.Age);
+//            cmd.Parameters.AddWithValue("@HeightCm", p.HeightCm);
+//            cmd.Parameters.AddWithValue("@WeightKg", p.WeightKg);
+//            cmd.Parameters.AddWithValue("@City", p.City);
+//            cmd.Parameters.AddWithValue("@Country", p.Country);
+//            cmd.Parameters.AddWithValue("@FavoriteNumber", p.FavoriteNumber);
+//            try
+//            {
+//                cmd.ExecuteNonQuery();
+//            }
+//            catch (Exception ex)
+//            {
+//                Console.WriteLine(ex.Message);
+//            }
+//        }
+//    }
+//}
 multiQueryTime.Stop();
 
 Stopwatch dataTableTime = Stopwatch.StartNew();
@@ -107,7 +107,6 @@ using (SqlBulkCopy bulkCopy = new SqlBulkCopy(connectionString))
     try
     {
         bulkCopy.WriteToServer(dt);
-        Console.WriteLine("Bulk insert completed!");
     }
     catch (Exception ex)
     {
