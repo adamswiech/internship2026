@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Person>
+	<Id>1</Id>
+	<PersonalData>
+		<FirstName>Sophie</FirstName>
+		<LastName>Müller</LastName>
+		<Gender>Female</Gender>
+		<Age>22</Age>
+	</PersonalData>
+
+	<PrivateAdress>
+		<Country>Germany</Country>
+		<City>Berlin</City>
+		<PostCode>10115</PostCode>
+	</PrivateAdress>
+
+	<ContactData>
+		<PhoneNumber>+49-30-5678</PhoneNumber>
+		<EmailAddress>sophie.m@email.com</EmailAddress>
+	</ContactData>
+</Person>
