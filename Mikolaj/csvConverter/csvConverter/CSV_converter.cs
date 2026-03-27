@@ -72,7 +72,7 @@ namespace csvConverter
 
                 using (StreamWriter writer = new StreamWriter(outputFile, append: true))
                 {
-                    writer.WriteLine("FirstName;LastName;PhoneNumber;EmailAddress;Country;City;PostCode;Gender;Age");
+                    if (filesCount == 1) writer.WriteLine("FirstName;LastName;PhoneNumber;EmailAddress;Country;City;PostCode;Gender;Age");
                     foreach (var personalData in personalDataArray)
                     {
                         writer.WriteLine($"{personalData.id};{personalData.firstName};{personalData.lastName};{personalData.phoneNumber};{personalData.emailAddress};{personalData.country};{personalData.city};{personalData.postCode};{personalData.gender};{personalData.age}");
