@@ -1,0 +1,29 @@
+div{
+  display: flex;
+  border: 1px solid black;
+  
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  /* overflow: hidden; */
+}
+
+
+body{
+  background-color: aliceblue;
+}
+
+
+section{
+  display: flex;
+  justify-content: center;
+  border: none;
+  align-items: center;
+  padding: 1000px;
+}
+body{
+  border: 0;
+}
+#root{
+  border: 0;
+}

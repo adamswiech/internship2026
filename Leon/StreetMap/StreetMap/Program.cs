@@ -93,13 +93,14 @@ if (File.Exists(filePathOut)) { File.Delete(filePathOut); }
 
 foreach (var line in lines)
 {
+    //sw.WriteLine("123");
     string city = line.Split(',')[0].Trim();
     var url = $"https://nominatim.openstreetmap.org/search?q={Uri.EscapeDataString(city)}+Polska&format=json&limit=1&email={Uri.EscapeDataString(gmail)}";
     try
     {
         using var sw = new StreamWriter(filePathOut, append: true);
         Console.WriteLine(url);
-        var response = await client.GetStringAsync(url);
+        var response = client.GetStringAsync(url);
         var json = JsonDocument.Parse(response);
         if (json.RootElement.GetArrayLength() > 0)
         {
@@ -114,6 +115,7 @@ foreach (var line in lines)
             Console.WriteLine($"{city};NOT_FOUND");
             sw.WriteLine($"{city};NOT_FOUND");
         }
+        sw.Close();
     }
     catch (Exception ex)
     {

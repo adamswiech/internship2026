@@ -1,0 +1,100 @@
+Abramów,Polska
+Adamów,Polska
+Adamówka,Polska
+Aleksandria Pierwsza,Polska
+Aleksandrów,Polska
+Aleksandrów Kujawski,Polska
+Aleksandrów Łódzki,Polska
+Alwernia,Polska
+Andrespol,Polska
+Andrychów,Polska
+Andrzejewo,Polska
+Annopol,Polska
+Antoniów,Polska
+Augustów,Polska
+Babiak,Polska
+Babice,Polska
+Babimost,Polska
+Babin,Polska
+Baborów,Polska
+Baboszewo,Polska
+Baćkowice,Polska
+Bakałarzewo,Polska
+Baligród,Polska
+Bałtów,Polska
+Banie,Polska
+Banie Mazurskie,Polska
+Baranowo,Polska
+Baranów,Polska
+Baranów Sandomierski,Polska
+Barciany,Polska
+Barcin,Polska
+Barcinek,Polska
+Barczewo,Polska
+Bardo,Polska
+Bargłów Kościelny,Polska
+Barlewiczki,Polska
+Barlinek,Polska
+Bartniczka,Polska
+Bartoszyce,Polska
+Baruchowo,Polska
+Barwice,Polska
+Baszków,Polska
+Batorz,Polska
+Bażanowice,Polska
+Bądkowo,Polska
+Bedlno,Polska
+Bedoń-Wieś,Polska
+Bejsce,Polska
+Belsk Duży,Polska
+Bełchatów,Polska
+Bełdów,Polska
+Bełżec,Polska
+Bełżyce,Polska
+Benice,Polska
+Besiekierz Rudny,Polska
+Besko,Polska
+Bestwina,Polska
+Będków,Polska
+Będzin,Polska
+Będzino,Polska
+Biadoliny Radłowskie,Polska
+Biała,Polska
+Biała Druga,Polska
+Biała Piska,Polska
+Biała Podlaska,Polska
+Biała Rawska,Polska
+Biała Wielka,Polska
+Białaczów,Polska
+Białe Błota,Polska
+Białobrzegi,Polska
+Białogard,Polska
+Białograd,Polska
+Białołęka,Polska
+Białopole,Polska
+Białośliwie,Polska
+Białowieża,Polska
+Białuń,Polska
+Biały Bór,Polska
+Biały Dunajec,Polska
+Białystok,Polska
+Biecz,Polska
+Biedrzychowice,Polska
+Bielany,Polska
+Bielawa,Polska
+Bielawy,Polska
+Bielcza,Polska
+Bielice,Polska
+Bieliny,Polska
+Bielsk,Polska
+Bielsk Podlaski,Polska
+Bielsko-Biała,Polska
+Bieniewice,Polska
+Bierawa,Polska
+Bieruń,Polska
+Bierutów,Polska
+Bierzwnik,Polska
+Biesiekierz,Polska
+Bieździedza,Polska
+Bieżuń,Polska
+Biłgoraj,Polska
