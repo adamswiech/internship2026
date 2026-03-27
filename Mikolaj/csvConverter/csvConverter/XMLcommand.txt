@@ -1,0 +1,29 @@
+USE mikolaj_db;
+GO
+
+SELECT
+Person.Id, 
+	(	
+		SELECT 
+		Person.FirstName, 
+		Person.LastName, 
+		Person.Gender, 
+		Person.Age
+		FOR XML PATH('PersonalData'), TYPE
+	),
+
+	(
+		SELECT
+		Person.Country,
+		Person.City,
+		Person.PostCode
+		FOR XML PATH ('PrivateAddress'), TYPE
+	),
+
+	(
+		SELECT
+		Person.PhoneNumber,
+		Person.EmailAddress
+		FOR XML PATH('ContactData'), TYPE
+	)
+FROM PersonalData AS Person FOR XML AUTO, ELEMENTS, ROOT('PersonsList');
