@@ -12,7 +12,28 @@ namespace csvConverter
             _connection_string = ConnectionString;
         }
 
-        public void fetchData()
+        public long countElements()
+        {
+            string query = "SELECT SUM(p.row_count) AS TotalRows FROM sys.dm_db_partition_stats AS p WHERE p.object_id = OBJECT_ID('dbo.PersonalData')AND p.index_id IN (0,1);";
+            using var conn = new SqlConnection(_connection_string);
+            using var cmd = new SqlCommand(query, conn);
+            conn.Open();
+
+            using var reader = cmd.ExecuteReader();
+            long totalRows = 0;
+
+            if (reader.Read())
+            {
+                int ordinal = reader.GetOrdinal("TotalRows");
+                totalRows = reader.GetInt64(ordinal);
+            }
+
+            conn.Close();
+
+            return totalRows;
+        }
+
+        public void fetchData(int offset)
         {
             string query = "SELECT * FROM PersonalData";
             using var conn = new SqlConnection(_connection_string);
@@ -36,9 +57,11 @@ namespace csvConverter
                     age = reader.GetInt32(reader.GetOrdinal("Age")),
                 });
             }
+
+            createCSV();
         }
 
-        public void createCSV()
+        private void createCSV()
         {
             try
             {
