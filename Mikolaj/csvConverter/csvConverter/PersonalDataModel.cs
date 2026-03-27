@@ -1,6 +1,6 @@
 ﻿namespace csvConverter
 {
-    internal class PersonalDataModel
+    public class PersonalDataModel
     {
         public int id { get; set; }
         public string firstName { get; set; }
