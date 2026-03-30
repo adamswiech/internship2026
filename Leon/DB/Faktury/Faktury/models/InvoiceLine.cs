@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Faktury.models
+{
+    public class InvoiceLine
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+        public decimal PricePerPiceNetto { get; set; }
+        public int Quantity { get; set; }
+        public string Unit { get; set; }
+        public int TaxRate { get; set; }
+        public string PriceTotalNetto { get; set; }
+        public decimal TaxValue { get; set; }
+
+    }
+}
