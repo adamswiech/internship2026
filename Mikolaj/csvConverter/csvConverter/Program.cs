@@ -69,5 +69,3 @@ void multithreadingCSV()
 }
 
 converter.fetchData(0, 0, 0);
-
-
