@@ -4,6 +4,10 @@ using System.Diagnostics;
 string connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=mikolaj_db;Integrated Security=True;TrustServerCertificate=True;";
 CSV_converter converter = new CSV_converter(connectionString);
 //PersonalDataModel personalDataModel = new PersonalDataModel();
+
+Stopwatch stopwatch = new Stopwatch();
+stopwatch.Start();
+
 void multithreadingCSV()
 {
     List<Thread> threads = new List<Thread>();
@@ -70,4 +74,7 @@ void multithreadingCSV()
 
 converter.fetchData(0, 0, 0);
 
+stopwatch.Stop();
+TimeSpan elapsedTime = stopwatch.Elapsed;
 
+Console.WriteLine($"Elapsed time for export to .xml file: {elapsedTime}");
