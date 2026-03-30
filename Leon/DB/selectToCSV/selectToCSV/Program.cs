@@ -174,19 +174,18 @@ if (File.Exists(fullFile)) File.Delete(fullFile);
 
 Stopwatch totalTimeMulti = Stopwatch.StartNew();
 
-string prepareQuery = $@"USE [InterDB];
+string prepareQuery = $@"
+USE [InterDB];
+
 IF OBJECT_ID('[dbo].[PeopleBatch]', 'U') IS NOT NULL
-DROP TABLE [dbo].[PeopleBatch];
+    DROP TABLE [dbo].[PeopleBatch];
 
 SELECT
-  *
-  ,
-  NTILE({
-    threadCount
-  }) OVER(ORDER BY Id) AS Batch
+    *,
+    NTILE({threadCount}) OVER (ORDER BY (SELECT NULL)) AS Batch
 INTO [dbo].[PeopleBatch]
 FROM [dbo].[people];
-";
+";//ORDER BY (id)
 
 using (SqlConnection conn = new SqlConnection(connectionString))
 {
