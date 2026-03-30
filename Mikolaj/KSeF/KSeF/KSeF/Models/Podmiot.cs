@@ -2,6 +2,7 @@
 {
     public class Podmiot
     {
+        public int Id { get; set; }
         public string Nip { get; set; }
         public string Nazwa { get; set; }
         public string AdresL1 { get; set; }
