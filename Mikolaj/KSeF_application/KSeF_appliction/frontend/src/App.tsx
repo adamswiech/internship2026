@@ -1,6 +1,11 @@
 import "./App.css";
+import InvoicesList from "./components/InvoicesList";
 function App() {
-  return <></>;
+  return (
+    <>
+      <InvoicesList />
+    </>
+  );
 }
 
 export default App;

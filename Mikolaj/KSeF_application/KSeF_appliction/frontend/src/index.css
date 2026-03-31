@@ -1,0 +1,16 @@
+.invoices-list-container,
+.invoices-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.invoices-list-container {
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.invoice {
+    display: flex;
+    gap: 10px;
+}
