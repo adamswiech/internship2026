@@ -1,16 +1,41 @@
-.invoices-list-container,
-.invoices-list {
+.invoices-list-container {
   display: flex;
   flex-direction: column;
-}
-
-.invoices-list-container {
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 
-.invoice {
+.invoices-list-container-element {
     display: flex;
-    gap: 10px;
+    flex-direction: column;
+    align-items: start;
+}
+
+h2 {
+    padding: 10px 0;
+}
+
+table,
+tr,
+td,
+th {
+  border: 1px solid black;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+tr,
+td,
+th {
+  padding: 5px 10px;
+}
+
+tr:nth-child(even) {
+    background-color: lightgray;
+}
+
+.tr:hover {
+    background-color: steelblue;
+    cursor: pointer;
 }
