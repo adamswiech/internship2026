@@ -87,18 +87,7 @@ export default function InvoicesList() {
 
       <div className="invoices-list-container-element">
         <h2>Wszystkie faktury</h2>
-        <table>
-          <tr>
-            <th>Id</th>
-            <th>NIP Podmiot 1</th>
-            <th>NIP Podmiot 2</th>
-            <th>Podmiot 1</th>
-            <th>Podmiot 2</th>
-            <th>Adres Podmiot 1</th>
-            <th>Adres Podmiot 2</th>
-            <th>Pozycja 1</th>
-            <th>Pozycja 2</th>
-          </tr>
+        
 
           {fetchStatus ? (
             invoicesArray.map((item: Faktura) => (
@@ -107,7 +96,6 @@ export default function InvoicesList() {
           ) : (
             <tr>Loading...</tr>
           )}
-        </table>
       </div>
     </div>
   );
