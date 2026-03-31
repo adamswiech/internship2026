@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text;
 
-namespace Faktury.models
+namespace Faktury.Server.models
 {
     public class Party
     {

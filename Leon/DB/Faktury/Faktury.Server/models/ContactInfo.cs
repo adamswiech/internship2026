@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Faktury.models
+namespace Faktury.Server.models
 {
     public class ContactInfo
     {

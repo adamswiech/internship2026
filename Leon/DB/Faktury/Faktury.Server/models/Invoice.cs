@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Faktury.models
+namespace Faktury.Server.models
 {
+    // implemented
     public class Invoice
     {
         public int Id { get; set; }
@@ -17,6 +18,12 @@ namespace Faktury.models
         public string CurrencyCode { get; set; }
         public decimal CurrencyRate { get; set; }
 
+
+
+
+
+        public int SellerId { get; set; }
+        public int BuyerId { get; set; }
         public Party Seller { get; set; }
         public Party Buyer { get; set; }
         public List<Party> OtherParties { get; set; } = new();

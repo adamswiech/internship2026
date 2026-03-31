@@ -1,10 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-
-namespace Faktury.models
+namespace Faktury.Server.models
 {
     public class InvoiceContext : DbContext
     {
+        public InvoiceContext(DbContextOptions<InvoiceContext> options) : base(options)
+        {
+        }
+
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<InvoiceLine> InvoiceLines { get; set; }
         public DbSet<Party> Parties { get; set; }
@@ -14,13 +17,7 @@ namespace Faktury.models
         public DbSet<PaymentInfo> PaymentInfos { get; set; }
         public DbSet<Settlement> Settlements { get; set; }
         public DbSet<Terms> Terms { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseSqlServer(
-                @"Data Source=(localdb)\MSSQLLocalDB;
-              Initial Catalog=KSeF;
-              Integrated Security=True;
-              TrustServerCertificate=True");
+        public DbSet<BankAccount> BankAccounts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,24 +26,39 @@ namespace Faktury.models
             modelBuilder.Entity<Invoice>()
                 .HasOne(i => i.Seller)
                 .WithMany()
-                .HasForeignKey(i => i.Seller.Id)
+                .HasForeignKey(i => i.SellerId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Invoice>()
                 .HasOne(i => i.Buyer)
                 .WithMany()
-                .HasForeignKey(i => i.Buyer.Id)
+                .HasForeignKey(i => i.BuyerId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Invoice>()
                 .HasMany(i => i.Lines)
                 .WithOne()
-                .HasForeignKey(l => l.Id);
+                .HasForeignKey(l => l.InvoiceId);
 
             modelBuilder.Entity<Invoice>()
                 .HasMany(i => i.TaxSummaries)
                 .WithOne()
-                .HasForeignKey(t => t.Id);
+                .HasForeignKey(t => t.InvoiceId);
+
+            modelBuilder.Entity<Invoice>()
+                .HasOne(i => i.Payment)
+                .WithOne()
+                .HasForeignKey<PaymentInfo>(p => p.InvoiceId);
+
+            modelBuilder.Entity<Invoice>()
+                .HasOne(i => i.Settlement)
+                .WithOne()
+                .HasForeignKey<Settlement>(s => s.InvoiceId);
+
+            modelBuilder.Entity<Invoice>()
+                .HasOne(i => i.TransactionTerms)
+                .WithOne()
+                .HasForeignKey<Terms>(t => t.InvoiceId);
         }
     }
 }

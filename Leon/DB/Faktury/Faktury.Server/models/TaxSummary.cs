@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Faktury.models
+namespace Faktury.Server.models
 {
+    // implemented
     public class TaxSummary
     {
         public int Id { get; set; }
+        public int InvoiceId { get; set; }
         public string TaxRate { get; set; }
         public decimal Netto { get; set; }
         public decimal TaxAmount { get; set; }

@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Faktury.models
+namespace Faktury.Server.models
 {
+    // implemented
     public class Settlement
     {
         public int Id { get; set; }
+
+        public int InvoiceId { get; set; }
 
         public List<Charge> Charges { get; set; } = new();
         public List<Deduction> Deductions { get; set; } = new();

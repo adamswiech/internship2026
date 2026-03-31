@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Text;
 
-namespace Faktury.models
+namespace Faktury.Server.models
 {
+
+    // implemented
     public class Terms
     {
         public int Id { get; set; }
+
+        public int InvoiceId { get; set; }
 
         public Contract Contract { get; set; }
         public OrderInfo Order { get; set; }

@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Faktury.models
+namespace Faktury.Server.models
 {
+    // implemented
     public class PaymentInfo
     {
         public int Id { get; set; }
+
+        public int InvoiceId { get; set; }
 
         public bool IsPartial { get; set; }
         public List<PartialPayment> PartialPayments { get; set; } = new();
