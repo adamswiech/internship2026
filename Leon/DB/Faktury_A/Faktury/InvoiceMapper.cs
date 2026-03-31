@@ -5,7 +5,11 @@ namespace Faktury
 {
     public class InvoiceMapper
     {
-        private static readonly XNamespace ns = "http://crd.gov.pl/wzor/2025/06/25/13775/";
+        //private static readonly XNamespace ns = "http://crd.gov.pl/wzor/2025/06/25/13775/";
+
+
+        private static readonly XNamespace DefaultNs = "http://crd.gov.pl/wzor/2025/06/25/13775/";
+        private XNamespace ns;
 
         public Invoice MapXmlToInvoice(string xmlFilePath)
         {
@@ -14,8 +18,14 @@ namespace Faktury
             var faktura = doc.Root;
             if (faktura == null) return null;
 
+
+            ns = faktura.Name.NamespaceName != string.Empty
+                ? XNamespace.Get(faktura.Name.NamespaceName)
+                : XNamespace.None;
+
             var fa = faktura.Element(ns + "Fa");
             if (fa == null) return null;
+
 
             var invoice = new Invoice
             {
