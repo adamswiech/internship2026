@@ -1,10 +1,10 @@
-import type { Invoice } from "../interfaces/Invoice";
+import type { Faktura } from "../interfaces/Invoice";
 
 interface InvoiceTableRow {
-  item: Invoice;
+  item: Faktura;
 }
 
-export default function InvoiceTableRow({item}:InvoiceTableRow) {
+export default function InvoiceTableRow({ item }: InvoiceTableRow) {
   return (
     <tr className="tr">
       <td>{item.id}</td>
@@ -14,6 +14,8 @@ export default function InvoiceTableRow({item}:InvoiceTableRow) {
       <td>{item.podmiot2.nazwa}</td>
       <td>{item.podmiot1.adresL1}</td>
       <td>{item.podmiot2.adresL1}</td>
+      <td>{item.wiersze[0].p_7}</td>
+      <td>{item.wiersze[1].p_7}</td>
     </tr>
   );
 }

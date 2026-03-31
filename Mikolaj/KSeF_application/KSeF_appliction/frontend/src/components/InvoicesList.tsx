@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
-import type { Invoice } from "../interfaces/Invoice";
+import type { Faktura } from "../interfaces/Invoice";
 import InvoiceTableRow from "./InvoiceTableRow";
 
 export default function InvoicesList() {
-  const [invoicesArray, setInvoicesArray] = useState<Invoice[]>([]);
-  const [fileXML, setFileXML] = useState<any>(null); //change from any to another
+  const [invoicesArray, setInvoicesArray] = useState<Faktura[]>([]);
+  const [fileXML, setFileXML] = useState<File | null>(null);
   const [status, setStatus] = useState<string>("");
 
   const [fetchStatus, setFetchStatus] = useState<boolean>(false);
 
-  const handleFileChange = (e: any) => {
-    //change form any XDDD
-    const selected = e.target.files[0];
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selected = e.target.files?.[0];
 
     if (selected && selected.name.endsWith(".xml")) {
       setFileXML(selected);
@@ -39,7 +38,6 @@ export default function InvoicesList() {
         {
           method: "POST",
           body: formData,
-          // Do NOT set Content-Type header — browser sets it automatically with boundary
         },
       );
 
@@ -98,13 +96,17 @@ export default function InvoicesList() {
             <th>Podmiot 2</th>
             <th>Adres Podmiot 1</th>
             <th>Adres Podmiot 2</th>
+            <th>Pozycja 1</th>
+            <th>Pozycja 2</th>
           </tr>
 
-          {fetchStatus
-            ? invoicesArray.map((item: Invoice) => (
-                <InvoiceTableRow key={item.id} item={item} />
-              ))
-            : "Loading..."}
+          {fetchStatus ? (
+            invoicesArray.map((item: Faktura) => (
+              <InvoiceTableRow key={item.id} item={item} />
+            ))
+          ) : (
+            <tr>Loading...</tr>
+          )}
         </table>
       </div>
     </div>

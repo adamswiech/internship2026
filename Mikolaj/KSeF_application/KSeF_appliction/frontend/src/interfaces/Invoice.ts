@@ -6,7 +6,7 @@ export interface Podmiot {
   kodKraju: string;
 }
 
-export interface InvoiceRow {
+export interface FaWiersz {
   id: number;
   fakturaId: number;
   nr_wiersza: number;
@@ -19,7 +19,7 @@ export interface InvoiceRow {
   kurs_waluty: number;
 }
 
-export interface Invoice {
+export interface Faktura {
   id: number;
   podmiot1Id: number;
   podmiot2Id: number;
@@ -34,5 +34,5 @@ export interface Invoice {
   p_14_1: number;       
   p_14_W: number;        
   p_15: number;          
-  wiersze: InvoiceRow[];
+  wiersze: FaWiersz[];
 }
