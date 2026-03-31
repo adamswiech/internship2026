@@ -23,7 +23,7 @@ namespace Faktury.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CountryCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Line1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Line2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Line2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     GLN = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -88,7 +88,7 @@ namespace Faktury.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Charge",
+                name: "Charges",
                 schema: "ksef",
                 columns: table => new
                 {
@@ -100,7 +100,7 @@ namespace Faktury.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Charge", x => x.Id);
+                    table.PrimaryKey("PK_Charges", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -120,7 +120,7 @@ namespace Faktury.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Deduction",
+                name: "Deductions",
                 schema: "ksef",
                 columns: table => new
                 {
@@ -132,7 +132,7 @@ namespace Faktury.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Deduction", x => x.Id);
+                    table.PrimaryKey("PK_Deductions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -151,23 +151,23 @@ namespace Faktury.Migrations
                     CurrencyRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     SellerId = table.Column<int>(type: "int", nullable: false),
                     BuyerId = table.Column<int>(type: "int", nullable: false),
-                    FactorBankAccountID = table.Column<int>(type: "int", nullable: true),
-                    SellerBankAccountID = table.Column<int>(type: "int", nullable: true),
+                    FactorBankAccountId = table.Column<int>(type: "int", nullable: true),
+                    SellerBankAccountId = table.Column<int>(type: "int", nullable: true),
                     FooterNote = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Invoice", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Invoice_BankAccount_FactorBankAccountID",
-                        column: x => x.FactorBankAccountID,
+                        name: "FK_Invoice_BankAccount_FactorBankAccountId",
+                        column: x => x.FactorBankAccountId,
                         principalSchema: "ksef",
                         principalTable: "BankAccount",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Invoice_BankAccount_SellerBankAccountID",
-                        column: x => x.SellerBankAccountID,
+                        name: "FK_Invoice_BankAccount_SellerBankAccountId",
+                        column: x => x.SellerBankAccountId,
                         principalSchema: "ksef",
                         principalTable: "BankAccount",
                         principalColumn: "Id",
@@ -209,14 +209,14 @@ namespace Faktury.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Eori = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Nip = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MainAddressId = table.Column<int>(type: "int", nullable: true),
                     CorrespondenceAddressID = table.Column<int>(type: "int", nullable: true),
                     ContactInfoId = table.Column<int>(type: "int", nullable: true),
-                    CustomerNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CustomerNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     InvoiceId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -372,16 +372,18 @@ namespace Faktury.Migrations
                 schema: "ksef",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    OrderNumber = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    OrderNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TermsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OrderInfo", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderInfo_Terms_Id",
-                        column: x => x.Id,
+                        name: "FK_OrderInfo_Terms_TermsId",
+                        column: x => x.TermsId,
                         principalSchema: "ksef",
                         principalTable: "Terms",
                         principalColumn: "Id",
@@ -451,9 +453,9 @@ namespace Faktury.Migrations
                 column: "AddressId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Charge_SettlementId",
+                name: "IX_Charges_SettlementId",
                 schema: "ksef",
-                table: "Charge",
+                table: "Charges",
                 column: "SettlementId");
 
             migrationBuilder.CreateIndex(
@@ -464,9 +466,9 @@ namespace Faktury.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Deduction_SettlementId",
+                name: "IX_Deductions_SettlementId",
                 schema: "ksef",
-                table: "Deduction",
+                table: "Deductions",
                 column: "SettlementId");
 
             migrationBuilder.CreateIndex(
@@ -476,16 +478,16 @@ namespace Faktury.Migrations
                 column: "BuyerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Invoice_FactorBankAccountID",
+                name: "IX_Invoice_FactorBankAccountId",
                 schema: "ksef",
                 table: "Invoice",
-                column: "FactorBankAccountID");
+                column: "FactorBankAccountId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Invoice_SellerBankAccountID",
+                name: "IX_Invoice_SellerBankAccountId",
                 schema: "ksef",
                 table: "Invoice",
-                column: "SellerBankAccountID");
+                column: "SellerBankAccountId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Invoice_SellerId",
@@ -498,6 +500,13 @@ namespace Faktury.Migrations
                 schema: "ksef",
                 table: "InvoiceLine",
                 column: "InvoiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderInfo_TermsId",
+                schema: "ksef",
+                table: "OrderInfo",
+                column: "TermsId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_PartialPayment_PaymentInfoId",
@@ -588,9 +597,9 @@ namespace Faktury.Migrations
                 unique: true);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Charge_Settlement_SettlementId",
+                name: "FK_Charges_Settlement_SettlementId",
                 schema: "ksef",
-                table: "Charge",
+                table: "Charges",
                 column: "SettlementId",
                 principalSchema: "ksef",
                 principalTable: "Settlement",
@@ -608,9 +617,9 @@ namespace Faktury.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Deduction_Settlement_SettlementId",
+                name: "FK_Deductions_Settlement_SettlementId",
                 schema: "ksef",
-                table: "Deduction",
+                table: "Deductions",
                 column: "SettlementId",
                 principalSchema: "ksef",
                 principalTable: "Settlement",
@@ -652,12 +661,12 @@ namespace Faktury.Migrations
                 table: "Party");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Invoice_BankAccount_FactorBankAccountID",
+                name: "FK_Invoice_BankAccount_FactorBankAccountId",
                 schema: "ksef",
                 table: "Invoice");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Invoice_BankAccount_SellerBankAccountID",
+                name: "FK_Invoice_BankAccount_SellerBankAccountId",
                 schema: "ksef",
                 table: "Invoice");
 
@@ -672,7 +681,7 @@ namespace Faktury.Migrations
                 table: "Invoice");
 
             migrationBuilder.DropTable(
-                name: "Charge",
+                name: "Charges",
                 schema: "ksef");
 
             migrationBuilder.DropTable(
@@ -680,7 +689,7 @@ namespace Faktury.Migrations
                 schema: "ksef");
 
             migrationBuilder.DropTable(
-                name: "Deduction",
+                name: "Deductions",
                 schema: "ksef");
 
             migrationBuilder.DropTable(

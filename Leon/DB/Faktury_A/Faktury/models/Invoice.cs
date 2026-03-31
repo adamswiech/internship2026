@@ -34,9 +34,9 @@ namespace Faktury.models
         public PaymentInfo Payment { get; set; }
         public Settlement Settlement { get; set; }
 
-        public int? FactorBankAccountID { get; set; }
+        public int? FactorBankAccountId { get; set; }
         public BankAccount FactorBankAccount { get; set; }
-        public int? SellerBankAccountID { get; set; }
+        public int? SellerBankAccountId { get; set; }
         public BankAccount SellerBankAccount { get; set; }
 
         public Terms TransactionTerms { get; set; }

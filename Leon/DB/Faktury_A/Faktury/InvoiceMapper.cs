@@ -1,186 +1,296 @@
 ﻿using Faktury.models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Xml.Linq;
 
 namespace Faktury
 {
     public class InvoiceMapper
     {
-        private static readonly XNamespace ns = XNamespace.Get("http://crd.gov.pl/wzor/2025/06/25/13775/");
+        private static readonly XNamespace ns = "http://crd.gov.pl/wzor/2025/06/25/13775/";
 
         public Invoice MapXmlToInvoice(string xmlFilePath)
         {
-            XDocument doc = XDocument.Load(xmlFilePath);
+            var doc = XDocument.Load(xmlFilePath);
 
-            var fakturaElement = doc.Descendants(ns + "Faktura").FirstOrDefault();
+            var faktura = doc.Root;
+            if (faktura == null) return null;
 
-            if (fakturaElement == null) return null;
-
-            var faElement = fakturaElement.Descendants(ns + "Fa").FirstOrDefault();
-            if (faElement == null) return null;
+            var fa = faktura.Element(ns + "Fa");
+            if (fa == null) return null;
 
             var invoice = new Invoice
             {
-                InvoiceNumber = faElement.Descendants(ns + "P_2").FirstOrDefault()?.Value,
-                KsefNumber = fakturaElement.Descendants(ns + "KodFormularza").FirstOrDefault()?.Value,
-                IssueDate = ParseDate(faElement.Descendants(ns + "P_1").FirstOrDefault()?.Value),
-                DeliveryDate = ParseDate(faElement.Descendants(ns + "P_6").FirstOrDefault()?.Value),
-                IssuePlace = faElement?.Descendants(ns + "P_1M").FirstOrDefault()?.Value,
-                CurrencyCode = faElement?.Descendants(ns + "KodWaluty").FirstOrDefault()?.Value,
-                CurrencyRate = decimal.Parse(faElement?.Descendants(ns + "KursWalutyZ").FirstOrDefault()?.Value ?? "1"),
+                InvoiceNumber = fa.Element(ns + "P_2")?.Value,
+                KsefNumber = faktura.Element(ns + "Naglowek")?.Element(ns + "KodFormularza")?.Value,
+                IssueDate = ParseDate(fa.Element(ns + "P_1")?.Value),
+                DeliveryDate = ParseDate(fa.Element(ns + "P_6")?.Value),
+                IssuePlace = fa.Element(ns + "P_1M")?.Value,
+                CurrencyCode = fa.Element(ns + "KodWaluty")?.Value,
+                CurrencyRate = decimal.Parse(fa.Element(ns + "KursWalutyZ")?.Value ?? "1"),
 
-                Seller = MapParty(fakturaElement.Descendants(ns + "Podmiot1").FirstOrDefault()),
-                Buyer = MapParty(fakturaElement.Descendants(ns + "Podmiot2").FirstOrDefault()),
-                OtherParties = fakturaElement.Descendants(ns + "Podmiot3")
-                    .Select(p => MapParty(p))
-                    .ToList(),
+                Seller = MapParty(faktura.Element(ns + "Podmiot1")),
+                Buyer = MapParty(faktura.Element(ns + "Podmiot2")),
+                OtherParties = faktura.Elements(ns + "Podmiot3").Select(MapParty).ToList(),
 
-                Lines = faElement?.Descendants(ns + "ZamowienieWiersz")
-                    .Select(zw => new InvoiceLine
-                    {
-                        Name = zw.Descendants(ns + "P_7Z").FirstOrDefault()?.Value,
-                        PricePerPiceNetto = decimal.Parse(zw.Descendants(ns + "P_11NettoZ").FirstOrDefault()?.Value ?? "0"),
-                        Quantity = int.Parse(zw.Descendants(ns + "P_8BZ").FirstOrDefault()?.Value ?? "0"),
-                        Unit = zw.Descendants(ns + "P_8AZ").FirstOrDefault()?.Value,
-                        TaxRate = int.Parse(zw.Descendants(ns + "P_12Z").FirstOrDefault()?.Value ?? "0"),
-                        PriceTotalNetto = zw.Descendants(ns + "P_11NettoZ").FirstOrDefault()?.Value,
-                        TaxValue = decimal.Parse(zw.Descendants(ns + "P_11VatZ").FirstOrDefault()?.Value ?? "0")
-                    }).ToList() ?? new List<InvoiceLine>(),
+                Lines = fa.Elements(ns + "ZamowienieWiersz").Select(MapLine).ToList(),
+                TaxSummaries = MapTaxSummaries(fa),
 
-                TaxSummaries = MapTaxSummaries(faElement),
+                Payment = MapPayment(fa.Element(ns + "Platnosc")),
+                Settlement = MapSettlement(fa.Element(ns + "Rozliczenie")),
 
-                Payment = MapPayment(faElement?.Descendants(ns + "Platnosc").FirstOrDefault()),
-                Settlement = MapSettlement(faElement?.Descendants(ns + "Rozliczenie").FirstOrDefault()),
-                SellerBankAccount = MapBankAccount(faElement?.Descendants(ns + "RachunekBankowy").FirstOrDefault()),
-                FactorBankAccount = MapBankAccount(faElement?.Descendants(ns + "RachunekBankowyFaktora").FirstOrDefault()),
+                SellerBankAccount = MapBankAccount(fa.Element(ns + "RachunekBankowy")),
+                FactorBankAccount = MapBankAccount(fa.Element(ns + "RachunekBankowyFaktora")),
 
-                TransactionTerms = MapTerms(faElement?.Descendants(ns + "WarunkiTransakcji").FirstOrDefault()),
-                FooterNote = fakturaElement.Descendants(ns + "StopkaFaktury").FirstOrDefault()?.Value
+                TransactionTerms = MapTerms(fa.Element(ns + "WarunkiTransakcji")),
+                FooterNote = faktura.Descendants(ns + "StopkaFaktury").FirstOrDefault()?.Value
             };
 
             return invoice;
         }
 
-        private List<TaxSummary> MapTaxSummaries(XElement faElement)
+
+        private Party MapParty(XElement p)
         {
-            if (faElement == null) return new List<TaxSummary>();
-
-            var summaries = new List<TaxSummary>();
-            var p13_1Elements = faElement.Descendants(ns + "P_13_1").ToList();
-
-            for (int i = 0; i < p13_1Elements.Count; i++)
-            {
-                var taxRate = p13_1Elements[i].Value;
-                var p14_1Value = faElement.Descendants(ns + "P_14_1").ElementAtOrDefault(i)?.Value ?? "0";
-                var p13_2Value = faElement.Descendants(ns + "P_13_2").ElementAtOrDefault(i)?.Value ?? "0";
-                var p15Value = faElement.Descendants(ns + "P_15").ElementAtOrDefault(i)?.Value ?? "0";
-                var p14_2WValue = faElement.Descendants(ns + "P_14_2W").ElementAtOrDefault(i)?.Value ?? "0";
-
-                summaries.Add(new TaxSummary
-                {
-                    TaxRate = taxRate,
-                    Netto = decimal.Parse(p13_2Value),
-                    TaxAmount = decimal.Parse(p14_1Value),
-                    Brutto = decimal.Parse(p15Value),
-                    PLNAmount = decimal.Parse(p14_2WValue)
-                });
-            }
-
-            return summaries;
-        }
-
-        private DateTime ParseDate(string dateString)
-        {
-            if (string.IsNullOrEmpty(dateString))
-                return DateTime.Now;
-
-            if (DateTime.TryParse(dateString, out var result))
-                return result;
-
-            return DateTime.Now;
-        }
-
-        private Party MapParty(XElement partyElement)
-        {
-            if (partyElement == null) return null;
+            if (p == null) return null;
 
             return new Party
             {
-                Eori = partyElement.Descendants(ns + "NrEORI").FirstOrDefault()?.Value,
-                Nip = partyElement.Descendants(ns + "DaneIdentyfikacyjne").Descendants(ns + "NIP").FirstOrDefault()?.Value,
-                Name = partyElement.Descendants(ns + "DaneIdentyfikacyjne").Descendants(ns + "Nazwa").FirstOrDefault()?.Value,
-                MainAddress = new Address
-                {
-                    CountryCode = partyElement.Descendants(ns + "Adres").Descendants(ns + "KodKraju").FirstOrDefault()?.Value,
-                    Line1 = partyElement.Descendants(ns + "Adres").Descendants(ns + "AdresL1").FirstOrDefault()?.Value,
-                    GLN = partyElement.Descendants(ns + "Adres").Descendants(ns + "GLN").FirstOrDefault()?.Value
-                },
-                CorrespondenceAddress = new Address
-                {
-                    CountryCode = partyElement.Descendants(ns + "AdresKoresp").Descendants(ns + "KodKraju").FirstOrDefault()?.Value,
-                    Line1 = partyElement.Descendants(ns + "AdresKoresp").Descendants(ns + "AdresL1").FirstOrDefault()?.Value,
-                    GLN = partyElement.Descendants(ns + "AdresKoresp").Descendants(ns + "GLN").FirstOrDefault()?.Value
-                },
-                Contact = new ContactInfo
-                {
-                    Email = partyElement.Descendants(ns + "DaneKontaktowe").Descendants(ns + "Email").FirstOrDefault()?.Value,
-                    Phone = partyElement.Descendants(ns + "DaneKontaktowe").Descendants(ns + "Telefon").FirstOrDefault()?.Value
-                },
-                CustomerNumber = partyElement.Descendants(ns + "NrKlienta").FirstOrDefault()?.Value
+                Role = p.Element(ns + "Rola")?.Value,
+                Eori = p.Element(ns + "NrEORI")?.Value,
+                Nip = p.Element(ns + "DaneIdentyfikacyjne")?.Element(ns + "NIP")?.Value,
+                Name = p.Element(ns + "DaneIdentyfikacyjne")?.Element(ns + "Nazwa")?.Value,
+                CustomerNumber = p.Element(ns + "NrKlienta")?.Value,
+
+                MainAddress = MapAddress(p.Element(ns + "Adres")),
+                CorrespondenceAddress = MapAddress(p.Element(ns + "AdresKoresp")),
+                Contact = MapContact(p.Element(ns + "DaneKontaktowe"))
             };
         }
 
-        private PaymentInfo MapPayment(XElement paymentElement)
+        private ContactInfo MapContact(XElement c)
         {
-            if (paymentElement == null) return null;
+            if (c == null) return null;
 
-            return new PaymentInfo
+            return new ContactInfo
             {
-                IsPartial = paymentElement.Descendants(ns + "ZnacznikZaplatyCzesciowej").FirstOrDefault()?.Value == "1",
-                PartialPayments = paymentElement.Descendants(ns + "ZaplataCzesciowa")
-                    .Select(p => new PartialPayment
-                    {
-                        Date = ParseDate(p.Descendants(ns + "DataZaplatyCzesciowej").FirstOrDefault()?.Value),
-                        Amount = decimal.Parse(p.Descendants(ns + "KwotaZaplatyCzesciowej").FirstOrDefault()?.Value ?? "0"),
-                        Method = p.Descendants(ns + "FormaPlatnosci").FirstOrDefault()?.Value
-                    }).ToList()
+                Email = c.Element(ns + "Email")?.Value,
+                Phone = c.Element(ns + "Telefon")?.Value
             };
         }
 
-        private Settlement MapSettlement(XElement settlementElement)
+        private Address MapAddress(XElement a)
         {
-            if (settlementElement == null) return null;
+            if (a == null) return null;
 
-            return new Settlement
+            return new Address
             {
-                TotalToPay = decimal.Parse(settlementElement.Descendants(ns + "DoZaplaty").FirstOrDefault()?.Value ?? "0")
+                CountryCode = a.Element(ns + "KodKraju")?.Value,
+                Line1 = a.Element(ns + "AdresL1")?.Value,
+                Line2 = a.Element(ns + "AdresL2")?.Value,
+                GLN = a.Element(ns + "GLN")?.Value
             };
         }
 
-        private BankAccount MapBankAccount(XElement bankAccountElement)
+
+        private InvoiceLine MapLine(XElement x)
         {
-            if (bankAccountElement == null) return null;
+            return new InvoiceLine
+            {
+                Name = x.Element(ns + "P_7Z")?.Value,
+                PricePerPiceNetto = decimal.Parse(x.Element(ns + "P_11NettoZ")?.Value ?? "0"),
+                Quantity = int.Parse(x.Element(ns + "P_8BZ")?.Value ?? "0"),
+                Unit = x.Element(ns + "P_8AZ")?.Value,
+                TaxRate = int.Parse(x.Element(ns + "P_12Z")?.Value ?? "0"),
+                PriceTotalNetto = x.Element(ns + "P_11NettoZ")?.Value,
+                TaxValue = decimal.Parse(x.Element(ns + "P_11VatZ")?.Value ?? "0")
+            };
+        }
+
+
+        private List<TaxSummary> MapTaxSummaries(XElement fa)
+        {
+            var list = new List<TaxSummary>();
+
+            var rates = fa.Elements(ns + "P_13_1").ToList();
+            var netto = fa.Elements(ns + "P_13_2").ToList();
+            var tax = fa.Elements(ns + "P_14_1").ToList();
+            var brutto = fa.Elements(ns + "P_15").ToList();
+            var pln = fa.Elements(ns + "P_14_2W").ToList();
+
+            for (int i = 0; i < rates.Count; i++)
+            {
+                list.Add(new TaxSummary
+                {
+                    TaxRate = rates[i].Value,
+                    Netto = decimal.Parse(netto.ElementAtOrDefault(i)?.Value ?? "0"),
+                    TaxAmount = decimal.Parse(tax.ElementAtOrDefault(i)?.Value ?? "0"),
+                    Brutto = decimal.Parse(brutto.ElementAtOrDefault(i)?.Value ?? "0"),
+                    PLNAmount = decimal.Parse(pln.ElementAtOrDefault(i)?.Value ?? "0")
+                });
+            }
+
+            return list;
+        }
+
+
+        private PaymentInfo MapPayment(XElement p)
+        {
+            if (p == null) return null;
+
+            var pay = new PaymentInfo
+            {
+                IsPartial = p.Element(ns + "ZnacznikZaplatyCzesciowej")?.Value == "1",
+                PaymentMethod = p.Element(ns + "FormaPlatnosci")?.Value
+            };
+
+            var term = p.Element(ns + "TerminPlatnosci");
+            if (term != null)
+            {
+                pay.PaymentDueDate = ParseDate(term.Element(ns + "Termin")?.Value);
+
+                var desc = term.Element(ns + "TerminOpis");
+                if (desc != null)
+                {
+                    pay.PaymentTermsDescription =
+                        $"{desc.Element(ns + "Ilosc")?.Value} {desc.Element(ns + "Jednostka")?.Value} - {desc.Element(ns + "ZdarzeniePoczatkowe")?.Value}";
+                }
+            }
+
+            pay.PartialPayments = p.Elements(ns + "ZaplataCzesciowa")
+                .Select(z => new PartialPayment
+                {
+                    Date = ParseDate(z.Element(ns + "DataZaplatyCzesciowej")?.Value),
+                    Amount = decimal.Parse(z.Element(ns + "KwotaZaplatyCzesciowej")?.Value ?? "0"),
+                    Method = z.Element(ns + "FormaPlatnosci")?.Value
+                })
+                .ToList();
+
+            return pay;
+        }
+
+
+        private Settlement MapSettlement(XElement s)
+        {
+            if (s == null) return null;
+
+            var set = new Settlement
+            {
+                TotalToPay = decimal.Parse(s.Element(ns + "DoZaplaty")?.Value ?? "0")
+            };
+
+            set.Charges = s.Elements(ns + "Obciazenia")
+                .Select(c => new Charge
+                {
+                    Amount = decimal.Parse(c.Element(ns + "Kwota")?.Value ?? "0"),
+                    Reason = c.Element(ns + "Powod")?.Value
+                })
+                .ToList();
+
+            set.Deductions = s.Elements(ns + "Odliczenia")
+                .Select(d => new Deduction
+                {
+                    Amount = decimal.Parse(d.Element(ns + "Kwota")?.Value ?? "0"),
+                    Reason = d.Element(ns + "Powod")?.Value
+                })
+                .ToList();
+
+            return set;
+        }
+
+
+        private BankAccount MapBankAccount(XElement b)
+        {
+            if (b == null) return null;
 
             return new BankAccount
             {
-                FullNumber = bankAccountElement.Descendants(ns + "NrRB").FirstOrDefault()?.Value,
-                Swift = bankAccountElement.Descendants(ns + "SWIFT").FirstOrDefault()?.Value,
-                BankName = bankAccountElement.Descendants(ns + "NazwaBanku").FirstOrDefault()?.Value,
-                Description = bankAccountElement.Descendants(ns + "OpisRachunku").FirstOrDefault()?.Value,
-                IsBankOwnAccount = int.Parse(bankAccountElement.Descendants(ns + "RachunekWlasnyBanku").FirstOrDefault()?.Value ?? "0")
+                FullNumber = b.Element(ns + "NrRB")?.Value,
+                Swift = b.Element(ns + "SWIFT")?.Value,
+                BankName = b.Element(ns + "NazwaBanku")?.Value,
+                Description = b.Element(ns + "OpisRachunku")?.Value,
+                IsBankOwnAccount = int.Parse(b.Element(ns + "RachunekWlasnyBanku")?.Value ?? "0")
             };
         }
 
-        private Terms MapTerms(XElement termsElement)
-        {
-            if (termsElement == null) return null;
 
-            return new Terms
+        private Terms MapTerms(XElement t)
+        {
+            if (t == null) return null;
+
+            var terms = new Terms
             {
-                DeliveryTerms = termsElement.Descendants(ns + "WarunkiDostawy").FirstOrDefault()?.Value
+                DeliveryTerms = t.Element(ns + "WarunkiDostawy")?.Value
             };
+
+            var contract = t.Element(ns + "Umowy");
+            if (contract != null)
+            {
+                terms.Contract = new Contract
+                {
+                    ContractDate = ParseDate(contract.Element(ns + "DataUmowy")?.Value),
+                    ContractNumber = contract.Element(ns + "NrUmowy")?.Value
+                };
+            }
+
+            var order = t.Element(ns + "Zamowienia");
+            if (order != null)
+            {
+                terms.Order = new OrderInfo
+                {
+                    OrderDate = ParseDate(order.Element(ns + "DataZamowienia")?.Value),
+                    OrderNumber = order.Element(ns + "NrZamowienia")?.Value
+                };
+            }
+
+            var transport = t.Element(ns + "Transport");
+            if (transport != null)
+            {
+                terms.Transport = MapTransport(transport);
+            }
+
+            return terms;
+        }
+
+
+        private TransportInfo MapTransport(XElement t)
+        {
+            var info = new TransportInfo
+            {
+                TransportType = int.Parse(t.Element(ns + "RodzajTransportu")?.Value ?? "0"),
+                TransportOrderNumber = t.Element(ns + "NrZleceniaTransportu")?.Value,
+                CargoDescription = int.Parse(t.Element(ns + "OpisLadunku")?.Value ?? "0"),
+                PackagingUnit = t.Element(ns + "JednostkaOpakowania")?.Value,
+                StartDate = ParseDate(t.Element(ns + "DataGodzRozpTransportu")?.Value),
+                EndDate = ParseDate(t.Element(ns + "DataGodzZakTransportu")?.Value),
+
+                Carrier = MapCarrier(t.Element(ns + "Przewoznik")),
+                ShipFrom = MapAddress(t.Element(ns + "WysylkaZ")),
+                ShipVia = MapAddress(t.Element(ns + "WysylkaPrzez")),
+                ShipTo = MapAddress(t.Element(ns + "WysylkaDo"))
+            };
+
+            return info;
+        }
+
+        private Carrier MapCarrier(XElement c)
+        {
+            if (c == null) return null;
+
+            return new Carrier
+            {
+                CountryCode = c.Element(ns + "DaneIdentyfikacyjne")?.Element(ns + "KodKraju")?.Value,
+                TaxId = c.Element(ns + "DaneIdentyfikacyjne")?.Element(ns + "NrID")?.Value,
+                Name = c.Element(ns + "DaneIdentyfikacyjne")?.Element(ns + "Nazwa")?.Value,
+                Address = MapAddress(c.Element(ns + "AdresPrzewoznika"))
+            };
+        }
+
+
+        private DateTime ParseDate(string s)
+        {
+            if (DateTime.TryParse(s, out var d))
+                return d;
+
+            return DateTime.MinValue;
         }
     }
 }

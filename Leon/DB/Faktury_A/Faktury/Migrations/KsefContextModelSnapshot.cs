@@ -44,7 +44,6 @@ namespace Faktury.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Line2")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -136,7 +135,7 @@ namespace Faktury.Migrations
 
                     b.HasIndex("SettlementId");
 
-                    b.ToTable("Charge", "ksef");
+                    b.ToTable("Charges", "ksef");
                 });
 
             modelBuilder.Entity("Faktury.models.ContactInfo", b =>
@@ -208,7 +207,7 @@ namespace Faktury.Migrations
 
                     b.HasIndex("SettlementId");
 
-                    b.ToTable("Deduction", "ksef");
+                    b.ToTable("Deductions", "ksef");
                 });
 
             modelBuilder.Entity("Faktury.models.Invoice", b =>
@@ -232,7 +231,7 @@ namespace Faktury.Migrations
                     b.Property<DateTime>("DeliveryDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("FactorBankAccountID")
+                    b.Property<int?>("FactorBankAccountId")
                         .HasColumnType("int");
 
                     b.Property<string>("FooterNote")
@@ -254,7 +253,7 @@ namespace Faktury.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SellerBankAccountID")
+                    b.Property<int?>("SellerBankAccountId")
                         .HasColumnType("int");
 
                     b.Property<int>("SellerId")
@@ -264,9 +263,9 @@ namespace Faktury.Migrations
 
                     b.HasIndex("BuyerId");
 
-                    b.HasIndex("FactorBankAccountID");
+                    b.HasIndex("FactorBankAccountId");
 
-                    b.HasIndex("SellerBankAccountID");
+                    b.HasIndex("SellerBankAccountId");
 
                     b.HasIndex("SellerId");
 
@@ -319,7 +318,10 @@ namespace Faktury.Migrations
             modelBuilder.Entity("Faktury.models.OrderInfo", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
@@ -328,7 +330,13 @@ namespace Faktury.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("TermsId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TermsId")
+                        .IsUnique();
 
                     b.ToTable("OrderInfo", "ksef");
                 });
@@ -376,7 +384,6 @@ namespace Faktury.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("CustomerNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Eori")
@@ -398,7 +405,6 @@ namespace Faktury.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Role")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -635,12 +641,12 @@ namespace Faktury.Migrations
 
                     b.HasOne("Faktury.models.BankAccount", "FactorBankAccount")
                         .WithMany()
-                        .HasForeignKey("FactorBankAccountID")
+                        .HasForeignKey("FactorBankAccountId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Faktury.models.BankAccount", "SellerBankAccount")
                         .WithMany()
-                        .HasForeignKey("SellerBankAccountID")
+                        .HasForeignKey("SellerBankAccountId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Faktury.models.Party", "Seller")
@@ -671,7 +677,7 @@ namespace Faktury.Migrations
                 {
                     b.HasOne("Faktury.models.Terms", null)
                         .WithOne("Order")
-                        .HasForeignKey("Faktury.models.OrderInfo", "Id")
+                        .HasForeignKey("Faktury.models.OrderInfo", "TermsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
