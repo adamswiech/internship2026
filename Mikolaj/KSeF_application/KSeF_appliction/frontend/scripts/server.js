@@ -1,12 +1,9 @@
 import fs from "node:fs/promises";
-
-console.log("--------------------------------------------------------------");
-console.log("Starting script...");
+import "dotenv/config";
 
 let httpApiAddress = "";
 let httpsApiAddress = "";
-
-const filepath = "C:/Users/Vulcan/source/repos/internship2026/Mikolaj/KSeF_application/KSeF_appliction/KSeF_appliction.Server/Properties/launchSettings.json";
+const filepath = process.env.LAUNCH_SETTINGS_PATH;
 
 const readConfig = async () => {
   const content = await fs.readFile(filepath, "utf-8");
@@ -25,26 +22,36 @@ for (let i = 0; i < profilesLen; i++) {
   httpsApiAddress = urls.find((url) => url.startsWith("https:")) ?? "";
 
   if (httpApiAddress != "") {
-    console.log("HTTP address: ", httpApiAddress);
+    console.log(`\nHTTP address: ${httpApiAddress}`);
   } else {
-    console.log("HTTPS address: ", httpsApiAddress);
+    console.log(`HTTPS address: ${httpsApiAddress}\n`);
   }
 }
 
+// FIX THIS CODE HERE - IT DOES NOT FETCH WHOLE JSON - JUST PART OF FILE 
+// const fetchSwaggerJson = async () => {
+//   try {
+//     const response = await fetch(`${httpsApiAddress}/swagger/v1/swagger.json`);
+
+//     if (!response.ok) {
+//       const error = await response.text();
+//       return error;
+//     }
+
+//     const result = await response.json();
+//     return result;
+
+//   } catch (error) {
+//     return error.message;
+//   }
+// };
+
+// const swaggerJsonContent = await fetchSwaggerJson();
+// console.log(swaggerJsonContent);
+
 /*
-GETTING CURRENTLY SERVER ADDRESS [DONE]
-1. you have to open launchSettings.json [DONE]
-2. find there https -> applicationUrl and get this to js [DONE]
-3. assign to varriable - that is your servers address [DONE]
---------------------------------------------------------------
 SWAGGER JSON MAP
 1. fetch json from swagger api endpoint
 2. map json
 3. based on mapped json delete everything from interfaces folder and re-generate all files (interfaces)
-
-
-vite will start react app and everything will be working fine
 */
-
-console.log("Script has ended");
-console.log("--------------------------------------------------------------");
