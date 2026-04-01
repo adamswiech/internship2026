@@ -56,5 +56,6 @@ namespace KSeF_app.Server.Controllers
             var invoices = await _service.GetAllInvoicesAsync();
             return Ok(invoices);
         }
+
     }
 }
