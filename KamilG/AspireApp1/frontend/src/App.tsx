@@ -25,7 +25,7 @@ function App() {
   useEffect(() => {
     const loadFaktury = async () => {
       try {
-        const response = await fetch('/api/faktury')
+        const response = await fetch('/api/Faktura')
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}`)
         }

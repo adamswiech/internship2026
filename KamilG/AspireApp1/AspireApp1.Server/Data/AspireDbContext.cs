@@ -21,7 +21,7 @@ namespace AspireApp1.Server.Data
                 .HasKey(p => p.id);
 
             modelBuilder.Entity<faktura>()
-                .ToTable("faktura")
+                .ToTable("Faktury")
                 .HasKey(f => f.id);
 
             modelBuilder.Entity<faktura>()
