@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Ksef.Models
 {
-    internal class Podmiot
+    public class Podmiot
     {
         public int Id { get; set; }
         public string Nip { get; set; }

@@ -4,11 +4,10 @@ using System.Text;
 
 namespace Ksef.Models
 {
-    internal class FaWiersz
+    public class FaWiersz
     {
         public int Id { get; set; }
         public int FakturaId { get; set; }
-        public Faktura Faktura { get; set; }
         public int NrWiersza { get; set; }
         public decimal KursWaluty { get; set; }
         public string P_7 { get; set; } //nazwa usługi
