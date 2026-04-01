@@ -94,7 +94,7 @@ export default function InvoicesList() {
               <InvoiceTableRow key={item.id} item={item} />
             ))
           ) : (
-            <tr>Loading...</tr>
+            <h3>Loading...</h3>
           )}
       </div>
     </div>
