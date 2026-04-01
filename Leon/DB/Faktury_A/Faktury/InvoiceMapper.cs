@@ -159,8 +159,7 @@ namespace Faktury
                 var desc = term.Element(ns + "TerminOpis");
                 if (desc != null)
                 {
-                    pay.PaymentTermsDescription =
-                        $"{desc.Element(ns + "Ilosc")?.Value} {desc.Element(ns + "Jednostka")?.Value} - {desc.Element(ns + "ZdarzeniePoczatkowe")?.Value}";
+                    pay.PaymentTermsDescription = $"{desc.Element(ns + "Ilosc")?.Value} {desc.Element(ns + "Jednostka")?.Value} - {desc.Element(ns + "ZdarzeniePoczatkowe")?.Value}";
                 }
             }
 
