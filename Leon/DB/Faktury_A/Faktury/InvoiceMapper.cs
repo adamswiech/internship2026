@@ -8,7 +8,6 @@ namespace Faktury
         //private static readonly XNamespace ns = "http://crd.gov.pl/wzor/2025/06/25/13775/";
 
 
-        private static readonly XNamespace DefaultNs = "http://crd.gov.pl/wzor/2025/06/25/13775/";
         private XNamespace ns;
 
         public Invoice MapXmlToInvoice(string xmlFilePath)
@@ -47,8 +46,8 @@ namespace Faktury
                 Payment = MapPayment(fa.Element(ns + "Platnosc")),
                 Settlement = MapSettlement(fa.Element(ns + "Rozliczenie")),
 
-                SellerBankAccount = MapBankAccount(fa.Element(ns + "RachunekBankowy")),
-                FactorBankAccount = MapBankAccount(fa.Element(ns + "RachunekBankowyFaktora")),
+                SellerBankAccount = MapBankAccount(fa.Element(ns + "Platnosc").Element(ns + "RachunekBankowy")),
+                FactorBankAccount = MapBankAccount(fa.Element(ns + "Platnosc").Element(ns + "RachunekBankowyFaktora")),
 
                 TransactionTerms = MapTerms(fa.Element(ns + "WarunkiTransakcji")),
                 FooterNote = faktura.Descendants(ns + "StopkaFaktury").FirstOrDefault()?.Value
