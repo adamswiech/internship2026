@@ -1,8 +1,0 @@
-<Solution>
-  <Project Path="Faktury.AppHost/Faktury.AppHost.csproj" />
-  <Project Path="Faktury.Server/Faktury.Server.csproj" />
-  <Project Path="frontend/frontend.esproj">
-    <Build />
-    <Deploy />
-  </Project>
-</Solution>
