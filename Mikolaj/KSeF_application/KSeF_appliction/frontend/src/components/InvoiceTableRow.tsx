@@ -1,4 +1,4 @@
-import type { Faktura } from "../interfaces/Invoice";
+import type { Faktura } from "../interfaces/Faktura";
 
 interface InvoiceTableRow {
   item: Faktura;
@@ -15,12 +15,12 @@ export default function InvoiceTableRow({ item }: InvoiceTableRow) {
           {i == 0 && <td rowSpan={i}>{item.id}</td>}
           <td>{item.podmiot1.nip}</td>
           <td>{item.podmiot2.nip}</td>
-          <td>{item.podmiot1.nazwa}</td>
+          <td>{item.podmiot1.kodKraju}</td>
           <td>{item.podmiot2.nazwa}</td>
           <td>{item.wiersze[i].p_7}</td>
           <td>{item.wiersze[i].p_9A.toLocaleString()} zł</td>
-          <td>{(item.wiersze[i].p_11).toLocaleString()} zł</td>
-          <td>{(item.wiersze[i].p_12)}%</td>
+          <td>{item.wiersze[i].p_11.toLocaleString()} zł</td>
+          <td>{item.wiersze[i].p_12}%</td>
         </tr>,
       );
     }
