@@ -56,6 +56,7 @@ export default function InvoicesList() {
 
   useEffect(() => {
     const getInvoices = async () => {
+        
       try {
         const response = await fetch(
           "https://server-ksef_appliction.dev.localhost:7459/api/Faktura/GetFaktury",
