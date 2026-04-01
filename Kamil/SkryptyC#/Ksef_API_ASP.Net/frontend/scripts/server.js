@@ -43,12 +43,12 @@ await ( async () =>{
 
 //setting models
 await (async ()=>{
-        const swaggerLink = `${httpApiBase}/swagger/v1/swagger.json`;
-        const swaggerRespons = await fetch(swaggerLink);
-        const swaggerData = await swaggerRespons.json();
-        const shemas = swaggerData.components.schemas;
-        for(let i in shemas)
-            models.push(shemas[i]);
+    const swaggerLink = `${httpApiBase}/swagger/v1/swagger.json`;
+    const swaggerRespons = await fetch(swaggerLink);
+    const swaggerData = await swaggerRespons.json();
+    const shemas = swaggerData.components.schemas;
+    for(let i in shemas)
+        models.push(shemas[i]);
 })();
 
 const GetType = (model)=>{
@@ -96,7 +96,7 @@ export interface Name{
 		mod = "[]"
 		typ = Type(Item)
 		
-        return type + mod
+        return type + modasdasdasdasdasdasdsad
         }
         
         profiles: {
