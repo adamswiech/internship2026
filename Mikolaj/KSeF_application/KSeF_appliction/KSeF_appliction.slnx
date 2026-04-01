@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="frontend/frontend.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="KSeF_appliction.AppHost/KSeF_appliction.AppHost.csproj" />
+  <Project Path="KSeF_appliction.Server/KSeF_appliction.Server.csproj" />
+</Solution>

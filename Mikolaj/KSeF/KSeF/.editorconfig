@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# IDE0320: Ustaw funkcję anonimową jako statyczną
+dotnet_diagnostic.IDE0320.severity = none
