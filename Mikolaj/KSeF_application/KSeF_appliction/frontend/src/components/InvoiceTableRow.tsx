@@ -18,9 +18,9 @@ export default function InvoiceTableRow({ item }: InvoiceTableRow) {
           <td>{item.podmiot1.nazwa}</td>
           <td>{item.podmiot2.nazwa}</td>
           <td>{item.wiersze[i].p_7}</td>
-          <td>{item.p_13_1.toLocaleString()} zł</td>
-          <td>{(item.p_13_1 + item.p_14_W).toLocaleString()} zł</td>
-          <td>{item.p_14_W.toLocaleString()} zł</td>
+          <td>{item.wiersze[i].p_9A.toLocaleString()} zł</td>
+          <td>{(item.wiersze[i].p_11).toLocaleString()} zł</td>
+          <td>{(item.wiersze[i].p_12)}%</td>
         </tr>,
       );
     }
@@ -38,9 +38,9 @@ export default function InvoiceTableRow({ item }: InvoiceTableRow) {
         <th>Podmiot 1</th>
         <th>Podmiot 2</th>
         <th>Tytuł Pozycji</th>
-        <th>Kwota netto PLN</th>
-        <th>Kwota brutton PLN</th>
-        <th>Kwota podatku PLN</th>
+        <th>Cena jednostkowa netto</th>
+        <th>Wartość sprzedaży netto</th>
+        <th>Stawka podatku VAT</th>
       </tr>
       {generateRows()}
     </table>
