@@ -39,7 +39,7 @@ namespace KSeF_app.Server.Controllers
             return Ok(new { invoiceId = invoice.Id });
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetInvoiceById={id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var invoice = await _service.GetByIdAsync(id);
@@ -50,7 +50,7 @@ namespace KSeF_app.Server.Controllers
             return Ok(invoice);
         }
 
-        [HttpGet]
+        [HttpGet("GetAllInvoices")]
         public async Task<IActionResult> GetAll()
         {
             var invoices = await _service.GetAllInvoicesAsync();

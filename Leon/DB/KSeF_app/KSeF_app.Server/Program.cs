@@ -1,6 +1,7 @@
 
 
 using KSeF_app.Server.Data;
+using KSeF_app.Server.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,9 @@ builder.Services.AddProblemDetails();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<KsefContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<InvoiceMapper>();
+builder.Services.AddScoped<InvoiceService>();
 
 //builder.Services.AddEndpointsApiExplorer();
 
