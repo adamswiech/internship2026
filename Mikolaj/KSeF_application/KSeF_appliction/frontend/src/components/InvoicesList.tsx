@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Faktura } from "../interfaces/Invoice";
+import type { Faktura } from "../interfaces/Faktura";
 import InvoiceTableRow from "./InvoiceTableRow";
 
 export default function InvoicesList() {
@@ -87,15 +87,14 @@ export default function InvoicesList() {
 
       <div className="invoices-list-container-element">
         <h2>Wszystkie faktury</h2>
-        
 
-          {fetchStatus ? (
-            invoicesArray.map((item: Faktura) => (
-              <InvoiceTableRow key={item.id} item={item} />
-            ))
-          ) : (
-            <tr>Loading...</tr>
-          )}
+        {fetchStatus ? (
+          invoicesArray.map((item: Faktura) => (
+            <InvoiceTableRow key={item.id} item={item} />
+          ))
+        ) : (
+          <h3>Loading...</h3>
+        )}
       </div>
     </div>
   );

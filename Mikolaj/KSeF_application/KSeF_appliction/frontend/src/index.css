@@ -19,7 +19,12 @@ h2 {
 
 table {
   width: 100%;
-  text-align: start;
+}
+
+table caption {
+    margin: 20px 0;
+    font-weight: bold;
+    font-size: 24px;
 }
 
 table,

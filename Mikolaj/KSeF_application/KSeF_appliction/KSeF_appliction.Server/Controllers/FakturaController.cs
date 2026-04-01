@@ -18,7 +18,7 @@ namespace KSeF_appliction.Server.Controllers
         }
 
         [HttpPost("AddXML")]
-        public async Task<IActionResult> AddXML(IFormFile file)
+        public ActionResult AddXML(IFormFile file)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace KSeF_appliction.Server.Controllers
 
                     _db.Podmiot.Add(podmiot1);
                     _db.Podmiot.Add(podmiot2);
-                    await _db.SaveChangesAsync();
+                    _db.SaveChanges();
                     var wiersze = root.Element("Wiersze")?
                         .Elements("FaWiersz")
                         .Select(w => new FaWiersz
@@ -97,7 +97,7 @@ namespace KSeF_appliction.Server.Controllers
                     };
 
                     _db.Faktura.Add(faktura);
-                    await _db.SaveChangesAsync();
+                    _db.SaveChanges();
                 }
 
                 return Ok($"Zaimportowano {fakturaElements.Count} faktur.");
@@ -115,15 +115,15 @@ namespace KSeF_appliction.Server.Controllers
         }
 
         [HttpGet("GetFaktury")]
-        public async Task<IActionResult> GetFaktury()
+        public ActionResult<List<Faktura>> GetFaktury()
         {
-            var faktury = await _db.Faktura
+            var faktury = _db.Faktura
                 .Include(f => f.podmiot1)
                 .Include(f => f.podmiot2)
                 .Include(f => f.Wiersze)
-                .ToListAsync();
+                .ToList();
 
-            return Ok(faktury);
+            return faktury;
         }
     }
 }
