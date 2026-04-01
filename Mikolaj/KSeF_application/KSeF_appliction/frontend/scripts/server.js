@@ -28,26 +28,25 @@ for (let i = 0; i < profilesLen; i++) {
   }
 }
 
-// FIX THIS CODE HERE - IT DOES NOT FETCH WHOLE JSON - JUST PART OF FILE 
-// const fetchSwaggerJson = async () => {
-//   try {
-//     const response = await fetch(`${httpsApiAddress}/swagger/v1/swagger.json`);
+const fetchSwaggerJson = async () => {
+  try {
+    const response = await fetch(`${httpsApiAddress}/swagger/v1/swagger.json`);
 
-//     if (!response.ok) {
-//       const error = await response.text();
-//       return error;
-//     }
+    if (!response.ok) {
+      const error = await response.text();
+      return error;
+    }
 
-//     const result = await response.json();
-//     return result;
+    const result = await response.json();
+    return result;
 
-//   } catch (error) {
-//     return error.message;
-//   }
-// };
+  } catch (error) {
+    return error.message;
+  }
+};
 
-// const swaggerJsonContent = await fetchSwaggerJson();
-// console.log(swaggerJsonContent);
+const swaggerJsonContent = await fetchSwaggerJson();
+console.log(swaggerJsonContent.components.schemas.Faktura.properties); //this can render data about Faktura like type and format object
 
 /*
 SWAGGER JSON MAP
