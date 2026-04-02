@@ -1,7 +1,0 @@
-<Solution>
-  <Project Path="ksef_app.client/ksef_app.client.esproj">
-    <Build />
-    <Deploy />
-  </Project>
-  <Project Path="KSeF_App.Server/KSeF_App.Server.csproj" />
-</Solution>
