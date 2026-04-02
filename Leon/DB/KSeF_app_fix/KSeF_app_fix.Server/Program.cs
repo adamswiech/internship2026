@@ -32,8 +32,10 @@
 
 
 using KSeF_app_fix.Server.Data;
+using KSeF_app_fix.Server.Models;
 using KSeF_app_fix.Server.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,7 +44,29 @@ builder.Services.AddOpenApi();
 builder.Services.AddProblemDetails();
 
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "KSeF API", Version = "v1" });
+
+    // map classes
+    c.MapType<Invoice>(() => new OpenApiSchema() );
+    c.MapType<InvoiceLine>(() => new OpenApiSchema());
+    c.MapType<Party>(() => new OpenApiSchema());
+    c.MapType<Address>(() => new OpenApiSchema());
+    c.MapType<ContactInfo>(() => new OpenApiSchema());
+    c.MapType<BankAccount>(() => new OpenApiSchema());
+    c.MapType<TaxSummary>(() => new OpenApiSchema());
+    c.MapType<PaymentInfo>(() => new OpenApiSchema());
+    c.MapType<PartialPayment>(() => new OpenApiSchema());
+    c.MapType<Settlement>(() => new OpenApiSchema());
+    c.MapType<Charge>(() => new OpenApiSchema());
+    c.MapType<Deduction>(() => new OpenApiSchema());
+    c.MapType<Terms>(() => new OpenApiSchema());
+    c.MapType<Contract>(() => new OpenApiSchema());
+    c.MapType<OrderInfo>(() => new OpenApiSchema());
+    c.MapType<TransportInfo>(() => new OpenApiSchema());
+    c.MapType<Carrier>(() => new OpenApiSchema());
+});
 builder.Services.AddDbContext<KsefContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
