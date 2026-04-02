@@ -1,7 +1,7 @@
-﻿using KSeF_app.Server.Models;
+﻿using KSeF_App.Server.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace KSeF_app.Server.Data
+namespace KSeF_App.Server.Data
 {
     public class KsefContext : DbContext
     {

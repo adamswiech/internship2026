@@ -1,7 +1,7 @@
 
 
-using KSeF_app.Server.Data;
-using KSeF_app.Server.Services;
+using KSeF_App.Server.Data;
+using KSeF_App.Server.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -1,6 +1,6 @@
-@KSeF_app.Server_HostAddress = http://localhost:5204
+@KSeF_App.Server_HostAddress = http://localhost:5291
 
-GET {{KSeF_app.Server_HostAddress}}/weatherforecast/
+GET {{KSeF_App.Server_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###

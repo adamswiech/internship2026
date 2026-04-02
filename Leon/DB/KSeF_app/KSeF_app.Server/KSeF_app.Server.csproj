@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <SpaRoot>..\ksef_app.client</SpaRoot>
     <SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>
-    <SpaProxyServerUrl>https://localhost:49674</SpaProxyServerUrl>
+    <SpaProxyServerUrl>https://localhost:60852</SpaProxyServerUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,6 +30,10 @@
     <ProjectReference Include="..\ksef_app.client\ksef_app.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="tmp\" />
   </ItemGroup>
 
 </Project>

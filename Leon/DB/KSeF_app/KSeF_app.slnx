@@ -3,5 +3,5 @@
     <Build />
     <Deploy />
   </Project>
-  <Project Path="KSeF_app.Server/KSeF_app.Server.csproj" />
+  <Project Path="KSeF_App.Server/KSeF_App.Server.csproj" />
 </Solution>

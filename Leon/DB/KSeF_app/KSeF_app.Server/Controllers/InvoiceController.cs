@@ -1,9 +1,9 @@
-﻿using KSeF_app.Server.Services;
+﻿using KSeF_App.Server.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace KSeF_app.Server.Controllers
+namespace KSeF_App.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

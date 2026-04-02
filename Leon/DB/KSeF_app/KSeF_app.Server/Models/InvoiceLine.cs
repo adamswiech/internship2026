@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace KSeF_app.Server.Models
+namespace KSeF_App.Server.Models
 {
     // implemented
     public class InvoiceLine

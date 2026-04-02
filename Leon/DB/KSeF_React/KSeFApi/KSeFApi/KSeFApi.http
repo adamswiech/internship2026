@@ -1,6 +1,0 @@
-@KSeFApi_HostAddress = http://localhost:5008
-
-GET {{KSeFApi_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

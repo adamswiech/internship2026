@@ -1,7 +1,7 @@
-﻿using KSeF_app.Server.Models;
+﻿using KSeF_App.Server.Models;
 using System.Xml.Linq;
 
-namespace KSeF_app.Server.Services
+namespace KSeF_App.Server.Services
 {
     public class InvoiceMapper
     {
