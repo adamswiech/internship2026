@@ -2,9 +2,9 @@
 
 export interface BankAccount {
     id: number;
-    fullNumber: string;
-    swift: string;
-    bankName: string;
-    description: string;
+    fullNumber?: string | null;
+    swift?: string | null;
+    bankName?: string | null;
+    description?: string | null;
     isBankOwnAccount: number;
 }

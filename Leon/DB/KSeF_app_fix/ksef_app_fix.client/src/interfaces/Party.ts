@@ -3,15 +3,15 @@ import type { ContactInfo } from "./ContactInfo";
 
 export interface Party {
     id: number;
-    role: string;
-    eori: string;
-    nip: string;
-    name: string;
-    mainAddressId: number;
+    role?: string | null;
+    eori?: string | null;
+    nip?: string | null;
+    name?: string | null;
+    mainAddressId?: number | null;
     mainAddress: Address;
-    correspondenceAddressID: number;
+    correspondenceAddressID?: number | null;
     correspondenceAddress: Address;
-    contactInfoId: number;
+    contactInfoId?: number | null;
     contact: ContactInfo;
-    customerNumber: string;
+    customerNumber?: string | null;
 }

@@ -6,6 +6,6 @@ export interface PaymentInfo {
     isPartial: boolean;
     partialPayments: PartialPayment[];
     paymentDueDate: string;
-    paymentTermsDescription: string;
-    paymentMethod: string;
+    paymentTermsDescription?: string | null;
+    paymentMethod?: string | null;
 }

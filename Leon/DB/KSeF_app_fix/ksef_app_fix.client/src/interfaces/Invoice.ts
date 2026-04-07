@@ -8,12 +8,12 @@ import type { Terms } from "./Terms";
 
 export interface Invoice {
     id: number;
-    invoiceNumber: string;
-    ksefNumber: string;
+    invoiceNumber?: string | null;
+    ksefNumber?: string | null;
     issueDate: string;
     deliveryDate: string;
-    issuePlace: string;
-    currencyCode: string;
+    issuePlace?: string | null;
+    currencyCode?: string | null;
     currencyRate: number;
     sellerId: number;
     buyerId: number;
@@ -24,10 +24,10 @@ export interface Invoice {
     taxSummaries: TaxSummary[];
     payment: PaymentInfo;
     settlement: Settlement;
-    factorBankAccountId: number;
+    factorBankAccountId?: number | null;
     factorBankAccount: BankAccount;
-    sellerBankAccountId: number;
+    sellerBankAccountId?: number | null;
     sellerBankAccount: BankAccount;
     transactionTerms: Terms;
-    footerNote: string;
+    footerNote?: string | null;
 }

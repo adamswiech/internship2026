@@ -139,6 +139,9 @@ async function buildInterfaces() {
         const propsString = Object.entries(props)
             .map(([propName, propSchema]) => {
                 const tsType = mapSwaggerTypeToTS(propSchema, imports);
+                if(typeof tsType === "object") {
+                    return `${propName}?: ${tsType.type} | null;`;
+                }
                 return `${propName}: ${tsType};`;
             })
             .join("\n    ");
@@ -195,6 +198,21 @@ function mapSwaggerTypeToTS(propSchema, imports) {
             imports
         );
         return `${itemType}[]`;
+    }
+    if (propSchema.nullable === true) {
+        switch (propSchema.type) {
+        case "string":
+            return { type: "string", nullable: true };
+        case "integer":
+        case "number":
+            return { type: "number", nullable: true };
+        case "boolean":
+            return { type: "boolean", nullable: true };
+        case "object":
+            return { type: "Record<string, any>", nullable: true };
+        default:
+            return {type: "any", nullable: true};
+    }
     }
 
     switch (propSchema.type) {

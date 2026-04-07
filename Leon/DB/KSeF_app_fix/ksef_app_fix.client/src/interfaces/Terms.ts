@@ -7,6 +7,6 @@ export interface Terms {
     invoiceId: number;
     contract: Contract;
     order: OrderInfo;
-    deliveryTerms: string;
+    deliveryTerms?: string | null;
     transport: TransportInfo;
 }
