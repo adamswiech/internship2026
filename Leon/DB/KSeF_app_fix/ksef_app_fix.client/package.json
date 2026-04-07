@@ -4,14 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "predev": "node -e \"try{require.resolve('dotenv')}catch(e){console.log('Installing dotenv...'); require('child_process').execSync('npm install dotenv',{stdio:'inherit'})}\"&&node scripts/server.js",
-    "dev": "vite",
+    "predev": "node scripts/server.js && vite",
+    "dev": "node scripts/server.js && vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
     "dotenv": "^17.4.0",
+    "eventsource": "^4.1.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },

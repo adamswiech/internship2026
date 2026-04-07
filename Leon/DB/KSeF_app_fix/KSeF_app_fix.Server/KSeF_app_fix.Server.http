@@ -1,6 +1,6 @@
 @KSeF_app_fix.Server_HostAddress = http://localhost:5186
 
-GET {{KSeF_app_fix.Server_HostAddress}}/weatherforecast/
+GET  http://localhost:5186/swagger/v1/swagger.json
 Accept: application/json
 
 ###

@@ -8,7 +8,7 @@ namespace KSeF_app_fix.Server.Controllers
 {
     [ApiController]
     [Route("s/[controller]")]
-    public class SchemaController : ControllerBase
+    public class InternalController : ControllerBase
     {
         public class MyResponse
         {
@@ -36,5 +36,31 @@ namespace KSeF_app_fix.Server.Controllers
         {
             return Forbid();
         }
+
+        //[HttpGet("status")]
+        //public async Task StatusStream(CancellationToken cancellationToken)
+        //{
+        //    Response.Headers.Add("Cache-Control", "no-cache");
+        //    Response.Headers.Add("Content-Type", "text/event-stream");
+
+        //    while (!cancellationToken.IsCancellationRequested)
+        //    {
+        //        var message = $"data: API is alive at {DateTime.Now}\n\n";
+
+        //        try
+        //        {
+        //            await Response.WriteAsync(message);
+        //            await Response.Body.FlushAsync();
+        //        }
+        //        catch
+        //        {
+        //            break;
+        //        }
+
+        //        await Task.Delay(5000, cancellationToken);
+        //    }
+        //}
+
+
     }
 }
