@@ -14,8 +14,4 @@ export interface FakturaDTO{
 	kwotaPodatkuPLN: number,
 	kwotaNaloznosci: number,
 	faWiersze: FaWierszDTO[],
-	tmp: number[],
-	t: boolean,
-	ob: object,
-	ttt: number[][],
 }

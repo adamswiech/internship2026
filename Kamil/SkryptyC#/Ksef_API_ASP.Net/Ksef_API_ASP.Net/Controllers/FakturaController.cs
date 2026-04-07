@@ -11,13 +11,13 @@ namespace Ksef_ASP.net.Controllers;
 [Route("[controller]")]
 public class FakturaController : Controller
 {
-    [HttpGet]
-    public IActionResult Index()
+    [HttpPost]
+    public ActionResult<Faktura> Index(List<Faktura> f)
     {
-        return Json(new object());
+        return f[0];
     }
     [HttpGet("GetFaktura")]
-    public ActionResult<List<FakturaDTO>> GetFaktura()
+    public ActionResult<List<FakturaDTO>> GetFaktura(int a)
     {
         var sprzedawca = new Podmiot
         {

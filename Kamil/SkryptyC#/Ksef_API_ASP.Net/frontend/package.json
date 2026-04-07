@@ -19,7 +19,8 @@
   },
   "scripts": {
     "start": "node ./scripts/server.js && react-scripts start",
-    "mw": "node ./scripts/server.js",
+    "ginter": "node ./scripts/generateInterface.js", 
+    "gapi": "node ./scripts/generateApis.js", 
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

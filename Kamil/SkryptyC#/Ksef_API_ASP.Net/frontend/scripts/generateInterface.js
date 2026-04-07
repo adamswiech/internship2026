@@ -1,11 +1,9 @@
-import { readFile } from 'node:fs/promises';   // ESM (recommended)
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import {dictionaryType, dictionaryFormat} from './dictionary.js';
 import fs from 'node:fs/promises';
 import path  from 'node:path';
 console.log("---------------------------------------------------------------");
-console.log("run scipt");
 
 let httpApiBase = "";
 let httpsApiBase = "";
@@ -43,14 +41,14 @@ await ( async () =>{
 
 //setting models
 await (async ()=>{
-    const swaggerLink = `${httpApiBase}/swagger/v1/swagger.json`;
+    const swaggerLink = `${httpsApiBase}/swagger/v1/swagger.json`;
     const swaggerRespons = await fetch(swaggerLink);
     const swaggerData = await swaggerRespons.json();
     const shemasPv = swaggerData.components.schemas;
     
     shemas = shemasPv;
 })();
-
+//creating types for interface
 const createModels = () =>{
     for(let interfaceName in shemas){
         const i = shemas[interfaceName];
@@ -122,7 +120,7 @@ try {
         const stats = await fs.stat(itemPath);
 
         if (stats.isFile()) {
-            await fs.unlink(itemPath);        
+            await fs.unlink(itemPath);
             console.log(`Deleted file: ${item}`);
         }
     }
@@ -132,55 +130,8 @@ try {
         console.error('Error deleting files:', err);
     }
 }
-
+//delet and create files of interfaces
 deleteAllFilesInFolder(path.join(  'src','Models','API',)).then(()=> createModels());
 
 
-
-
-
-
-
-/*
-export interface Name{
-	FieldName : type[],
-	Iterator: Type()
-    }
-    Type(){
-        typ = dictionaryType[type]
-        
-        if(Format.exist)
-		typ = dictionaryFormat[Format]
-        
-        if(Items.exist)
-		mod = "[]"
-		typ = Type(Item)
-		
-        return type + modasdasdasdasdasdasdsad
-        }
-        
-        profiles: {
-            http: {
-                commandName: 'Project',
-    environmentVariables: [Object],
-    dotnetRunMessages: true,
-    applicationUrl: 'http://localhost:5058'
-    },
-    https: {
-    commandName: 'Project',
-    environmentVariables: [Object],
-    dotnetRunMessages: true,
-    applicationUrl: 'https://localhost:7173;http://localhost:5058'
-    },
-    'Container (Dockerfile)': {
-        commandName: 'Docker',
-        launchUrl: '{Scheme}://{ServiceHost}:{ServicePort}',
-        environmentVariables: [Object],
-    publishAllPorts: true,
-    useSSL: true
-    }
-    },
-
-    
-    */
    console.log("---------------------------------------------------------------");
