@@ -4,14 +4,26 @@ import { dictionaryType, dictionaryFormat } from "./dictionary.js";
 
 let httpApiAddress = "";
 let httpsApiAddress = "";
-const filepath = process.env.LAUNCH_SETTINGS_PATH;
+const FILE_PATH = process.env.LAUNCH_SETTINGS_PATH;
+const INTERFACES_PATH = process.env.INTERFACES_PATH;
 
 const readConfig = async () => {
-  const content = await fs.readFile(filepath, "utf-8");
+  const content = await fs.readFile(FILE_PATH, "utf-8");
   return JSON.parse(content);
 };
 
 const config = await readConfig();
+const deleteAllInterfaces = async () => {
+  try {
+    await fs.unlink(`${INTERFACES_PATH}/Podmiot.ts`);
+    await fs.unlink(`${INTERFACES_PATH}/FaWiersz.ts`);
+    await fs.unlink(`${INTERFACES_PATH}/Faktura.ts`);
+  } catch {
+    console.log("No interfaces to delete");
+  }
+};
+
+await deleteAllInterfaces();
 const profiles = config.profiles;
 const profilesLen = Object.keys(profiles).length;
 
@@ -47,41 +59,27 @@ const fetchSwaggerJson = async () => {
 
 const swaggerJsonContent = await fetchSwaggerJson();
 const schemasList = swaggerJsonContent.components.schemas; //this path here is always the same so can be hardcoded (in the latest versions of swagger)
+// const keys = Object.keys(schemasList);
 
-let interfacesList = [];
+// const x = JSON.stringify(schemasList[keys[i]].properties, null, 2);
 
-const mapSwaggerJson = (key, value) => {
-  // console.log(`key: ${key}, value: ${value.type ?? value.$ref}`); //works
-  const type = value.type ?? value.$ref;
-  interfacesList.push({ key, type });
-};
+// for (let i = 0; i < x.length; i++) {
+//   console.log(x[i]);
+// } HERE CONTINUE TOMORROW
 
-const printSwaggerSchema = (objKey, header) => {
-//   console.log(`---${header}---`); //works 
-  const objKeys = Object.keys(objKey); //.keys method get just keys of given key: value data struct here it works on Object
+/*
+1. 
 
-  for (let i = 0; i < objKeys.length; i++) {
-    const key = objKeys[i];
-    const value = objKey[key];
 
-    mapSwaggerJson(key, value);
-  }
-};
 
-const prepareSwaggerSchemas = () => {
-  let i = 0;
-  for (const schema of Object.values(schemasList)) {
-    //Object.values(schemasList) -> it converts json object with all schemas (Faktura, Podmiot, FaWiersz) to array of objects (schemas)
-    if (!schema.properties) continue;
 
-    printSwaggerSchema(schema.properties, Object.keys(schemasList)[i]); //here you can get keys of Object it's key: value -> key is header and value is json object
-    console.log("\n");
-    i++;
-  }
-};
 
-prepareSwaggerSchemas();
 
-interfacesList.forEach((element) => {
-  console.log(element);
-});
+
+*/
+// IMPORTANT
+// wiersze: {
+//     type: 'array',
+//     items: { '$ref': '#/components/schemas/FaWiersz' },
+//     nullable: true
+//   }
