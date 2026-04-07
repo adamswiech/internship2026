@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "predev": "node -e \"try{require.resolve('dotenv')}catch(e){console.log('Installing dotenv...'); require('child_process').execSync('npm install dotenv',{stdio:'inherit'})}\"",
-    "dev": "node scripts/server.js && vite",
+    "predev": "node -e \"try{require.resolve('dotenv')}catch(e){console.log('Installing dotenv...'); require('child_process').execSync('npm install dotenv',{stdio:'inherit'})}\"&&node scripts/server.js",
+    "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
