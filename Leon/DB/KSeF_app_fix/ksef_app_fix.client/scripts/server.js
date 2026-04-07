@@ -3,9 +3,6 @@ import { fileURLToPath } from "node:url";
 import path from "node:path";
 import dotenv from "dotenv";
 
-
-//TODO: add enum, required, nullable handling.
-
 dotenv.config();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
