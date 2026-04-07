@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import "dotenv/config";
-import {dictionaryType, dictionaryFormat} from "./dictionary";
+import { dictionaryType, dictionaryFormat } from "./dictionary.js";
 
 let httpApiAddress = "";
 let httpsApiAddress = "";
@@ -40,7 +40,6 @@ const fetchSwaggerJson = async () => {
 
     const result = await response.json();
     return result;
-
   } catch (error) {
     return error.message;
   }
@@ -48,8 +47,26 @@ const fetchSwaggerJson = async () => {
 
 const swaggerJsonContent = await fetchSwaggerJson();
 const faktura = swaggerJsonContent.components.schemas.Faktura.properties;
+const faWiersz = swaggerJsonContent.components.schemas.FaWiersz.properties;
+const podmiot = swaggerJsonContent.components.schemas.Podmiot.properties;
 
+const test = (objKey, header) => {
+  console.log(`\n${header}\n`);
+  const objKeys = Object.keys(objKey);
 
+  for (let i = 0; i < objKeys.length; i++) {
+    const key = objKeys[i];
+    const value = objKey[key];
+
+    console.log(`${i + 1}: ${key} type: ${value.type ?? value.$ref}`);
+  }
+
+  console.log("\n");
+};
+
+test(faktura, "Faktura");
+test(faWiersz, "FaWiersz");
+test(podmiot, "Podmiot");
 
 // console.log(swaggerJsonContent.components.schemas.Faktura.properties); //this can render data about Faktura like type and format object
 // console.log("Test: ", swaggerJsonContent.components.schemas.Faktura.properties.podmiot1["$ref"]); //works to see this part of url to podmiot1 obj
