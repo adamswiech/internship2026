@@ -46,27 +46,42 @@ const fetchSwaggerJson = async () => {
 };
 
 const swaggerJsonContent = await fetchSwaggerJson();
-const faktura = swaggerJsonContent.components.schemas.Faktura.properties;
-const faWiersz = swaggerJsonContent.components.schemas.FaWiersz.properties;
-const podmiot = swaggerJsonContent.components.schemas.Podmiot.properties;
+const schemasList = swaggerJsonContent.components.schemas; //this path here is always the same so can be hardcoded (in the latest versions of swagger)
 
-const test = (objKey, header) => {
-  console.log(`\n${header}\n`);
-  const objKeys = Object.keys(objKey);
+let interfacesList = [];
+
+const mapSwaggerJson = (key, value) => {
+  // console.log(`key: ${key}, value: ${value.type ?? value.$ref}`); //works
+  const type = value.type ?? value.$ref;
+  interfacesList.push({ key, type });
+};
+
+const printSwaggerSchema = (objKey, header) => {
+//   console.log(`---${header}---`); //works 
+  const objKeys = Object.keys(objKey); //.keys method get just keys of given key: value data struct here it works on Object
 
   for (let i = 0; i < objKeys.length; i++) {
     const key = objKeys[i];
     const value = objKey[key];
 
-    console.log(`${i + 1}: ${key} type: ${value.type ?? value.$ref}`);
+    mapSwaggerJson(key, value);
   }
-
-  console.log("\n");
 };
 
-test(faktura, "Faktura");
-test(faWiersz, "FaWiersz");
-test(podmiot, "Podmiot");
+const prepareSwaggerSchemas = () => {
+  let i = 0;
+  for (const schema of Object.values(schemasList)) {
+    //Object.values(schemasList) -> it converts json object with all schemas (Faktura, Podmiot, FaWiersz) to array of objects (schemas)
+    if (!schema.properties) continue;
 
-// console.log(swaggerJsonContent.components.schemas.Faktura.properties); //this can render data about Faktura like type and format object
-// console.log("Test: ", swaggerJsonContent.components.schemas.Faktura.properties.podmiot1["$ref"]); //works to see this part of url to podmiot1 obj
+    printSwaggerSchema(schema.properties, Object.keys(schemasList)[i]); //here you can get keys of Object it's key: value -> key is header and value is json object
+    console.log("\n");
+    i++;
+  }
+};
+
+prepareSwaggerSchemas();
+
+interfacesList.forEach((element) => {
+  console.log(element);
+});
