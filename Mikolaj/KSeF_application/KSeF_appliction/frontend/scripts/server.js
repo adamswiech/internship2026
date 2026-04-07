@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import "dotenv/config";
+import {dictionaryType, dictionaryFormat} from "./dictionary";
 
 let httpApiAddress = "";
 let httpsApiAddress = "";
@@ -46,11 +47,9 @@ const fetchSwaggerJson = async () => {
 };
 
 const swaggerJsonContent = await fetchSwaggerJson();
-console.log(swaggerJsonContent.components.schemas.Faktura.properties); //this can render data about Faktura like type and format object
+const faktura = swaggerJsonContent.components.schemas.Faktura.properties;
 
-/*
-SWAGGER JSON MAP
-1. fetch json from swagger api endpoint
-2. map json
-3. based on mapped json delete everything from interfaces folder and re-generate all files (interfaces)
-*/
+
+
+// console.log(swaggerJsonContent.components.schemas.Faktura.properties); //this can render data about Faktura like type and format object
+// console.log("Test: ", swaggerJsonContent.components.schemas.Faktura.properties.podmiot1["$ref"]); //works to see this part of url to podmiot1 obj
