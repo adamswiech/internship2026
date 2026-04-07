@@ -45,8 +45,6 @@ function App() {
   return (
     <div className="app-container">
 
-      <main className="main-content">
-        <section className="card weather-section">
           <div className="section-header">
             <h2 className="section-title">Lista faktur</h2>
           </div>
@@ -57,14 +55,14 @@ function App() {
             <ul>
               {faktury.map((faktura) => (
                 <li key={faktura.id}>
-                  <strong>Faktura #{faktura.id}</strong> | Waluta: {faktura.kodWaluty} | Podmioty: {faktura.podmiot1Id}/{faktura.podmiot2Id} | Wiersze: {faktura.wierszeCount}
+                      <strong>Faktura #{faktura.id}</strong> | Waluta: {faktura.kodWaluty} | Podmioty: {faktura.podmiot1Id}/{faktura.podmiot2Id} |p_1 {faktura.p_1}| p_2 {faktura.p_2}| p_60d {faktura.p_6Od} | p_6Do {faktura.p_6Do} | p_13_1 {faktura.p_13_1} | p_14_1 {faktura.p_14_1} | p_14W {faktura.p_14W} | p_15 {faktura.p_14W} | p_15 {faktura.p_15} | Wiersze: {faktura.wierszeCount}
                 </li>
               ))}
             </ul>
           )}
-        </section>
-      </main>
+      
     </div>
+
   )
 }
 
