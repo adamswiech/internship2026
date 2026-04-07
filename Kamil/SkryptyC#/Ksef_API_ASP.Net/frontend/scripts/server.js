@@ -3,13 +3,13 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import {dictionaryType, dictionaryFormat} from './dictionary.js';
 import fs from 'node:fs/promises';
-import { backup } from 'node:sqlite';
+import path  from 'node:path';
 console.log("---------------------------------------------------------------");
 console.log("run scipt");
 
 let httpApiBase = "";
 let httpsApiBase = "";
-let models = [];
+let shemas = {};
 
 //sets apiBaseUrl
 await ( async () =>{
@@ -46,35 +46,95 @@ await (async ()=>{
     const swaggerLink = `${httpApiBase}/swagger/v1/swagger.json`;
     const swaggerRespons = await fetch(swaggerLink);
     const swaggerData = await swaggerRespons.json();
-    const shemas = swaggerData.components.schemas;
-    for(let i in shemas)
-        models.push(shemas[i]);
+    const shemasPv = swaggerData.components.schemas;
+    
+    shemas = shemasPv;
 })();
 
-const GetType = (model)=>{
-    let type = "object";
-    if(model["type"])
-        type = dictionaryType[model["type"]];
+const createModels = () =>{
+    for(let interfaceName in shemas){
+        const i = shemas[interfaceName];
+        const improtList = [];
+        const fields = [];
 
-    if(model["Format"])
-        type = dictionaryFormat[model["format"]];
+        const GetType = (model)=>{
+            let type = "object";
+            if(model["type"])
+                type = dictionaryType[model["type"]];
+        
+            if(model["format"]){
+                type = dictionaryFormat[model["format"]];
+            }
+        
+            if(model["items"])
+                type = GetType(model["items"]) + "[]";
+        
+            if(model["$ref"]){
+                const objectName = model["$ref"].split('/').pop(); 
+                type = objectName;
+                if(!improtList.find((e)=> e === objectName))
+                    improtList.push(objectName);
+            }
+            return type;
+        };
 
-    if(model["items"])
-        type = GetType(model["items"]) + "[]";
+        for(let fieldName in i.properties)
+            fields.push(fieldName + ": " + GetType(i.properties[fieldName]) + ",");
 
-    if(model["$ref"])
-        type = "object";
-    console.log(model);
-    return type;
+        const importString = improtList.reduce((acc,curr) => acc + `import { ${curr} } from "./${curr}"; \n`,"");
+        const fieldString = fields.reduce((acc,curr) =>acc +"\n\t" +  curr, "");
+        const fileString = `${importString}
+export interface ${interfaceName}{${fieldString}
+}`;
+        async function createAndWriteFile() {
+            
+            const filePath = path.join(           
+                'src',
+                'Models',
+                'API',
+                `${interfaceName}.ts`
+            );
+            
+            try {
+
+                const dir = path.dirname(filePath);
+                await fs.mkdir(dir, { recursive: true });
+
+                await fs.writeFile(filePath, fileString, 'utf8');
+
+                console.log('File created successfully at:', filePath);
+            } catch (err) {
+                console.error('Error:', err);
+            }
+        }
+
+        createAndWriteFile();
+    }
 };
 
+async function deleteAllFilesInFolder(folderPath) {
+try {
+  
+    const items = await fs.readdir(folderPath);
 
-for(let i of models)
-{
-    for(let fieldName in i.properties)
-        console.log(GetType(i.properties[fieldName]));
-    console.log("");
+    for (const item of items) {
+        const itemPath = path.join(folderPath, item);
+        const stats = await fs.stat(itemPath);
+
+        if (stats.isFile()) {
+            await fs.unlink(itemPath);        
+            console.log(`Deleted file: ${item}`);
+        }
+    }
+
+    console.log('All files deleted successfully!');
+    } catch (err) {
+        console.error('Error deleting files:', err);
+    }
 }
+
+deleteAllFilesInFolder(path.join(  'src','Models','API',)).then(()=> createModels());
+
 
 
 

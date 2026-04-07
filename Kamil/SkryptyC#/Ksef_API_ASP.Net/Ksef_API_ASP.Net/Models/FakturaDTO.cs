@@ -20,5 +20,6 @@ namespace Ksef_API_ASP.Net.Models
         public List<int>? tmp { get; set; }
         public bool? t { get; set; }
         public object? ob { get; set; }
+        public int[][]? ttt { get; set; }
     }
 }
