@@ -9,8 +9,6 @@ export default function InvoicesList() {
   const [status, setStatus] = useState<string>("");
   const [fetchStatus, setFetchStatus] = useState<boolean>(false);
 
-
-  
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0];
 
@@ -60,7 +58,7 @@ export default function InvoicesList() {
 
   useEffect(() => {
     const getInvoices = async () => {
-      const invoices = await Api.getFaktura();
+      const invoices = (await Api.GetFaktury()) as Faktura[];
       setInvoicesArray(invoices);
 
       setFetchStatus(true);

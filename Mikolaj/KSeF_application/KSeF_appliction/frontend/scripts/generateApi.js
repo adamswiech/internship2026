@@ -35,11 +35,39 @@ const fetchApiEndpoints = async () => {
 const apiEndpointsList = await fetchApiEndpoints();
 
 const generateApiFile = async () => {
-  await fs.appendFile(`${API_PATH}/api.ts`, `export default class Api {}\n`, "utf8");
+  await fs.appendFile(
+    `${API_PATH}/api.ts`,
+    `export default class Api {\n`,
+    "utf8",
+  );
+
+  // Fix 1: Use for...of loop (sequential, awaits each)
+  for (const endpoint of apiEndpointsList) {
+    const endpointURL = endpoint.url.substring(
+      endpoint.url.lastIndexOf("/") + 1,
+    );
+
+    const methodCode = `  public static async ${endpointURL}(): Promise<unknown> {
+    return {};
+  }\n`;
+
+    await fs.appendFile(`${API_PATH}/api.ts`, methodCode, "utf8");
+  }
+
+  await fs.appendFile(`${API_PATH}/api.ts`, `}\n`, "utf8");
 };
 
 generateApiFile();
 
+
+//SCHEMA FROM JSON ABOUT ENDPOINTS - SAME AS INTERFACES SCHEMA -> GET TYPE FOR METHOD IN CLASS FROM HERE
+// "schema": {
+//                 "type": "object",
+//                 "properties": {
+//                   "file": {
+//                     "type": "string",
+//                     "format": "binary"
+//                   }
 
 //EXAMPLE VIEW OF CLASS OF FIRST METHOD
 // import type { Faktura } from "../src/interfaces/Faktura";
