@@ -65,18 +65,25 @@ const fetchSwaggerJson = async () => {
 
 const swaggerJsonContent = await fetchSwaggerJson();
 
-const generateInterfaces = () => {
+const generateInterfaces = async () => {
   const schemasList = swaggerJsonContent.components.schemas; //this path here is always the same so can be hardcoded (in the latest versions of swagger)
   const keys = Object.keys(schemasList); //main keys - faktura, fawiersz, podmiot
 
   for (let i = 0; i < keys.length; i++) {
     //each iteration = new interface because of new keys[i] value
 
+    ADD IMPORTS TO INTERFACE OF ANOTHER INTERFACE
+
     const mainKey = keys[i]; //main key from main keys
     const propertiesObjects = schemasList[mainKey].properties;
     const objectsKeys = Object.keys(propertiesObjects);
 
     console.log(`\n${mainKey}\n`);
+    await fs.appendFile(
+      `${INTERFACES_PATH}/${mainKey}.ts`,
+      `export interface ${mainKey} {\n`,
+      "utf8",
+    );
 
     for (let j = 0; j < objectsKeys.length; j++) {
       const name = objectsKeys[j];
@@ -85,20 +92,40 @@ const generateInterfaces = () => {
 
       if (schemasList[mainKey].properties[name].items) {
         //action on items list
+
         const objRef = Object.values(
           schemasList[mainKey].properties[name].items,
         )[0];
         const objRefName = objRef.substring(objRef.lastIndexOf("/") + 1);
-        console.log(`${name}: ${objRefName}`);
+
+        await fs.appendFile(
+          `${INTERFACES_PATH}/${mainKey}.ts`,
+          `${name}: ${objRefName};\n`,
+          "utf8",
+        );
+        // console.log(`${name}: ${objRefName}`);
       } else if (propertiesObjects[objectsKeys[j]]["$ref"]) {
         //action on $ref
         const objRef = propertiesObjects[objectsKeys[j]]["$ref"];
         const objRefName = objRef.substring(objRef.lastIndexOf("/") + 1);
-        console.log(`${name}: ${objRefName}`);
+
+        await fs.appendFile(
+          `${INTERFACES_PATH}/${mainKey}.ts`,
+          `${name}: ${objRefName};\n`,
+          "utf8",
+        );
+        // console.log(`${name}: ${objRefName}`);
       } else {
-        console.log(`${name}: ${type}, ${format}`);
+        await fs.appendFile(
+          `${INTERFACES_PATH}/${mainKey}.ts`,
+          `${name}: ${type};\n`,
+          "utf8",
+        );
+        // console.log(`${name}: ${type}, ${format}`);
       }
     }
+
+    await fs.appendFile(`${INTERFACES_PATH}/${mainKey}.ts`, `}\n`, "utf8");
   }
 };
 
