@@ -24,22 +24,28 @@ const deleteAllInterfaces = async () => {
 };
 
 await deleteAllInterfaces();
-const profiles = config.profiles;
-const profilesLen = Object.keys(profiles).length;
 
-for (let i = 0; i < profilesLen; i++) {
-  const profileName = Object.keys(profiles)[i];
-  const urls = profiles[profileName].applicationUrl.split(";");
+const getServersURLs = () => {
+  //function to get from json from C# addresses of server
+  const profiles = config.profiles;
+  const profilesLen = Object.keys(profiles).length;
 
-  httpApiAddress = urls.find((url) => url.startsWith("http:")) ?? "";
-  httpsApiAddress = urls.find((url) => url.startsWith("https:")) ?? "";
+  for (let i = 0; i < profilesLen; i++) {
+    const profileName = Object.keys(profiles)[i];
+    const urls = profiles[profileName].applicationUrl.split(";");
 
-  if (httpApiAddress != "") {
-    console.log(`\nHTTP address: ${httpApiAddress}`);
-  } else {
-    console.log(`HTTPS address: ${httpsApiAddress}\n`);
+    httpApiAddress = urls.find((url) => url.startsWith("http:")) ?? "";
+    httpsApiAddress = urls.find((url) => url.startsWith("https:")) ?? "";
+
+    if (httpApiAddress != "") {
+      console.log(`\nHTTP address: ${httpApiAddress}`);
+    } else {
+      console.log(`HTTPS address: ${httpsApiAddress}\n`);
+    }
   }
-}
+};
+
+getServersURLs();
 
 const fetchSwaggerJson = async () => {
   try {
@@ -58,28 +64,42 @@ const fetchSwaggerJson = async () => {
 };
 
 const swaggerJsonContent = await fetchSwaggerJson();
-const schemasList = swaggerJsonContent.components.schemas; //this path here is always the same so can be hardcoded (in the latest versions of swagger)
-// const keys = Object.keys(schemasList);
 
-// const x = JSON.stringify(schemasList[keys[i]].properties, null, 2);
+const generateInterfaces = () => {
+  const schemasList = swaggerJsonContent.components.schemas; //this path here is always the same so can be hardcoded (in the latest versions of swagger)
+  const keys = Object.keys(schemasList); //main keys - faktura, fawiersz, podmiot
 
-// for (let i = 0; i < x.length; i++) {
-//   console.log(x[i]);
-// } HERE CONTINUE TOMORROW
+  for (let i = 0; i < keys.length; i++) {
+    //each iteration = new interface because of new keys[i] value
 
-/*
-1. 
+    const mainKey = keys[i]; //main key from main keys
+    const propertiesObjects = schemasList[mainKey].properties;
+    const objectsKeys = Object.keys(propertiesObjects);
 
+    console.log(`\n${mainKey}\n`);
 
+    for (let j = 0; j < objectsKeys.length; j++) {
+      const name = objectsKeys[j];
+      const type = dictionaryType[propertiesObjects[objectsKeys[j]].type];
+      const format = dictionaryFormat[propertiesObjects[objectsKeys[j]].format];
 
+      if (schemasList[mainKey].properties[name].items) {
+        //action on items list
+        const objRef = Object.values(
+          schemasList[mainKey].properties[name].items,
+        )[0];
+        const objRefName = objRef.substring(objRef.lastIndexOf("/") + 1);
+        console.log(`${name}: ${objRefName}`);
+      } else if (propertiesObjects[objectsKeys[j]]["$ref"]) {
+        //action on $ref
+        const objRef = propertiesObjects[objectsKeys[j]]["$ref"];
+        const objRefName = objRef.substring(objRef.lastIndexOf("/") + 1);
+        console.log(`${name}: ${objRefName}`);
+      } else {
+        console.log(`${name}: ${type}, ${format}`);
+      }
+    }
+  }
+};
 
-
-
-
-*/
-// IMPORTANT
-// wiersze: {
-//     type: 'array',
-//     items: { '$ref': '#/components/schemas/FaWiersz' },
-//     nullable: true
-//   }
+generateInterfaces();
