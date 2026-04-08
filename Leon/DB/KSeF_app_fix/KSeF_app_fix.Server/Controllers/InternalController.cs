@@ -31,10 +31,11 @@ namespace KSeF_app_fix.Server.Controllers
 
 
         }
-        [HttpGet]
-        public ActionResult<MyResponse> GetSchema()
+        [HttpGet("schema")]
+        [ProducesResponseType(typeof(MyResponse), 200)]
+        public IActionResult GetSchema()
         {
-            return Forbid();
+            return Ok();
         }
 
         //[HttpGet("status")]

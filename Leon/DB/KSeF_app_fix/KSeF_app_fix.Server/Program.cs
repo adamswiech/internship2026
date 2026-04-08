@@ -51,6 +51,7 @@ builder.Services.AddDbContext<KsefContext>(options =>
 
 builder.Services.AddScoped<InvoiceMapper>();
 builder.Services.AddScoped<InvoiceService>();
+builder.Services.AddScoped<PartyService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -59,6 +60,7 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod()
               .AllowAnyHeader();
     });
+
 });
 
 
@@ -84,6 +86,7 @@ else
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
+app.UseCors("AllowFrontend");
 app.UseAuthorization();
 app.MapControllers();
 app.UseFileServer();

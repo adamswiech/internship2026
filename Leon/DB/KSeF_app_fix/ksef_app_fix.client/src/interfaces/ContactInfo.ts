@@ -2,6 +2,6 @@
 
 export interface ContactInfo {
     id: number;
-    email?: string | null;
-    phone?: string | null;
+    email: string | null;
+    phone: string | null;
 }

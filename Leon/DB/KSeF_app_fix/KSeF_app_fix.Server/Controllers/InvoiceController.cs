@@ -1,6 +1,7 @@
 ﻿using KSeF_app_fix.Server.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using KSeF_app_fix.Server.Models;
 
 
 namespace KSeF_app_fix.Server.Controllers
@@ -20,7 +21,7 @@ namespace KSeF_app_fix.Server.Controllers
 
         [HttpPost("upload")]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> UploadXml(IFormFile file)
+        public async Task<ActionResult<int>> UploadXml(IFormFile file)
         {
             if (file == null || file.Length == 0)
                 return BadRequest("No file uploaded");
@@ -40,7 +41,7 @@ namespace KSeF_app_fix.Server.Controllers
         }
 
         [HttpGet("GetInvoiceById={id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<ActionResult<Invoice>> GetById(int id)
         {
             var invoice = await _service.GetByIdAsync(id);
 
@@ -51,7 +52,7 @@ namespace KSeF_app_fix.Server.Controllers
         }
 
         [HttpGet("GetAllInvoices")]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult<List<Invoice>>> GetAll()
         {
             var invoices = await _service.GetAllInvoicesAsync();
             return Ok(invoices);
@@ -59,3 +60,7 @@ namespace KSeF_app_fix.Server.Controllers
 
     }
 }
+
+
+
+//TODO: Generate Api

@@ -8,26 +8,26 @@ import type { Terms } from "./Terms";
 
 export interface Invoice {
     id: number;
-    invoiceNumber?: string | null;
-    ksefNumber?: string | null;
-    issueDate: string;
-    deliveryDate: string;
-    issuePlace?: string | null;
-    currencyCode?: string | null;
+    invoiceNumber: string | null;
+    ksefNumber: string | null;
+    issueDate: Date;
+    deliveryDate: Date;
+    issuePlace: string | null;
+    currencyCode: string | null;
     currencyRate: number;
     sellerId: number;
     buyerId: number;
     seller: Party;
     buyer: Party;
-    otherParties: Party[];
-    lines: InvoiceLine[];
-    taxSummaries: TaxSummary[];
+    otherParties: Party[] | null;
+    lines: InvoiceLine[] | null;
+    taxSummaries: TaxSummary[] | null;
     payment: PaymentInfo;
     settlement: Settlement;
-    factorBankAccountId?: number | null;
+    factorBankAccountId: number | null;
     factorBankAccount: BankAccount;
-    sellerBankAccountId?: number | null;
+    sellerBankAccountId: number | null;
     sellerBankAccount: BankAccount;
     transactionTerms: Terms;
-    footerNote?: string | null;
+    footerNote: string | null;
 }

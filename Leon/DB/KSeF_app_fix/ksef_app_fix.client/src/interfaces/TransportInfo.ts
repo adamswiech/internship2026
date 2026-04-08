@@ -5,16 +5,16 @@ export interface TransportInfo {
     id: number;
     transportType: number;
     carrier: Carrier;
-    transportOrderNumber?: string | null;
+    transportOrderNumber: string | null;
     cargoDescription: number;
-    packagingUnit?: string | null;
-    startDate: string;
-    endDate: string;
-    shipFromId?: number | null;
+    packagingUnit: string | null;
+    startDate: Date;
+    endDate: Date;
+    shipFromId: number | null;
     shipFrom: Address;
-    shipViaID?: number | null;
+    shipViaID: number | null;
     shipVia: Address;
-    shipToID?: number | null;
+    shipToID: number | null;
     shipTo: Address;
     termsId: number;
 }

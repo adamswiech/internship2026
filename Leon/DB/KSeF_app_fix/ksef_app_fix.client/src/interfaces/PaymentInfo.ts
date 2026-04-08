@@ -4,8 +4,8 @@ export interface PaymentInfo {
     id: number;
     invoiceId: number;
     isPartial: boolean;
-    partialPayments: PartialPayment[];
-    paymentDueDate: string;
-    paymentTermsDescription?: string | null;
-    paymentMethod?: string | null;
+    partialPayments: PartialPayment[] | null;
+    paymentDueDate: Date;
+    paymentTermsDescription: string | null;
+    paymentMethod: string | null;
 }
