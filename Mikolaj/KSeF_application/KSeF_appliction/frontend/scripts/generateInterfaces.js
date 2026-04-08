@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import "dotenv/config";
 import { dictionaryType, dictionaryFormat } from "./dictionary.js";
-import { swaggerJsonContentAccess } from "./accessServer.js";
+import { accessSwaggerJsonContent } from "./accessServer.js";
 
 const INTERFACES_PATH = process.env.INTERFACES_PATH;
 
@@ -16,7 +16,7 @@ const deleteAllInterfaces = async () => {
 };
 
 await deleteAllInterfaces();
-const swaggerJsonContent = await swaggerJsonContentAccess;
+const swaggerJsonContent = await accessSwaggerJsonContent;
 
 const generateInterfaces = async () => {
   try {

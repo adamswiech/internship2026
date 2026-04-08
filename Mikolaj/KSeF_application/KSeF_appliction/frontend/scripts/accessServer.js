@@ -52,4 +52,4 @@ const fetchSwaggerJson = async () => {
 };
 
 getServersURLs();
-export const swaggerJsonContentAccess = await fetchSwaggerJson();
+export const accessSwaggerJsonContent = await fetchSwaggerJson();
