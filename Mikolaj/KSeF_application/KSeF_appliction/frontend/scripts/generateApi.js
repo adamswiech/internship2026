@@ -72,9 +72,11 @@ const generateApiFile = async () => {
       return [];
     }\n`;
 
-    if (!imports.includes(endpoint.tags)) {
-      console.log(endpoint.tags); //here's problem with duplicates of types to api.ts file (many imports of the same interface)
-      imports.push(endpoint.tags);
+    const typeName = endpoint.tags[0];
+
+    if (!imports.includes(typeName)) {
+      console.log(typeName); //here's problem with duplicates of types to api.ts file (many imports of the same interface)
+      imports.push(typeName);
     }
 
     i++;

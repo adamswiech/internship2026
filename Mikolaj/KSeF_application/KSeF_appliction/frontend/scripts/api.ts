@@ -7,4 +7,3 @@ public static async GetFaktury(): Promise<Faktura[]> {
     }
 }
 import type {Faktura} from "../src/interfaces/Faktura";
-import type {Faktura} from "../src/interfaces/Faktura";
