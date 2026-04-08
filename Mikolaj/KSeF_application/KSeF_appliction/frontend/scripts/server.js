@@ -38,7 +38,7 @@ const getServersURLs = () => {
     httpsApiAddress = urls.find((url) => url.startsWith("https:")) ?? "";
 
     if (httpApiAddress != "") {
-      console.log(`\nHTTP address: ${httpApiAddress}`);
+      console.log(`HTTP address: ${httpApiAddress}`);
     } else {
       console.log(`HTTPS address: ${httpsApiAddress}\n`);
     }
@@ -71,14 +71,12 @@ const generateInterfaces = async () => {
 
   for (let i = 0; i < keys.length; i++) {
     //each iteration = new interface because of new keys[i] value
-
-    ADD IMPORTS TO INTERFACE OF ANOTHER INTERFACE
+    let imports = [];
 
     const mainKey = keys[i]; //main key from main keys
     const propertiesObjects = schemasList[mainKey].properties;
     const objectsKeys = Object.keys(propertiesObjects);
 
-    console.log(`\n${mainKey}\n`);
     await fs.appendFile(
       `${INTERFACES_PATH}/${mainKey}.ts`,
       `export interface ${mainKey} {\n`,
@@ -92,7 +90,6 @@ const generateInterfaces = async () => {
 
       if (schemasList[mainKey].properties[name].items) {
         //action on items list
-
         const objRef = Object.values(
           schemasList[mainKey].properties[name].items,
         )[0];
@@ -100,10 +97,11 @@ const generateInterfaces = async () => {
 
         await fs.appendFile(
           `${INTERFACES_PATH}/${mainKey}.ts`,
-          `${name}: ${objRefName};\n`,
+          `${name}: ${objRefName}[];\n`,
           "utf8",
         );
-        // console.log(`${name}: ${objRefName}`);
+
+        if (!imports.includes(`${objRefName}`)) imports.push(`${objRefName}`);
       } else if (propertiesObjects[objectsKeys[j]]["$ref"]) {
         //action on $ref
         const objRef = propertiesObjects[objectsKeys[j]]["$ref"];
@@ -114,19 +112,29 @@ const generateInterfaces = async () => {
           `${name}: ${objRefName};\n`,
           "utf8",
         );
-        // console.log(`${name}: ${objRefName}`);
+
+        if (!imports.includes(`${objRefName}`)) imports.push(`${objRefName}`);
       } else {
         await fs.appendFile(
           `${INTERFACES_PATH}/${mainKey}.ts`,
           `${name}: ${type};\n`,
           "utf8",
         );
-        // console.log(`${name}: ${type}, ${format}`);
       }
     }
 
     await fs.appendFile(`${INTERFACES_PATH}/${mainKey}.ts`, `}\n`, "utf8");
+
+    for (let k = 0; k < imports.length; k++) {
+      await fs.appendFile(
+        `${INTERFACES_PATH}/${mainKey}.ts`,
+        `import type { ${imports[k]} } from "./${imports[k]}"; \n`,
+        "utf8",
+      );
+    }
   }
+
+  console.log("Interfaces automatically generated.");
 };
 
 generateInterfaces();
