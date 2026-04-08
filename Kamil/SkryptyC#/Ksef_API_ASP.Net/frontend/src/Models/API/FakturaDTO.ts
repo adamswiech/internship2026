@@ -1,5 +1,5 @@
-import { PodmiotDTO } from "./PodmiotDTO"; 
-import { FaWierszDTO } from "./FaWierszDTO"; 
+import type { PodmiotDTO } from "./PodmiotDTO"; 
+import type { FaWierszDTO } from "./FaWierszDTO"; 
 
 export interface FakturaDTO{
 	sprzedawca: PodmiotDTO,
@@ -13,5 +13,6 @@ export interface FakturaDTO{
 	kwotaPodatku: number,
 	kwotaPodatkuPLN: number,
 	kwotaNaloznosci: number,
-	faWiersze: FaWierszDTO[],
+	faWiersze?: FaWierszDTO[],
+	dodatkoweInformacje?: object,
 }

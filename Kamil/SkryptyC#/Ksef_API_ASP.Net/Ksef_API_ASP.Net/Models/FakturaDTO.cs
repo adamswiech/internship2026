@@ -16,6 +16,8 @@ namespace Ksef_API_ASP.Net.Models
         public required decimal KwotaPodatku { get; set; } 
         public required decimal KwotaPodatkuPLN { get; set; } 
         public required decimal KwotaNaloznosci { get; set; } 
-        public required List<FaWierszDTO> FaWiersze { get; set; }
+        public  List<FaWierszDTO> FaWiersze { get; set; }
+        public Dictionary<string, string> DodatkoweInformacje { get; set; }
+       
     }
 }

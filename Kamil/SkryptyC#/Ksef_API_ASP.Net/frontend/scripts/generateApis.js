@@ -56,8 +56,10 @@ async function deleteAllFilesInFolder(folderPath) {
         console.error('Error deleting files:', err);
     }
 }
-    //delet and create files of interfaces
-    deleteAllFilesInFolder(path.join(  'src','API'));  
+
+//delet and create files of ApiObjects
+deleteAllFilesInFolder(path.join(  'src','API'));  
+
 //sets apiBaseUrl
 await ( async () =>{
     const __filename = fileURLToPath(import.meta.url);
@@ -135,7 +137,18 @@ for(let endpoint in paths)
 
         break;
         case "post":
+            // if(paths[endpoint][method].requestBody)
             controllers[tag][endpointName]["requestBodyType"] = GetType(paths[endpoint][method].requestBody.content["application/json"].schema);
+            
+            // if(!paths[endpoint][method].parameters) break;
+
+            // controllers[tag][endpointName]["parameters"] = [];
+
+            // for(let i of paths[endpoint][method].parameters)
+            //     controllers[tag][endpointName]["parameters"].push({
+            //         name: i.name,
+            //         type: GetType(i.schema)
+            // })
         break;
     }
 
@@ -155,7 +168,6 @@ for(let controllerName in controllers)
 {
     const controller = controllers[controllerName];
     let methodsString = "";
-
     //setting methods string
     for(let methodName in controller){
         const method = controller[methodName];
@@ -171,16 +183,20 @@ for(let controllerName in controllers)
         try {
             const response  = await fetch('${httpsApiBase}/${controllerName}/${methodName}');
 
-            if (!response.ok) {
+            if (!response.ok) 
                 throw new Error("Network response was not ok: ` + "${response.status}" + `");
+
+            return await response.json() as ${method.responsType};
+        }catch (error) {
+            console.error('Error creating faktura:', error);
+            throw error; 
         }
 
-        return await response.json() as ${method.responsType};
-    } `;
+    }, `;
             break;
             case "post":
             methodString = `
-    createFaktura: async (data: ${method.requestBodyType}): Promise<${method.responsType}> => {
+    ${methodName}: async (data: ${method.requestBodyType}): Promise<${method.responsType}> => {
         try {
         const response = await fetch('${httpsApiBase}/${controllerName}/createFaktura', {
             method: 'POST',
@@ -190,14 +206,14 @@ for(let controllerName in controllers)
             body: JSON.stringify(data),
         });
 
-        if (!response.ok) {
+        if (!response.ok) 
             throw new Error('Network response was not ok: ` + "${response.status}" + `');
-        }
 
         return await response.json() as ${method.responsType};
-        } catch (error) {
-        console.error('Error creating faktura:', error);
-        throw error; 
+
+        }catch (error) {
+            console.error('Error creating faktura:', error);
+            throw error; 
         }
     },`
             break;
@@ -207,49 +223,51 @@ for(let controllerName in controllers)
     const importOb = {};
     const importList = [];
     for(let methodName in controller){
+        const FormatDataType = (e) => (e.endsWith("[]")? FormatDataType(e.slice(0, -2)) : e)
         const method = controller[methodName];
         if(method.requestBodyType)
-            importOb[method.requestBodyType] = 1;
+            importOb[FormatDataType(method.requestBodyType)] = 1;
         else
-            method.parameters.forEach(e => importOb[e.type] = 1);
+            method.parameters.forEach(e => importOb[FormatDataType(e.type)] = 1);
         if(method.responsType)
-            importOb[method.responsType] = 1;
+            importOb[FormatDataType(method.responsType)] = 1;
     }
+    //object -> list and filtering basic types
     for(let i in importOb)
     {
-        const FormatDataType = (e) => (e.endsWith("[]")? FormatDataType(e.slice(0, -2)) : e)
-        importList.push(FormatDataType(i));
+        let isBasickType = false;
+        for(let type in dictionaryType)
+            if(i === dictionaryType[type]) {isBasickType = true; break;}
+        if(!isBasickType)
+            importList.push(i);
     }
     
     const controllerString = `${importList.reduce((acc,curr) => acc + `import {${curr} } from '../Models/API/${curr}'\n`,'')}
 export const ${controllerName}Api = {
 ${methodsString}
 }`;
-        async function createAndWriteFile() {
-            
-            const filePath = path.join(           
-                'src',
-                'Models',
-                'API',
-                `${interfaceName}.ts`
-            );
-            
-            try {
+    async function createAndWriteFile() {
+        
+        const filePath = path.join(           
+            'src',
+            'API',
+            `${controllerName}Api.ts`
+        );
+        
+        try {
+            const dir = path.dirname(filePath);
+            await fs.mkdir(dir, { recursive: true });
 
-                const dir = path.dirname(filePath);
-                await fs.mkdir(dir, { recursive: true });
+            await fs.writeFile(filePath, controllerString, 'utf8');
 
-                await fs.writeFile(filePath, fileString, 'utf8');
-
-                console.log('File created successfully at:', filePath);
-            } catch (err) {
-                console.error('Error:', err);
-            }
+            console.log('File created successfully at:', filePath);
+        } catch (err) {
+            console.error('Error:', err);
         }
+    }
 
-        createAndWriteFile();
-            
-      
+    createAndWriteFile();
+                 
 }
 
 

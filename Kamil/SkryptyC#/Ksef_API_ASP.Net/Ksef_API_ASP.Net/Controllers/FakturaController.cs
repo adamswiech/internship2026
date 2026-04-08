@@ -4,6 +4,7 @@ using Ksef_ASP.net.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Text.Json;
+using System.Xml.Linq;
 
 namespace Ksef_ASP.net.Controllers;
 
@@ -11,13 +12,9 @@ namespace Ksef_ASP.net.Controllers;
 [Route("[controller]")]
 public class FakturaController : Controller
 {
-    [HttpPost]
-    public ActionResult<Faktura> Index(List<Faktura> f)
-    {
-        return f[0];
-    }
+
     [HttpGet("GetFaktura")]
-    public ActionResult<List<FakturaDTO>> GetFaktura(int a)
+    public ActionResult<List<FakturaDTO>> GetFaktura()
     {
         var sprzedawca = new Podmiot
         {
@@ -130,20 +127,21 @@ public class FakturaController : Controller
         }
         return fakturaListDTO;
     }
-    [HttpGet("GetPodmiot")]
-    public IActionResult GetPodmiot()
+
+    [HttpPost("InsertFakturaFromXml")]
+    public ActionResult<FakturaDTO> InsertFakturaFromXml([FromBody] string xml)
     {
-        return Json(new Podmiot
-        {
+        return NoContent();
+    }
+    [HttpGet("GetPodmiot")]
+    public ActionResult<Podmiot> GetPodmiot()
+    {
+        return new Podmiot(){
             Nip = "DE123456789",
             Nazwa = "German Client GmbH",
             KodKraju = "DE",
             AdresL1 = "Musterstrasse 10, 10115 Berlin"
-        }, new JsonSerializerOptions
-        {
-            WriteIndented = true,
-            PropertyNamingPolicy = null
-        }); ;
+        };
     }
 
     [HttpGet("GetIloscFaktur")]
