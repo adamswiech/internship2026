@@ -1,10 +1,18 @@
 import { accessSwaggerJsonContent } from "./accessServer.js";
 import fs from "node:fs/promises";
 const API_PATH = process.env.API_PATH;
-
 console.log("\x1b[32mgenerateApi.js\x1b[0m");
 
-const fetchApiEndpoints = async () => {
+const deleteAllDataFromApi= async () => {
+  try {
+    await fs.unlink(`${API_PATH}/api.ts`);
+  } catch {
+    console.log("Nothing to clear in api.ts\n");
+  }
+};
+await deleteAllDataFromApi();
+
+const fetchApiEndpointData = async () => {
   const swaggerJsonContent = await accessSwaggerJsonContent;
 
   if (!swaggerJsonContent || typeof swaggerJsonContent !== "object") {
@@ -24,41 +32,70 @@ const fetchApiEndpoints = async () => {
   for (const [path, methodsObj] of Object.entries(paths)) {
     for (const [method, operation] of Object.entries(methodsObj)) {
       if (operation && typeof operation === "object") {
-        dataList.push({ method: method, url: path });
+        const tags = Array.isArray(operation.tags) ? operation.tags : [];
+        dataList.push({
+          method: method,
+          url: path,
+          tags: tags,
+        });
       }
     }
   }
 
+  dataList.forEach((el) => {
+    console.log(
+      `{url: ${el.url}, method: ${el.method}, data-type: ${el.tags}}`,
+    );
+  });
+
   return dataList;
 }; //whole function works
 
-const apiEndpointsList = await fetchApiEndpoints();
+const apiEndpointsList = await fetchApiEndpointData();
 
 const generateApiFile = async () => {
+  let imports = [];
+
   await fs.appendFile(
     `${API_PATH}/api.ts`,
     `export default class Api {\n`,
     "utf8",
   );
-
-  // Fix 1: Use for...of loop (sequential, awaits each)
+  let i = 0;
   for (const endpoint of apiEndpointsList) {
-    const endpointURL = endpoint.url.substring(
+    const endpointName = endpoint.url.substring(
       endpoint.url.lastIndexOf("/") + 1,
     );
+    let methodCode = "";
 
-    const methodCode = `  public static async ${endpointURL}(): Promise<unknown> {
-    return {};
-  }\n`;
+    methodCode = `public static async ${endpointName}(): Promise<${apiEndpointsList[i].tags}[]> {
+      return [];
+    }\n`;
+
+    if (!imports.includes(endpoint.tags)) {
+      console.log(endpoint.tags); //here's problem with duplicates of types to api.ts file (many imports of the same interface)
+      imports.push(endpoint.tags);
+    }
+
+    i++;
 
     await fs.appendFile(`${API_PATH}/api.ts`, methodCode, "utf8");
   }
 
   await fs.appendFile(`${API_PATH}/api.ts`, `}\n`, "utf8");
+
+  for (let el of imports) {
+    await fs.appendFile(
+      `${API_PATH}/api.ts`,
+      `import type {${el}} from "../src/interfaces/${el}";\n`,
+      "utf8",
+    );
+  }
+
+  console.log("API methods have been generated!");
 };
 
 generateApiFile();
-
 
 //SCHEMA FROM JSON ABOUT ENDPOINTS - SAME AS INTERFACES SCHEMA -> GET TYPE FOR METHOD IN CLASS FROM HERE
 // "schema": {
