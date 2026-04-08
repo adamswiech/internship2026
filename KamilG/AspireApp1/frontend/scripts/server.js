@@ -1,6 +1,7 @@
 console.log('fmfmsflsmf server...');
 import fs from "node:fs/promises";
 import "dotenv/config";
+import { dictionaryType, dictionaryFormat } from "./dictionary.js";
 
 
 // Path to \AspireApp1.Server\Properties\launchSettings.json
@@ -35,9 +36,8 @@ const fetchSwaggerJSON = async () => {
     try {
         const call = await fetch(`${httpsAddress}/swagger/v1/swagger.json`);
         if (!call.ok) {
-            const error = await response.text();
+            const error = await call.text();
             return error
-            console.log("Kaput")
         }
         const result = await call.json();
         return result;
@@ -49,3 +49,14 @@ const fetchSwaggerJSON = async () => {
 }
 const swaggerJSON = await fetchSwaggerJSON();
 console.log(swaggerJSON);
+
+let interfacesList = [];
+const schemasList = swaggerJSON.components.schemas;
+let interafacesList = [];
+
+//const mapSwagger = (key, value) => {
+//    console.log(`key: ${key}, value ${value.type ?? value.$ref}`)
+//    const type = value.type ?? value.$ref;
+//    interfacesList.push({ key, type });
+//}
+//console.log(mapSwagger(key, value))

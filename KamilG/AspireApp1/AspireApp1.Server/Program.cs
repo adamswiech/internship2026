@@ -1,5 +1,9 @@
-using Microsoft.EntityFrameworkCore;
 using AspireApp1.Server.Data;
+using AspireApp1.Server.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +13,7 @@ builder.AddServiceDefaults();
 // Add services to the container.
 builder.Services.AddProblemDetails();
 builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
 
@@ -64,9 +69,18 @@ if (app.Environment.IsDevelopment())
     //        })
     //        .ToListAsync());
 }
-    app.MapDefaultEndpoints();
-    app.MapControllers();
+
+
+
+app.MapPost("/api/faktura", ([FromBody] faktura model) =>
+{
+    return Results.Ok(model);
+})
+.Produces<faktura>(StatusCodes.Status200OK);
+
+app.MapDefaultEndpoints();
+app.MapControllers();
 app.UseFileServer();
 
-    app.Run();
+app.Run();
 
