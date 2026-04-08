@@ -32,31 +32,77 @@ for (let i = 0; i < profileslength; i++) {
     console.log(`HTTPS Address: ${httpsAddress}`);
 }
 
-const fetchSwaggerJSON = async () => {
+
+const downloadSwagger = async () => {
     try {
-        const call = await fetch(`${httpsAddress}/swagger/v1/swagger.json`);
-        if (!call.ok) {
-            const error = await call.text();
-            return error
+        const data = await fetch(`${httpsAddress}/swagger/v1/swagger.json`);
+        if (!data.ok) {
+            throw new Error(`HTTP ${data.status} - ${await data.text()}`);
         }
-        const result = await call.json();
-        return result;
+        const dataText = await data.text();
+        const outputPath = "./swagger.json";
+        await fs.writeFile(outputPath, dataText, "utf-8");
+        console.log("plik saved");
+        return outputPath;
 
     }
     catch (error) {
-        return error.message;
+        console.error("Error fetching Swagger JSON:", error.message);
+        return null;
     }
+
+
 }
-const swaggerJSON = await fetchSwaggerJSON();
+
+//const fetchSwaggerJSON = async () => {
+//    try {
+//        const call = await fetch(`${httpsAddress}/swagger/v1/swagger.json`);
+//        if (!call.ok) {
+//            const error = await call.text();
+//            return error
+//        }
+//        const result = await call.json();
+//        return result;
+
+//    }
+//    catch (error) {
+//        return error.message;
+//    }
+//}
+//const swaggerJSON = await fetchSwaggerJSON();
+
+const swaggerFilePath = await downloadSwagger();
+if (!swaggerFilePath) {
+    throw new Error("Nie udało się pobrać pliku swagger.json");
+}
+
+const swaggerContent = await fs.readFile(swaggerFilePath, "utf-8");
+const swaggerJSON = JSON.parse(swaggerContent);
 console.log(swaggerJSON);
 
-let interfacesList = [];
-const schemasList = swaggerJSON.components.schemas;
-let interafacesList = [];
 
-//const mapSwagger = (key, value) => {
-//    console.log(`key: ${key}, value ${value.type ?? value.$ref}`)
-//    const type = value.type ?? value.$ref;
-//    interfacesList.push({ key, type });
-//}
-//console.log(mapSwagger(key, value))
+
+
+//let interfacesList = [];
+const schemasList = swaggerJSON.components.schemas;
+
+const mapSwagger = (key, value) => {
+    const type = value?.type ?? value?.$ref ?? "unknown";
+    console.log(`Key: ${key}, Type: ${type}`);
+    if (value?.properties) {
+        Object.keys(value.properties).forEach(subKey => mapSwagger(subKey, value.properties[subKey]))
+    }
+
+}
+
+
+const schemas = swaggerJSON.components?.schemas;
+if (schemas) {
+    Object.keys(schemas).forEach(schemaName => {
+        mapSwagger(schemaName, schemas[schemaName]);
+    })
+}
+const faWiersze = swaggerJSON.components?.schemas?.faWiersze;
+if (faWiersze) {
+    mapSwagger('faWiersze', faWiersze);
+}
