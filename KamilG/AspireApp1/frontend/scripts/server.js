@@ -96,13 +96,13 @@ const mapSwagger = (key, value) => {
 }
 
 
-const schemas = swaggerJSON.components?.schemas;
-if (schemas) {
-    Object.keys(schemas).forEach(schemaName => {
-        mapSwagger(schemaName, schemas[schemaName]);
-    })
-}
-const faWiersze = swaggerJSON.components?.schemas?.faWiersze;
-if (faWiersze) {
-    mapSwagger('faWiersze', faWiersze);
+//const schemas = swaggerJSON.components?.schemas;
+//if (schemas) {
+//    Object.keys(schemas).forEach(schemaName => {
+//        mapSwagger(schemaName, schemas[schemaName]);
+//    })
+//}
+const faWiersz = swaggerJSON.components?.schemas?.faWiersz;
+if (faWiersz) {
+    mapSwagger('faWiersz', faWiersz);
 }
