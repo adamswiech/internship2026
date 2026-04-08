@@ -1,4 +1,5 @@
 ﻿using AspireApp1.Server.Data;
+using AspireApp1.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,20 +18,21 @@ namespace AspireApp1.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [ProducesResponseType(typeof(List<faktura>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<List<faktura>>> GetAll()
             => Ok(await _dbContext.Faktura
-                .Select(f => new
+                .Select(f => new faktura
                 {
-                    f.id,
-                    f.podmiot1Id,
-                    f.podmiot2Id,
-                    f.kodWaluty,
-                    f.p_1,
-                    f.p_2,
-                    f.p_13_1,
-                    f.p_14_1,
-                    f.p_15,
-                    wierszeCount = f.wiersze.Count
+                    id = f.id,
+                    podmiot1Id = f.podmiot1Id,
+                    podmiot2Id = f.podmiot2Id,
+                    kodWaluty = f.kodWaluty,
+                    p_1 = f.p_1,
+                    p_2 = f.p_2,
+                    p_13_1 = f.p_13_1,
+                    p_14_1 = f.p_14_1,
+                    p_15 = f.p_15,
+                    wiersze = f.wiersze
                 })
                 .ToListAsync());
 

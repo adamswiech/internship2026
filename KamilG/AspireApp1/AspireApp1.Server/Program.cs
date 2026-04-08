@@ -72,11 +72,13 @@ if (app.Environment.IsDevelopment())
 
 
 
-app.MapPost("/api/faktura", ([FromBody] faktura model) =>
-{
-    return Results.Ok(model);
-})
-.Produces<faktura>(StatusCodes.Status200OK);
+// Minimal API poniżej - API bez użycia kontrolera
+
+//app.MapPost("/api/faktura", ([FromBody] faktura model) =>
+//{
+//    return Results.Ok(model);
+//})
+//.Produces<faktura>(StatusCodes.Status200OK);
 
 app.MapDefaultEndpoints();
 app.MapControllers();
