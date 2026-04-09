@@ -2,7 +2,7 @@
 
 export interface OrderInfo {
     id: number;
-    orderDate: Date;
+    orderDate: Date | null;
     orderNumber: string | null;
     termsId: number;
 }

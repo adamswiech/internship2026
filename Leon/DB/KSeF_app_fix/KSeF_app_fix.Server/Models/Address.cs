@@ -11,7 +11,7 @@ namespace KSeF_app_fix.Server.Models
         public string CountryCode { get; set; }
         public string Line1 { get; set; }
         public string? Line2 { get; set; }
-        public string GLN { get; set; }
+        public string? GLN { get; set; }
 
     }
 }

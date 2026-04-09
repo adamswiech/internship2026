@@ -84,9 +84,8 @@ else
 }
 
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseCors("AllowAll");
-app.UseCors("AllowFrontend");
 app.UseAuthorization();
 app.MapControllers();
 app.UseFileServer();

@@ -14,7 +14,7 @@ export interface Invoice {
     deliveryDate: Date;
     issuePlace: string | null;
     currencyCode: string | null;
-    currencyRate: number;
+    currencyRate: number | null;
     sellerId: number;
     buyerId: number;
     seller: Party;

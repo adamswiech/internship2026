@@ -2,7 +2,7 @@
 
 export interface Contract {
     id: number;
-    contractDate: Date;
+    contractDate: Date | null;
     contractNumber: string | null;
     termsId: number;
 }

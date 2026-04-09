@@ -12,12 +12,12 @@ namespace KSeF_app_fix.Server.Models
         public int InvoiceId { get; set; }
 
         public bool IsPartial { get; set; }
-        public List<PartialPayment> PartialPayments { get; set; } = new();
+        public List<PartialPayment>? PartialPayments { get; set; } = new();
 
-        public DateTime PaymentDueDate { get; set; }
-        public string PaymentTermsDescription { get; set; }
+        public DateTime? PaymentDueDate { get; set; }
+        public string? PaymentTermsDescription { get; set; }
 
-        public string PaymentMethod { get; set; } 
+        public string? PaymentMethod { get; set; } 
     }
     public class PartialPayment
     {

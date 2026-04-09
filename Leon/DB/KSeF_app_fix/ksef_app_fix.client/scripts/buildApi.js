@@ -78,26 +78,37 @@ async function genApi(endpoints, baseUrl) {
         const imports = new Set();
         let importsS = "";
 
+
         apiCodes[tag] += `export const ${tag}Con = {\n`;
 
         for (const ep of items) {
+            const { type: paramsType, usage: paramsUsage } = await getParams(ep.params);
+            const { type: bodyType, usage: bodyUsage, contentType } = await getRequestBody(ep.requestBody, imports);
             const fnName = await genName(ep.path);
             const responseType = await getResType(ep.responses, imports);
+            const args = [paramsType, bodyType].filter(Boolean).join(", ");
+
+            let url = ep.path.replace(/{(\w+)}/g, (_, key) => `\${${key}}`);
 
             apiCodes[tag] += `
-    ${fnName}: async (): Promise<${responseType}> => {
-        try {
-            const response = await fetch(\`${baseUrl}${ep.path}\`);
+            ${fnName}: async (${args}): Promise<${responseType}> => {
+                try {
+                    const response = await fetch(\`${baseUrl}${url}\`, {
+                        method: "${ep.method}",
+                        ${bodyUsage ? `
+                        body: ${contentType === "application/json" ? "JSON.stringify(body)" : "formData"},
+                        ` : ""}
+                    });
 
-            if (!response.ok)
-                throw new Error(\`Network response was not ok: \${response.status}\`);
+                    if (!response.ok)
+                        throw new Error(\`Network response was not ok: \${response.status}\`);
 
-            return await response.json() as ${responseType};
-        } catch (error) {
-            console.error("Error calling ${fnName}:", error);
-            throw error;
-        }
-    },\n`;
+                    return await response.json() as ${responseType};
+                } catch (error) {
+                    console.error("Error calling ${fnName}:", error);
+                    throw error;
+                }
+            },\n`;
         }
 
         apiCodes[tag] += `};\n\n`;
@@ -111,6 +122,72 @@ async function genApi(endpoints, baseUrl) {
     return apiCodes;
 
 }
+
+async function getParams(params = []) {
+    if (!params.length) {
+        return {
+            type: "",
+            usage: ""
+        };
+    }
+
+    const args = params.map(p => {
+        const name = p.name;
+        const schema = p.schema || {};
+        const tsType = csTypeToTS(schema);
+        const optional = !p.required;
+
+        return `${name}${optional ? "?" : ""}: ${tsType}`;
+    });
+
+    const usage = params.map(p => p.name).join(", ");
+
+    return {
+        type: `${args.join("; ")}`,
+        usage
+    };
+}
+async function getRequestBody(requestBody, imports) {
+    if (!requestBody) {
+        return {
+            type: "",
+            usage: "",
+            contentType: null
+        };
+    }
+
+    const content = requestBody.content || {};
+
+
+    if (content["application/json"]) {
+        const schema = content["application/json"].schema;
+
+        return {
+            type: `body: ${csTypeToTS(schema, imports).split(":")[0].split("}")[1]}`,
+            usage: "body",
+            contentType: "application/json"
+        };
+    }
+
+    if (content["multipart/form-data"]) {
+        const schema = content["multipart/form-data"].schema;
+
+        return {
+            type: `formData: FormData`,
+            usage: "formData",
+            contentType: "multipart/form-data"
+        };
+    }
+
+    return {
+        type: "",
+        usage: "",
+        contentType: null
+    };
+}
+
+
+
 
 async function getResType(responses, imports) {
     const OK = responses["200"] || responses["201"] || responses["202"] || responses["204"];

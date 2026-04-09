@@ -3,10 +3,10 @@ import type { Address } from "./Address";
 
 export interface TransportInfo {
     id: number;
-    transportType: number;
+    transportType: number | null;
     carrier: Carrier;
     transportOrderNumber: string | null;
-    cargoDescription: number;
+    cargoDescription: number | null;
     packagingUnit: string | null;
     startDate: Date;
     endDate: Date;

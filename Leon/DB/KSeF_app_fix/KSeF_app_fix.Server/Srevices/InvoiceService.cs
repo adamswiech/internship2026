@@ -13,7 +13,7 @@ public class InvoiceService
     public async Task<int> SaveInvoiceAsync(Invoice invoice)
     {
         _db.Invoices.Add(invoice);
-        await _db.SaveChangesAsync();
+            await _db.SaveChangesAsync();
         return invoice.Id;
     }
 

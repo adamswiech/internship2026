@@ -12,8 +12,8 @@ namespace KSeF_app_fix.Server.Models
 
         public int InvoiceId { get; set; }
 
-        public List<Charge> Charges { get; set; } = new();
-        public List<Deduction> Deductions { get; set; } = new();
+        public List<Charge>? Charges { get; set; } = new();
+        public List<Deduction>? Deductions { get; set; } = new();
 
         public decimal TotalToPay { get; set; }
     }
@@ -21,9 +21,9 @@ namespace KSeF_app_fix.Server.Models
     public class Charge
     {
         public int Id { get; set; }
-        public string Reason { get; set; }
-        public decimal Amount { get; set; }
-        public int SettlementId { get; set; }
+        public string? Reason { get; set; }
+        public decimal? Amount { get; set; }
+        public int? SettlementId { get; set; }
         public Settlement Settlement { get; set; }
 
     }
@@ -31,9 +31,9 @@ namespace KSeF_app_fix.Server.Models
     public class Deduction
     {
         public int Id { get; set; }
-        public string Reason { get; set; }
-        public decimal Amount { get; set; }
-        public int SettlementId { get; set; }
+        public string? Reason { get; set; }
+        public decimal? Amount { get; set; }
+        public int? SettlementId { get; set; }
         public Settlement Settlement { get; set; }
 
     }

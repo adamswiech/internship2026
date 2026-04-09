@@ -3,7 +3,7 @@ import type { Settlement } from "./Settlement";
 export interface Deduction {
     id: number;
     reason: string | null;
-    amount: number;
-    settlementId: number;
+    amount: number | null;
+    settlementId: number | null;
     settlement: Settlement;
 }
