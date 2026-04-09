@@ -1,9 +1,14 @@
 import { accessSwaggerJsonContent } from "./accessServer.js";
 import fs from "node:fs/promises";
-const API_PATH = process.env.API_PATH;
-console.log("\x1b[32mgenerateApi.js\x1b[0m");
+import { apiAddressesList } from "../scripts/accessServer.js";
 
-const deleteAllDataFromApi= async () => {
+const API_PATH = process.env.API_PATH;
+const HTTPS_URL = apiAddressesList.httpsApiAddress;
+
+console.log("\x1b[32mgenerateApi.js\x1b[0m");
+console.log("HTTPS_URL: ", HTTPS_URL);
+
+const deleteAllDataFromApi = async () => {
   try {
     await fs.unlink(`${API_PATH}/api.ts`);
   } catch {
@@ -31,22 +36,67 @@ const fetchApiEndpointData = async () => {
 
   for (const [path, methodsObj] of Object.entries(paths)) {
     for (const [method, operation] of Object.entries(methodsObj)) {
-      if (operation && typeof operation === "object") {
-        const tags = Array.isArray(operation.tags) ? operation.tags : [];
-        dataList.push({
-          method: method,
-          url: path,
-          tags: tags,
-        });
+      let hasRequestBody = false;
+      let requestBodyProperties = null;
+      let hasContent = false;
+      let returnType = "";
+      if (!operation || typeof operation !== "object") continue;
+
+      if (
+        operation.requestBody?.content?.["multipart/form-data"]?.schema
+          ?.properties
+      ) {
+        const fileProps =
+          operation.requestBody.content["multipart/form-data"].schema.properties
+            .file;
+
+        requestBodyProperties = {
+          type: fileProps.type,
+          format: fileProps.format,
+        };
       }
+
+      const successResponse =
+        operation.responses?.["200"] || operation.responses?.["201"];
+      if (successResponse?.content) {
+        hasContent = true;
+
+        const firstContentType = Object.keys(successResponse.content)[0];
+        const schema = successResponse.content[firstContentType]?.schema;
+
+        if (schema) {
+            console.log("123"); //code here is executed 
+            //ISSUE: where I even could find data type to return? 
+            
+          if (schema.type === "array" && schema.items?.$ref) {
+            const ref = schema.items.$ref;
+            returnType = ref.split("/").pop();
+            console.log(ref.split("/").pop());
+          } else if (schema.$ref) {
+            returnType = schema.$ref.split("/").pop();
+            console.log(schema.$ref.split("/").pop());
+            
+          } else if (schema.type) {
+            returnType = schema.type;
+            console.log(schema.type);
+            
+
+            if (schema.format) returnType += `(${schema.format})`; //CHECK THIS LINE
+          }
+        }
+      }
+
+      dataList.push({
+        method: method.toUpperCase(),
+        url: path,
+        tags: Array.isArray(operation.tags) ? operation.tags : [],
+        hasRequestBody: hasRequestBody,
+        requestBodyProperties: requestBodyProperties,
+        hasContent: hasContent,
+        returnType: returnType || "any"
+      });
     }
   }
-
-  dataList.forEach((el) => {
-    console.log(
-      `{url: ${el.url}, method: ${el.method}, data-type: ${el.tags}}`,
-    );
-  });
 
   return dataList;
 }; //whole function works
@@ -68,14 +118,48 @@ const generateApiFile = async () => {
     );
     let methodCode = "";
 
-    methodCode = `public static async ${endpointName}(): Promise<${apiEndpointsList[i].tags}[]> {
-      return [];
-    }\n`;
+    switch (endpoint.method) {
+      case "GET":
+        methodCode = `public static async ${endpointName}(): Promise<${apiEndpointsList[i].tags}[]> {
+        const response = await fetch("${HTTPS_URL}${endpoint.url}");
+        const jsonResponse: any[] = await response.json();
+
+        if (!response.ok) {
+            throw new Error("HTTP error! status:" + response.status);
+        }   
+            
+        return jsonResponse;        
+      
+      \n}\n`;
+        break;
+
+      case "POST":
+        methodCode = `public static async ${endpointName}(file:${endpoint.returnType}): Promise<${apiEndpointsList[i].tags}[]> {
+        const response = await fetch(
+            "${HTTPS_URL}${endpoint.url}", 
+            {
+                method: "${endpoint.method.toUpperCase()}",
+                body: file
+            }
+        );
+        const jsonResponse: any[] = await response.json();
+
+        if (!response.ok) {
+            throw new Error("HTTP error! status:" + response.status);
+        }   
+
+        
+
+        return [];        
+      
+      \n}\n`;
+        break;
+    }
 
     const typeName = endpoint.tags[0];
 
     if (!imports.includes(typeName)) {
-      console.log(typeName); //here's problem with duplicates of types to api.ts file (many imports of the same interface)
+      console.log(typeName);
       imports.push(typeName);
     }
 

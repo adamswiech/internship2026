@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import "dotenv/config";
 
-let apiAddressesList = { httpApiAddress: "", httpsApiAddress: "" };
+export let apiAddressesList = { httpApiAddress: "", httpsApiAddress: "" };
 const FILE_PATH = process.env.LAUNCH_SETTINGS_PATH;
 
 const readConfig = async () => {

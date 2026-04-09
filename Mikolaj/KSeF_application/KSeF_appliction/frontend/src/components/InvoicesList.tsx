@@ -35,22 +35,27 @@ export default function InvoicesList() {
     try {
       setStatus("Uploading...");
 
-      const response = await fetch(
-        "https://server-ksef_appliction.dev.localhost:7459/api/Faktura/AddXML",
-        {
-          method: "POST",
-          body: formData,
-        },
-      );
+      // const response = await fetch(
+      //   "https://server-ksef_appliction.dev.localhost:7459/api/Faktura/AddXML",
+      //   {
+      //     method: "POST",
+      //     body: formData,
+      //   },
+      // );
 
-      if (!response.ok) {
-        const error = await response.text();
-        setStatus(`Error: ${error}`);
-        return;
-      }
+      // if (!response.ok) {
+      //   const error = await response.text();
+      //   setStatus(`Error: ${error}`);
+      //   return;
+      // }
 
-      const result = await response.json();
-      setStatus(`Faktura created successfully! ID: ${result.id}`);
+      // const result = await response.json();
+      // setStatus(`Faktura created successfully! ID: ${result.id}`);
+
+      const result = await Api.AddXML(fileXML);
+      setStatus(result.id);
+
+
     } catch (err: any) {
       setStatus(`Network error: ${err.message}`);
     }
@@ -58,7 +63,7 @@ export default function InvoicesList() {
 
   useEffect(() => {
     const getInvoices = async () => {
-      const invoices = (await Api.GetFaktury()) as Faktura[];
+      const invoices = await Api.GetFaktury();
       setInvoicesArray(invoices);
 
       setFetchStatus(true);
