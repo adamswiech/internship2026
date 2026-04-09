@@ -76,24 +76,21 @@ if (!swaggerFilePath) {
     throw new Error("Nie udało się pobrać pliku swagger.json");
 }
 
-const swaggerContent = await fs.readFile(swaggerFilePath, "utf-8");
-const swaggerJSON = JSON.parse(swaggerContent);
-console.log(swaggerJSON);
+//const swaggerContent = await fs.readFile(swaggerFilePath, "utf-8");
+//const swaggerJSON = JSON.parse(swaggerContent);
+//console.log(swaggerJSON);
 
 
 
 
-//let interfacesList = [];
-const schemasList = swaggerJSON.components.schemas;
 
-const mapSwagger = (key, value) => {
-    const type = value?.type ?? value?.$ref ?? "unknown";
-    console.log(`Key: ${key}, Type: ${type}`);
-    if (value?.properties) {
-        Object.keys(value.properties).forEach(subKey => mapSwagger(subKey, value.properties[subKey]))
-    }
-
-}
+//const mapSwagger = (key, value) => {
+//    const type = value?.type ?? value?.$ref ?? "unknown";
+//    console.log(`Key: ${key}, Type: ${type}`);
+//    if (value?.properties) {
+//        Object.keys(value.properties).forEach(subKey => mapSwagger(subKey, value.properties[subKey]))
+//    }
+//}
 
 
 //const schemas = swaggerJSON.components?.schemas;
@@ -102,7 +99,7 @@ const mapSwagger = (key, value) => {
 //        mapSwagger(schemaName, schemas[schemaName]);
 //    })
 //}
-const faWiersz = swaggerJSON.components?.schemas?.faWiersz;
-if (faWiersz) {
-    mapSwagger('faWiersz', faWiersz);
-}
+//const faWiersz = swaggerJSON.components?.schemas?.faWiersz;
+//if (faWiersz) {
+//    mapSwagger('faWiersz', faWiersz);
+//}
