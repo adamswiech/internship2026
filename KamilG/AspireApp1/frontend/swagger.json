@@ -1,0 +1,251 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "AspireApp1.Server",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/Faktura": {
+      "get": {
+        "tags": [
+          "Faktura"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/faktura"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/faktura"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/faktura"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "faWiersz": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fakturaId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nrWiersza": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "p_7": {
+            "type": "string",
+            "nullable": true
+          },
+          "p_8A": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "p_8B": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "p_9A": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "p_11": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "p_12": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "kursWaluty": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "faktura": {
+            "$ref": "#/components/schemas/faktura"
+          }
+        },
+        "additionalProperties": false
+      },
+      "faktura": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "podmiot1Id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "podmiot2Id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "kodWaluty": {
+            "type": "string",
+            "nullable": true
+          },
+          "p_1": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "p_2": {
+            "type": "string",
+            "nullable": true
+          },
+          "p_6Od": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "p_6Do": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "p_13_1": {
+            "type": "number",
+            "format": "double"
+          },
+          "p_14_1": {
+            "type": "number",
+            "format": "double"
+          },
+          "p_14W": {
+            "type": "number",
+            "format": "double"
+          },
+          "p_15": {
+            "type": "number",
+            "format": "double"
+          },
+          "podmiot1": {
+            "$ref": "#/components/schemas/podmiot"
+          },
+          "podmiot2": {
+            "$ref": "#/components/schemas/podmiot"
+          },
+          "wiersze": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/faWiersz"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "podmiot": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "kodWaluty": {
+            "type": "string",
+            "nullable": true
+          },
+          "p_1": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "p_2": {
+            "type": "string",
+            "nullable": true
+          },
+          "p_6Od": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "p_6Do": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "p_13_1": {
+            "type": "number",
+            "format": "double"
+          },
+          "p_14_1": {
+            "type": "number",
+            "format": "double"
+          },
+          "p_14W": {
+            "type": "number",
+            "format": "double"
+          },
+          "p_15": {
+            "type": "number",
+            "format": "double"
+          },
+          "podmiot1Id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "podmiot2Id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "podmiot1": {
+            "$ref": "#/components/schemas/podmiot"
+          },
+          "podmiot2": {
+            "$ref": "#/components/schemas/podmiot"
+          },
+          "wiersze": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/faWiersz"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Faktura"
+    }
+  ]
+}
