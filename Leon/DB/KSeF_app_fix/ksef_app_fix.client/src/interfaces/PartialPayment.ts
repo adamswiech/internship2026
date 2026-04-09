@@ -1,0 +1,10 @@
+import type { PaymentInfo } from "./PaymentInfo";
+
+export interface PartialPayment {
+    id: number;
+    date: Date;
+    amount: number;
+    method: string | null;
+    paymentInfo: PaymentInfo;
+    paymentInfoId: number;
+}

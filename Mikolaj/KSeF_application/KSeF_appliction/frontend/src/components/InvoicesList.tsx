@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
-import type { Faktura } from "../interfaces/Invoice";
+import type { Faktura } from "../interfaces/Faktura";
 import InvoiceTableRow from "./InvoiceTableRow";
+import Api from "../../scripts/api";
 
 export default function InvoicesList() {
   const [invoicesArray, setInvoicesArray] = useState<Faktura[]>([]);
   const [fileXML, setFileXML] = useState<File | null>(null);
   const [status, setStatus] = useState<string>("");
-
   const [fetchStatus, setFetchStatus] = useState<boolean>(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0];
+
+    // console.log(Api.getFaktura());
 
     if (selected && selected.name.endsWith(".xml")) {
       setFileXML(selected);
@@ -33,22 +35,27 @@ export default function InvoicesList() {
     try {
       setStatus("Uploading...");
 
-      const response = await fetch(
-        "https://server-ksef_appliction.dev.localhost:7459/api/Faktura/AddXML",
-        {
-          method: "POST",
-          body: formData,
-        },
-      );
+      // const response = await fetch(
+      //   "https://server-ksef_appliction.dev.localhost:7459/api/Faktura/AddXML",
+      //   {
+      //     method: "POST",
+      //     body: formData,
+      //   },
+      // );
 
-      if (!response.ok) {
-        const error = await response.text();
-        setStatus(`Error: ${error}`);
-        return;
-      }
+      // if (!response.ok) {
+      //   const error = await response.text();
+      //   setStatus(`Error: ${error}`);
+      //   return;
+      // }
 
-      const result = await response.json();
-      setStatus(`Faktura created successfully! ID: ${result.id}`);
+      // const result = await response.json();
+      // setStatus(`Faktura created successfully! ID: ${result.id}`);
+
+      const result = await Api.AddXML(fileXML);
+      setStatus(result.id);
+
+
     } catch (err: any) {
       setStatus(`Network error: ${err.message}`);
     }
@@ -56,18 +63,8 @@ export default function InvoicesList() {
 
   useEffect(() => {
     const getInvoices = async () => {
-      try {
-        const response = await fetch(
-          "https://server-ksef_appliction.dev.localhost:7459/api/Faktura/GetFaktury",
-        );
-        if (!response.ok) throw new Error(`Response status ${response.status}`);
-
-        const result = await response.json();
-
-        setInvoicesArray(result);
-      } catch (error) {
-        console.log(`Error: ${error}`);
-      }
+      const invoices = await Api.GetFaktury();
+      setInvoicesArray(invoices);
 
       setFetchStatus(true);
     };
@@ -87,15 +84,14 @@ export default function InvoicesList() {
 
       <div className="invoices-list-container-element">
         <h2>Wszystkie faktury</h2>
-        
 
-          {fetchStatus ? (
-            invoicesArray.map((item: Faktura) => (
-              <InvoiceTableRow key={item.id} item={item} />
-            ))
-          ) : (
-            <tr>Loading...</tr>
-          )}
+        {fetchStatus ? (
+          invoicesArray.map((item: Faktura) => (
+            <InvoiceTableRow key={item.id} item={item} />
+          ))
+        ) : (
+          <h3>Loading...</h3>
+        )}
       </div>
     </div>
   );

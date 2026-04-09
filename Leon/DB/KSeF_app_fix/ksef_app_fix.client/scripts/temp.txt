@@ -1,0 +1,250 @@
+schemas: {
+  Address: {
+    type: 'object',
+    properties: {
+      id: [Object],
+      countryCode: [Object],
+      line1: [Object],
+      line2: [Object],
+      gln: [Object]
+    },
+    additionalProperties: false
+  },
+  BankAccount: {
+    type: 'object',
+    properties: {
+      id: [Object],
+      fullNumber: [Object],
+      swift: [Object],
+      bankName: [Object],
+      description: [Object],
+      isBankOwnAccount: [Object]
+    },
+    additionalProperties: false
+  },
+  Carrier: {
+    type: 'object',
+    properties: {
+      id: [Object],
+      countryCode: [Object],
+      taxId: [Object],
+      name: [Object],
+      addressId: [Object],
+      address: [Object]
+    },
+    additionalProperties: false
+  },
+  Charge: {
+    type: 'object',
+    properties: {
+      id: [Object],
+      reason: [Object],
+      amount: [Object],
+      settlementId: [Object],
+      settlement: [Object]
+    },
+    additionalProperties: false
+  },
+  ContactInfo: {
+    type: 'object',
+    properties: { id: [Object], email: [Object], phone: [Object] },
+    additionalProperties: false
+  },
+  Contract: {
+    type: 'object',
+    properties: {
+      id: [Object],
+      contractDate: [Object],
+      contractNumber: [Object],
+      termsId: [Object]
+    },
+    additionalProperties: false
+  },
+  Deduction: {
+    type: 'object',
+    properties: {
+      id: [Object],
+      reason: [Object],
+      amount: [Object],
+      settlementId: [Object],
+      settlement: [Object]
+    },
+    additionalProperties: false
+  },
+  Invoice: {
+    type: 'object',
+    properties: {
+      id: [Object],
+      invoiceNumber: [Object],
+      ksefNumber: [Object],
+      issueDate: [Object],
+      deliveryDate: [Object],
+      issuePlace: [Object],
+      currencyCode: [Object],
+      currencyRate: [Object],
+      sellerId: [Object],
+      buyerId: [Object],
+      seller: [Object],
+      buyer: [Object],
+      otherParties: [Object],
+      lines: [Object],
+      taxSummaries: [Object],
+      payment: [Object],
+      settlement: [Object],
+      factorBankAccountId: [Object],
+      factorBankAccount: [Object],
+      sellerBankAccountId: [Object],
+      sellerBankAccount: [Object],
+      transactionTerms: [Object],
+      footerNote: [Object]
+    },
+    additionalProperties: false
+  },
+  InvoiceLine: {
+    type: 'object',
+    properties: {
+      id: [Object],
+      invoiceId: [Object],
+      name: [Object],
+      pricePerPiceNetto: [Object],
+      quantity: [Object],
+      unit: [Object],
+      taxRate: [Object],
+      priceTotalNetto: [Object],
+      taxValue: [Object]
+    },
+    additionalProperties: false
+  },
+  MyResponse: {
+    type: 'object',
+    properties: {
+      address: [Object],
+      bankAccount: [Object],
+      contactInfo: [Object],
+      invoice: [Object],
+      invoiceLine: [Object],
+      party: [Object],
+      paymentInfo: [Object],
+      partialPayment: [Object],
+      settlement: [Object],
+      charge: [Object],
+      deduction: [Object],
+      terms: [Object],
+      contract: [Object],
+      orderInfo: [Object],
+      transportInfo: [Object],
+      carrier: [Object]
+    },
+    additionalProperties: false
+  },
+  OrderInfo: {
+    type: 'object',
+    properties: {
+      id: [Object],
+      orderDate: [Object],
+      orderNumber: [Object],
+      termsId: [Object]
+    },
+    additionalProperties: false
+  },
+  PartialPayment: {
+    type: 'object',
+    properties: {
+      id: [Object],
+      date: [Object],
+      amount: [Object],
+      method: [Object],
+      paymentInfo: [Object],
+      paymentInfoId: [Object]
+    },
+    additionalProperties: false
+  },
+  Party: {
+    type: 'object',
+    properties: {
+      id: [Object],
+      role: [Object],
+      eori: [Object],
+      nip: [Object],
+      name: [Object],
+      mainAddressId: [Object],
+      mainAddress: [Object],
+      correspondenceAddressID: [Object],
+      correspondenceAddress: [Object],
+      contactInfoId: [Object],
+      contact: [Object],
+      customerNumber: [Object]
+    },
+    additionalProperties: false
+  },
+  PaymentInfo: {
+    type: 'object',
+    properties: {
+      id: [Object],
+      invoiceId: [Object],
+      isPartial: [Object],
+      partialPayments: [Object],
+      paymentDueDate: [Object],
+      paymentTermsDescription: [Object],
+      paymentMethod: [Object]
+    },
+    additionalProperties: false
+  },
+  Settlement: {
+    type: 'object',
+    properties: {
+      id: [Object],
+      invoiceId: [Object],
+      charges: [Object],
+      deductions: [Object],
+      totalToPay: [Object]
+    },
+    additionalProperties: false
+  },
+  TaxSummary: {
+    type: 'object',
+    properties: {
+      id: [Object],
+      invoiceId: [Object],
+      taxRate: [Object],
+      netto: [Object],
+      taxAmount: [Object],
+      brutto: [Object],
+      plnAmount: [Object]
+    },
+    additionalProperties: false
+  },
+  Terms: {
+    type: 'object',
+    properties: {
+      id: [Object],
+      invoiceId: [Object],
+      contract: [Object],
+      order: [Object],
+      deliveryTerms: [Object],
+      transport: [Object]
+    },
+    additionalProperties: false
+  },
+  TransportInfo: {
+    type: 'object',
+    properties: {
+      id: [Object],
+      transportType: [Object],
+      carrier: [Object],
+      transportOrderNumber: [Object],
+      cargoDescription: [Object],
+      packagingUnit: [Object],
+      startDate: [Object],
+      endDate: [Object],
+      shipFromId: [Object],
+      shipFrom: [Object],
+      shipViaID: [Object],
+      shipVia: [Object],
+      shipToID: [Object],
+      shipTo: [Object],
+      termsId: [Object]
+    },
+    additionalProperties: false
+  }
+}

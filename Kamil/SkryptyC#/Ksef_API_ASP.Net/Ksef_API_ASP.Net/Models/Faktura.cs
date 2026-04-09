@@ -4,12 +4,12 @@ using System.Text;
 
 namespace Ksef.Models
 {
-    internal class Faktura
+    public class Faktura
     {
         public int Id { get; set; }
 
-        public Podmiot Podmiot1 { get; set; } //sprzedawca
-        public Podmiot Podmiot2 { get; set; } //nabywca
+        public required Podmiot Podmiot1 { get; set; } //sprzedawca
+        public required Podmiot Podmiot2 { get; set; } //nabywca
         public string KodWaluty { get; set; }
         public DateTime P_1 { get; set; } // data wysłania
         public string P_2 { get; set; } // nr faktury
@@ -19,7 +19,8 @@ namespace Ksef.Models
         public decimal P_14_1 { get; set; } // Kwota podatku
         public decimal P_14_W { get; set; } // kwota podatku PLN
         public decimal P_15 { get; set; } // kwota Kwota należności 
-
-        public List<FaWiersz> FaWiersze { get; set; }
+        public decimal  KursWaluty { get; set; }
+        public Dictionary<string, string> DodatkoweInformacje { get; set; }
+        public required List<FaWiersz> FaWiersze { get; set; }
     }
 }
