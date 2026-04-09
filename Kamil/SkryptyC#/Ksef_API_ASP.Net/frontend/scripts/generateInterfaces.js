@@ -5,7 +5,7 @@ import {dictionaryType, dictionaryFormat} from './dictionary.js';
 import path from 'node:path'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
-
+import { loadJSON } from './loadJSON.js'
 
 console.log("---------------------------------------------------------------");
 
@@ -46,15 +46,6 @@ async function deleteAllFilesInFolder(folderPath) {
     }
 }
 
-async function loadJSON(filename) {
-    try {
-        const data = await fs.readFile(filename, 'utf8');
-        return JSON.parse(data);
-    } catch (error) {
-        console.error('Error reading JSON file:', error.message);
-        throw error;
-    }
-}
 
 // Load Swagger/OpenAPI data
 async function loadSwaggerData() {

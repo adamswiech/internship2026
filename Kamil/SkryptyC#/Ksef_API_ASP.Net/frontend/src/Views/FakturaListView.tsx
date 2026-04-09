@@ -6,8 +6,11 @@ import { FakturaDTO } from "../Models/API/FakturaDTO";
 const FakturaListView = ()=>{
   const [data, setData] = useState<FakturaDTO[]>([]);
   const [loading, setLoading] = useState(true);
-  FakturaApi.GetFaktura()
-    .then(e => setData(e));
+  useEffect(()=>{
+    FakturaApi.GetFaktura()
+      .then(e => {setData(e);setLoading(false);});
+
+  },[]);
 
 
   useEffect(() => {

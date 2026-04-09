@@ -19,10 +19,12 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "cp ../.env .copy.env && react-scripts start",
-    "kbuild": "node ./scripts/generateInterfaces.js",
+    "start": "node ./scripts/copyEnv.js && react-scripts start",
+    "ginter": "node ./scripts/generateInterfaces.js",
     "gapi": "node ./scripts/generateApis.js",
+    "copyEnv": "node ./scripts/copyEnv.js",
     "build": "react-scripts build",
+    "myBuild": "npm run copyEnv && npm run ginter && npm run gapi",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

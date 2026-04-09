@@ -5,10 +5,10 @@ export const FakturaApi = {
 
     GetFaktura: async () : Promise<FakturaDTO[]> => {
         try {
-            const response  = await fetch(`http://localhost:${process.env.PORTAPI}/Faktura/GetFaktura`);
+            const response  = await fetch(`https://${process.env.REACT_APP_HOSTAPI}:${process.env.REACT_APP_PORTAPI}/Faktura/GetFaktura?`);
 
             if (!response.ok) 
-                throw new Error("Network response was not ok: ${response.status}");
+                throw new Error(`Network response was not ok: ${response.status}`);
 
             return await response.json() as FakturaDTO[];
         }catch (error) {
@@ -19,7 +19,7 @@ export const FakturaApi = {
     }, 
     InsertFakturaFromXml: async (data: string): Promise<FakturaDTO> => {
         try {
-        const response = await fetch('http://localhost:5058/Faktura/createFaktura', {
+        const response = await fetch(`https://${process.env.REACT_APP_HOSTAPI}:${process.env.REACT_APP_PORTAPI}/Faktura/InsertFakturaFromXml`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ export const FakturaApi = {
         });
 
         if (!response.ok) 
-            throw new Error('Network response was not ok: ${response.status}');
+            throw new Error(`Network response was not ok: ${response.status}`);
 
         return await response.json() as FakturaDTO;
 
@@ -39,10 +39,10 @@ export const FakturaApi = {
     },
     GetPodmiot: async () : Promise<Podmiot> => {
         try {
-            const response  = await fetch('http://localhost:5058/Faktura/GetPodmiot');
+            const response  = await fetch(`https://${process.env.REACT_APP_HOSTAPI}:${process.env.REACT_APP_PORTAPI}/Faktura/GetPodmiot?`);
 
             if (!response.ok) 
-                throw new Error("Network response was not ok: ${response.status}");
+                throw new Error(`Network response was not ok: ${response.status}`);
 
             return await response.json() as Podmiot;
         }catch (error) {
@@ -53,10 +53,10 @@ export const FakturaApi = {
     }, 
     GetIloscFaktur: async () : Promise<number> => {
         try {
-            const response  = await fetch('http://localhost:5058/Faktura/GetIloscFaktur');
+            const response  = await fetch(`https://${process.env.REACT_APP_HOSTAPI}:${process.env.REACT_APP_PORTAPI}/Faktura/GetIloscFaktur?`);
 
             if (!response.ok) 
-                throw new Error("Network response was not ok: ${response.status}");
+                throw new Error(`Network response was not ok: ${response.status}`);
 
             return await response.json() as number;
         }catch (error) {
@@ -67,10 +67,10 @@ export const FakturaApi = {
     }, 
     GetCzyIstniejeFaktura: async () : Promise<boolean> => {
         try {
-            const response  = await fetch('http://localhost:5058/Faktura/GetCzyIstniejeFaktura');
+            const response  = await fetch(`https://${process.env.REACT_APP_HOSTAPI}:${process.env.REACT_APP_PORTAPI}/Faktura/GetCzyIstniejeFaktura?`);
 
             if (!response.ok) 
-                throw new Error("Network response was not ok: ${response.status}");
+                throw new Error(`Network response was not ok: ${response.status}`);
 
             return await response.json() as boolean;
         }catch (error) {

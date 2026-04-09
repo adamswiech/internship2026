@@ -5,10 +5,10 @@ export const TestApi = {
 
     Test: async () : Promise<undefined> => {
         try {
-            const response  = await fetch('http://localhost:5058/Test/Test');
+            const response  = await fetch(`https://${process.env.REACT_APP_HOSTAPI}:${process.env.REACT_APP_PORTAPI}/Test/Test?`);
 
             if (!response.ok) 
-                throw new Error("Network response was not ok: ${response.status}");
+                throw new Error(`Network response was not ok: ${response.status}`);
 
             return await response.json() as undefined;
         }catch (error) {
@@ -19,10 +19,10 @@ export const TestApi = {
     }, 
     GetTest: async () : Promise<FakturaDTO[]> => {
         try {
-            const response  = await fetch('http://localhost:5058/Test/GetTest');
+            const response  = await fetch(`https://${process.env.REACT_APP_HOSTAPI}:${process.env.REACT_APP_PORTAPI}/Test/GetTest?`);
 
             if (!response.ok) 
-                throw new Error("Network response was not ok: ${response.status}");
+                throw new Error(`Network response was not ok: ${response.status}`);
 
             return await response.json() as FakturaDTO[];
         }catch (error) {
@@ -33,10 +33,10 @@ export const TestApi = {
     }, 
     GetPodmiot: async () : Promise<PodmiotDTO> => {
         try {
-            const response  = await fetch('http://localhost:5058/Test/GetPodmiot');
+            const response  = await fetch(`https://${process.env.REACT_APP_HOSTAPI}:${process.env.REACT_APP_PORTAPI}/Test/GetPodmiot?`);
 
             if (!response.ok) 
-                throw new Error("Network response was not ok: ${response.status}");
+                throw new Error(`Network response was not ok: ${response.status}`);
 
             return await response.json() as PodmiotDTO;
         }catch (error) {

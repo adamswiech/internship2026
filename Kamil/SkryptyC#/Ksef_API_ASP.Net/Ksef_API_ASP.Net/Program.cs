@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using Sprache;
 using Swashbuckle.AspNetCore.Swagger;
 
+
 UpdatePort();
 
 var builder = WebApplication.CreateBuilder(args);
@@ -52,7 +53,6 @@ app.Run();
 
 static void UpdatePort()
 {
-
     string envPath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory())!.FullName, ".env");
     DotNetEnv.Env.Load(envPath);
 
