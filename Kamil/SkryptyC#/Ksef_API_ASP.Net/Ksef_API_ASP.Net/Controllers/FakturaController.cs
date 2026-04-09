@@ -1,8 +1,10 @@
 using Ksef.Models;
+using Ksef_API_ASP.Net.Models;
 using Ksef_ASP.net.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Text.Json;
+using System.Xml.Linq;
 
 namespace Ksef_ASP.net.Controllers;
 
@@ -10,12 +12,9 @@ namespace Ksef_ASP.net.Controllers;
 [Route("[controller]")]
 public class FakturaController : Controller
 {
-    public IActionResult Index()
-    {
-        return Json(new object());
-    }
-    [Route("GetFaktura")]
-    public IActionResult GetFaktura()
+
+    [HttpGet("GetFaktura")]
+    public ActionResult<List<FakturaDTO>> GetFaktura()
     {
         var sprzedawca = new Podmiot
         {
@@ -79,33 +78,81 @@ public class FakturaController : Controller
         };
 
         var facturaList = new List<Faktura> { fakt1, fakt2 };
+        var fakturaListDTO = new List<FakturaDTO>();
 
-        return Json(facturaList, new JsonSerializerOptions
+        foreach (var f in facturaList)
         {
-            WriteIndented = true,
-            PropertyNamingPolicy = null
-        });
+            var newf = new FakturaDTO
+            {
+                Sprzedawca = new PodmiotDTO
+                {
+                    Nip = f.Podmiot1.Nip,
+                    Nazwa = f.Podmiot1.Nazwa,
+                    KodKraju = f.Podmiot1.KodKraju,
+                    AdresL1 = f.Podmiot1.AdresL1
+                },
+                Nabywca = new PodmiotDTO
+                {
+                    Nip = f.Podmiot2.Nip,
+                    Nazwa = f.Podmiot2.Nazwa,
+                    KodKraju = f.Podmiot2.KodKraju,
+                    AdresL1 = f.Podmiot2.AdresL1
+                },
+                KodWaluty = f.KodWaluty,
+                DataWyslania = f.P_1,
+                NrFaktury = f.P_2,
+                DataOd = f.P_6_Od,
+                DataDo = f.P_6_Do,
+                KwatoaNetto = f.P_13_1,
+                KwotaPodatku = f.P_14_1,
+                KwotaPodatkuPLN = f.P_14_W,
+                KwotaNaloznosci = f.P_15,
+                FaWiersze = new List<FaWierszDTO>()
+            };
+            foreach (var w in f.FaWiersze)
+            {
+                newf.FaWiersze.Add(new FaWierszDTO
+                {
+                    NrWiersza = w.NrWiersza,
+                    KursWaluty = w.KursWaluty,
+                    NazwaUslugi = w.P_7,
+                    Miara = w.P_8A,
+                    Ilosc = w.P_8B,
+                    CenaJednostkowa = w.P_9A,
+                    WartoscSprzedazyNetto = w.P_11,
+                    WartoscPodatkuVat = w.P_12
+                });
+            }
+            fakturaListDTO.Add(newf);
+        }
+        return fakturaListDTO;
     }
 
-    public IActionResult GetPodmiot()
+    [HttpPost("InsertFakturaFromXml")]
+    public ActionResult<FakturaDTO> InsertFakturaFromXml([FromBody] string xml)
     {
-        return Json(new Podmiot
-        {
+        return NoContent();
+    }
+    [HttpGet("GetPodmiot")]
+    public ActionResult<Podmiot> GetPodmiot()
+    {
+        return new Podmiot(){
             Nip = "DE123456789",
             Nazwa = "German Client GmbH",
             KodKraju = "DE",
             AdresL1 = "Musterstrasse 10, 10115 Berlin"
-        }, new JsonSerializerOptions
-        {
-            WriteIndented = true,
-            PropertyNamingPolicy = null
-        }); ;
+        };
     }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    [HttpGet("GetIloscFaktur")]
+    public ActionResult<int> GetIloscFaktur()
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        return 1;
     }
 
+    [HttpGet("GetCzyIstniejeFaktura")]
+    public ActionResult<bool> GetCzyIstniejeFaktura()
+    {
+        return false;
+    }
 }

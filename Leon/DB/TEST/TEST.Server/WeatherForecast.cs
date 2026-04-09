@@ -1,4 +1,4 @@
-namespace Ksef_API_ASP.Net
+namespace TEST.Server
 {
     public class WeatherForecast
     {

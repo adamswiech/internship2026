@@ -158,7 +158,7 @@
 
 using InsertRecord;
 
-Bulk.InsertPeople(10000000);
+Bulk.InsertPeople(5000000);
 
 
 

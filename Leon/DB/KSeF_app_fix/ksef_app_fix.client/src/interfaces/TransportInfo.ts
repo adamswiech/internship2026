@@ -1,0 +1,20 @@
+import type { Carrier } from "./Carrier";
+import type { Address } from "./Address";
+
+export interface TransportInfo {
+    id: number;
+    transportType: number | null;
+    carrier: Carrier;
+    transportOrderNumber: string | null;
+    cargoDescription: number | null;
+    packagingUnit: string | null;
+    startDate: Date;
+    endDate: Date;
+    shipFromId: number | null;
+    shipFrom: Address;
+    shipViaID: number | null;
+    shipVia: Address;
+    shipToID: number | null;
+    shipTo: Address;
+    termsId: number;
+}

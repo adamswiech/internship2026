@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Ksef_API_ASP.Net.Controllers
+namespace TEST.Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]
