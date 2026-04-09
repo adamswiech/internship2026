@@ -1,0 +1,6 @@
+@Ksef_API_ASP.Net_HostAddress = http://localhost:5058
+
+GET {{Ksef_API_ASP.Net_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

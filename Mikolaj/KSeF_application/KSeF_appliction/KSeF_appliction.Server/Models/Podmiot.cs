@@ -1,4 +1,4 @@
-﻿namespace KSeF.Models
+﻿namespace KSeF_appliction.Server.Models
 {
     public class Podmiot
     {
