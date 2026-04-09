@@ -52,10 +52,8 @@ export default function InvoicesList() {
       // const result = await response.json();
       // setStatus(`Faktura created successfully! ID: ${result.id}`);
 
-      const result = await Api.AddXML(fileXML);
+      const result = await Api.AddXML(formData);
       setStatus(result.id);
-
-
     } catch (err: any) {
       setStatus(`Network error: ${err.message}`);
     }

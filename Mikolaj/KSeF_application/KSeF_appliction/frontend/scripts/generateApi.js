@@ -1,6 +1,7 @@
 import { accessSwaggerJsonContent } from "./accessServer.js";
 import fs from "node:fs/promises";
 import { apiAddressesList } from "../scripts/accessServer.js";
+import { dictionaryType } from "./dictionary.js";
 
 const API_PATH = process.env.API_PATH;
 const HTTPS_URL = apiAddressesList.httpsApiAddress;
@@ -39,9 +40,26 @@ const fetchApiEndpointData = async () => {
       let hasRequestBody = false;
       let requestBodyProperties = null;
       let hasContent = false; //check if json has content in responses to recognize if it is GET or POST, true - get, false - post
-      let returnType = "";
+      let returnTypeFromRef = "";
+      let tags = null;
+      let args = [];
 
-      //let
+      let parameters = [];
+
+      if (Array.isArray(operation.parameters)) {
+        parameters = operation.parameters.map((param) => {
+          const schema = param.schema || {};
+
+          args.push({
+            name: param.name,
+            in: param.in,
+            type: schema.type || "string",
+            format: schema.format || null,
+            required: !!param.required,
+            description: param.description || "",
+          });
+        });
+      }
 
       if (!operation || typeof operation !== "object") continue;
 
@@ -68,21 +86,18 @@ const fetchApiEndpointData = async () => {
         const schema = successResponse.content[firstContentType]?.schema;
 
         if (schema) {
-          console.log("123"); //code here is executed
-          //ISSUE: where I even could find data type to return?
-
           if (schema.type === "array" && schema.items?.$ref) {
             const ref = schema.items.$ref;
-            returnType = ref.split("/").pop();
-            console.log(ref.split("/").pop());
+            //for arrays
+            returnTypeFromRef = `${ref.split("/").pop()}[]`;
           } else if (schema.$ref) {
-            returnType = schema.$ref.split("/").pop();
-            console.log(schema.$ref.split("/").pop());
+            //for single return
+            returnTypeFromRef = `${schema.$ref.split("/").pop()}`;
           } else if (schema.type) {
-            returnType = schema.type;
-            console.log(schema.type);
-
-            if (schema.format) returnType += `(${schema.format})`; //CHECK THIS LINE
+            returnTypeFromRef = schema.type;
+            if (schema.format) returnTypeFromRef += `(${schema.format})`; //CHECK THIS LINE
+          } else {
+            returnTypeFromRef = "any";
           }
         }
       }
@@ -92,10 +107,22 @@ const fetchApiEndpointData = async () => {
         url: path,
         tags: Array.isArray(operation.tags) ? operation.tags : [],
         hasRequestBody: hasRequestBody,
-        requestBodyProperties: requestBodyProperties,
+        requestBodyProperties: requestBodyProperties || null,
         hasContent: hasContent,
-        returnType: returnType || "any",
+        returnType: returnTypeFromRef || "any",
+        args: args,
       });
+
+      console.log(
+        `method:${method}, 
+        url: ${path}, 
+        tags: ${tags}, 
+        hasRequestBody: ${hasRequestBody},
+        format: ${requestBodyProperties != null ? requestBodyProperties.format : "null"}, 
+        type: ${requestBodyProperties != null ? requestBodyProperties.type : "null"}, 
+        hasContent: ${hasContent}, 
+        returnType: ${returnTypeFromRef == "any" ? "xyz" : returnTypeFromRef}`,
+      );
     }
   }
 
@@ -103,6 +130,14 @@ const fetchApiEndpointData = async () => {
 }; //whole function works
 
 const apiEndpointsList = await fetchApiEndpointData();
+
+// const printArgs = (args) => {
+//     let argsText = "";
+
+//     for(let el of args) {
+//         argsText += `${el}: any, `;
+//     }
+// }
 
 const generateApiFile = async () => {
   let imports = [];
@@ -119,11 +154,13 @@ const generateApiFile = async () => {
     );
     let methodCode = "";
 
+    methodCode = `public static async ${endpointName}(${endpoint.args.length > 0 ? (endpoint.args[0].name + `: ${dictionaryType[endpoint.args[0].type]}`) : ""}): Promise<${endpoint.returnType}> {`;
+
     switch (endpoint.method) {
       case "GET":
-        methodCode = `public static async ${endpointName}(): Promise<${apiEndpointsList[i].tags}[]> {
+        methodCode += `
         const response = await fetch("${HTTPS_URL}${endpoint.url}");
-        const jsonResponse: any[] = await response.json();
+        const jsonResponse: ${endpoint.returnType} = await response.json();
 
         if (!response.ok) {
             throw new Error("HTTP error! status:" + response.status);
@@ -131,26 +168,26 @@ const generateApiFile = async () => {
             
         return jsonResponse;        
       
-      \n}\n`;
+      \n}\n
+      `;
         break;
 
       case "POST":
-        methodCode = `public static async ${endpointName}(file:${endpoint.returnType}): Promise<${apiEndpointsList[i].tags}[]> {
-        const response = await fetch(
-            "${HTTPS_URL}${endpoint.url}", 
-            {
-                method: "${endpoint.method.toUpperCase()}",
-                body: file
+        methodCode += `
+            const response = await fetch(
+                "${HTTPS_URL}${endpoint.url}", 
+                {
+                    method: "${endpoint.method.toUpperCase()}",
+                    body: file
+                }
+            );
+            const jsonResponse: ${endpoint.returnType} = await response.json();
+
+            if (!response.ok) {
+                throw new Error("HTTP error! status:" + response.status);
             }
-        );
-        const jsonResponse: any[] = await response.json();
 
-        if (!response.ok) {
-            throw new Error("HTTP error! status:" + response.status);
-        }
-
-        return [];        
-      
+            return jsonResponse;        
       \n}\n`;
         break;
     }
