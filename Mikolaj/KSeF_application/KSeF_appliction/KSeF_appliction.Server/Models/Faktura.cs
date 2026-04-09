@@ -8,7 +8,7 @@
         public Podmiot podmiot1 { get; set; } //podmiot 1
         public Podmiot podmiot2 { get; set; } //podmiot 2
         public string Kod_waluty { get; set; } //kod waluty
-        public DateTime P_1 { get; set; }//data wystawienia
+        public DateTime? P_1 { get; set; }//data wystawienia
         public string P_2 { get; set; } //numer faktury
         public DateTime P_6_Od { get; set; } //od
         public DateTime P_6_Do { get; set; } //do
