@@ -43,8 +43,9 @@ const fetchApiEndpointData = async () => {
       let returnTypeFromRef = "";
       let tags = null;
       let args = [];
+      let parameters = []; //fix this XDDD
 
-      let parameters = [];
+      console.log(operation);
 
       if (Array.isArray(operation.parameters)) {
         parameters = operation.parameters.map((param) => {
@@ -59,6 +60,7 @@ const fetchApiEndpointData = async () => {
             description: param.description || "",
           });
         });
+      } else if (Array.isArray()) {
       }
 
       if (!operation || typeof operation !== "object") continue;
@@ -114,7 +116,7 @@ const fetchApiEndpointData = async () => {
       });
 
       console.log(
-        `method:${method}, 
+        `\nmethod:${method}, 
         url: ${path}, 
         tags: ${tags}, 
         hasRequestBody: ${hasRequestBody},
@@ -154,7 +156,9 @@ const generateApiFile = async () => {
     );
     let methodCode = "";
 
-methodCode = `public static async ${endpointName}(${endpoint.args.length > 0 ? (endpoint.args[0].name + `: ${dictionaryType[endpoint.args[0].type]}`) : ""}): Promise<${endpoint.returnType}> {`;
+    methodCode = `public static async ${endpointName}(${endpoint.requestBodyProperties != undefined 
+        ? `${"file"}:${endpoint.requestBodyProperties.type}` 
+        : endpoint.args.length > 0 ? endpoint.args[0].name + `: ${dictionaryType[endpoint.args[0].type]}` : ""}): Promise<${endpoint.returnType}> {`;
 
     switch (endpoint.method) {
       case "GET":
