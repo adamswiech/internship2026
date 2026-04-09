@@ -214,32 +214,30 @@ const generateApiFile = async () => {
         const jsonResponse: ${endpoint.returnType} = await response.json();
 
         if (!response.ok) {
-            throw new Error("HTTP error! status:" + response.status);
-        }   
-            
-        return jsonResponse;        
-      
-      \n}\n
-      `;
+            throw new Error("HTTP error! status: " + response.status);
+        }
+
+        return jsonResponse;
+        }`;
         break;
 
       case "POST":
         methodCode += `
-            const response = await fetch(
-                "${HTTPS_URL}${endpoint.url}", 
-                {
-                    method: "${endpoint.method.toUpperCase()}",
-                    body: file
-                }
-            );
-            const jsonResponse: ${endpoint.returnType} = await response.json();
-
-            if (!response.ok) {
-                throw new Error("HTTP error! status:" + response.status);
+        const response = await fetch(
+            "${HTTPS_URL}${endpoint.url}", 
+            {
+                method: "${endpoint.method.toUpperCase()}",
+                body: file
             }
+        );
+        const jsonResponse: ${endpoint.returnType} = await response.json();
 
-            return jsonResponse;        
-      \n}\n`;
+        if (!response.ok) {
+            throw new Error("HTTP error! status: " + response.status);
+        }
+
+        return jsonResponse;
+    }`;
         break;
     }
 
