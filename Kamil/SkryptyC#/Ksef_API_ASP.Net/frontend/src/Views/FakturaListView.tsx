@@ -9,7 +9,6 @@ const FakturaListView = ()=>{
   useEffect(()=>{
     FakturaApi.GetFaktura()
       .then(e => {setData(e);setLoading(false);});
-
   },[]);
 
 
