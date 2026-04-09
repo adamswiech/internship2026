@@ -154,7 +154,7 @@ const generateApiFile = async () => {
     );
     let methodCode = "";
 
-    methodCode = `public static async ${endpointName}(${endpoint.args.length > 0 ? (endpoint.args[0].name + `: ${dictionaryType[endpoint.args[0].type]}`) : ""}): Promise<${endpoint.returnType}> {`;
+methodCode = `public static async ${endpointName}(${endpoint.args.length > 0 ? (endpoint.args[0].name + `: ${dictionaryType[endpoint.args[0].type]}`) : ""}): Promise<${endpoint.returnType}> {`;
 
     switch (endpoint.method) {
       case "GET":
