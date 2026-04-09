@@ -18,6 +18,20 @@ const deleteAllDataFromApi = async () => {
 };
 await deleteAllDataFromApi();
 
+function mediaTypeToJsBodyType(mediaType) {
+  if (!mediaType || typeof mediaType !== "string") {
+    return "Json";
+  }
+
+  let type = mediaType.split("/").pop()?.trim() || "";
+  const parts = type.split(/[-+]/);
+  const pascalCase = parts
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+    .join("");
+
+  return pascalCase || "Raw";
+}
+
 const fetchApiEndpointData = async () => {
   const swaggerJsonContent = await accessSwaggerJsonContent;
 
@@ -37,7 +51,7 @@ const fetchApiEndpointData = async () => {
 
   for (const [path, methodsObj] of Object.entries(paths)) {
     for (const [method, operation] of Object.entries(methodsObj)) {
-      let hasRequestBody = false;
+      let hasRequestBody = false; //clear this hardcoded values
       let requestBodyProperties = null;
       let hasContent = false; //check if json has content in responses to recognize if it is GET or POST, true - get, false - post
       let returnTypeFromRef = "";
@@ -45,8 +59,7 @@ const fetchApiEndpointData = async () => {
       let args = [];
       let parameters = []; //fix this XDDD
 
-      console.log(operation);
-
+      //here you add arguments to method arguments in api.ts
       if (Array.isArray(operation.parameters)) {
         parameters = operation.parameters.map((param) => {
           const schema = param.schema || {};
@@ -60,23 +73,52 @@ const fetchApiEndpointData = async () => {
             description: param.description || "",
           });
         });
-      } else if (Array.isArray()) {
       }
 
       if (!operation || typeof operation !== "object") continue;
+      if (operation.requestBody?.content) {
+        const contentTypes = Object.keys(operation.requestBody.content);
 
-      if (
-        operation.requestBody?.content?.["multipart/form-data"]?.schema
-          ?.properties
-      ) {
-        const fileProps =
-          operation.requestBody.content["multipart/form-data"].schema.properties
-            .file;
+        if (contentTypes.length > 0) {
+          const mediaType =
+            contentTypes.find((ct) => ct.includes("multipart/form-data")) ||
+            contentTypes[0];
 
-        requestBodyProperties = {
-          type: fileProps.type,
-          format: fileProps.format,
-        };
+          const mediaTypeObject = operation.requestBody.content[mediaType];
+
+          if (mediaTypeObject?.schema?.properties) {
+            const properties = mediaTypeObject.schema.properties;
+
+            // Dynamically find the file/binary property
+            let fieldName = null;
+            let fileProps = null;
+
+            // First, look for a property with type: string + format: binary
+            for (const [propName, schema] of Object.entries(properties)) {
+              if (schema?.type === "string" && schema?.format === "binary") {
+                fieldName = propName;
+                fileProps = schema;
+                break;
+              }
+            }
+
+            // Fallback: if no binary field found, take the first property
+            if (!fieldName) {
+              fieldName = Object.keys(properties)[0];
+              fileProps = properties[fieldName];
+            }
+
+            // Now build the object
+            requestBodyProperties = {
+              name: fieldName, // ← "file" (or whatever the field is named)
+              type: fileProps?.type || "string",
+              format: fileProps?.format || "binary",
+              contentType: mediaTypeToJsBodyType(mediaType), // "FormData"
+              mediaType: mediaType, // original full media type (optional but useful)
+              isFileUpload: true,
+            };
+          }
+        }
       }
 
       const successResponse =
@@ -122,6 +164,7 @@ const fetchApiEndpointData = async () => {
         hasRequestBody: ${hasRequestBody},
         format: ${requestBodyProperties != null ? requestBodyProperties.format : "null"}, 
         type: ${requestBodyProperties != null ? requestBodyProperties.type : "null"}, 
+        fileName: ${requestBodyProperties != null ? requestBodyProperties.name : "null"}, 
         hasContent: ${hasContent}, 
         returnType: ${returnTypeFromRef == "any" ? "xyz" : returnTypeFromRef}`,
       );
@@ -156,9 +199,13 @@ const generateApiFile = async () => {
     );
     let methodCode = "";
 
-    methodCode = `public static async ${endpointName}(${endpoint.requestBodyProperties != undefined 
-        ? `${"file"}:${endpoint.requestBodyProperties.type}` 
-        : endpoint.args.length > 0 ? endpoint.args[0].name + `: ${dictionaryType[endpoint.args[0].type]}` : ""}): Promise<${endpoint.returnType}> {`;
+    methodCode = `public static async ${endpointName}(${
+      endpoint.requestBodyProperties != undefined
+        ? `${endpoint.requestBodyProperties.name}:${endpoint.requestBodyProperties.contentType}`
+        : endpoint.args.length > 0
+          ? endpoint.args[0].name + `: ${dictionaryType[endpoint.args[0].type]}`
+          : ""
+    }): Promise<${endpoint.returnType}> {`;
 
     switch (endpoint.method) {
       case "GET":
@@ -230,33 +277,3 @@ const generateApiFile = async () => {
 };
 
 generateApiFile();
-
-//SCHEMA FROM JSON ABOUT ENDPOINTS - SAME AS INTERFACES SCHEMA -> GET TYPE FOR METHOD IN CLASS FROM HERE
-// "schema": {
-//                 "type": "object",
-//                 "properties": {
-//                   "file": {
-//                     "type": "string",
-//                     "format": "binary"
-//                   }
-
-//EXAMPLE VIEW OF CLASS OF FIRST METHOD
-// import type { Faktura } from "../src/interfaces/Faktura";
-// export default class Api {
-//   public static async getFaktura(): Promise<Faktura[]> {
-//     const response = await fetch(
-//       "https://server-ksef_appliction.dev.localhost:7459/api/Faktura/GetFaktury",
-//     );
-//     const jsonResponse: any[] = await response.json();
-
-//     return jsonResponse.map(
-//       (item: any): Faktura => ({
-//         ...item,
-//         p_1: new Date(item.p_1),
-//         p_6_Od: new Date(item.p_6_Od),
-//         p_6_Do: new Date(item.p_6_Do),
-//         wiersze: item.wiersze,
-//       }),
-//     );
-//   }
-// }

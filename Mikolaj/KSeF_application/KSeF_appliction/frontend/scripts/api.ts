@@ -1,5 +1,5 @@
 export default class Api {
-public static async AddXML(file:string): Promise<any> {
+public static async AddXML(file:FormData): Promise<any> {
             const response = await fetch(
                 "https://localhost:7459/api/Faktura/AddXML", 
                 {
