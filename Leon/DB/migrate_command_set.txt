@@ -1,0 +1,5 @@
+dotnet ef database update 0
+dotnet ef migrations remove
+dotnet ef migrations add InitSync
+dotnet ef database update
+ 
