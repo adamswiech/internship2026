@@ -38,8 +38,11 @@ const fetchApiEndpointData = async () => {
     for (const [method, operation] of Object.entries(methodsObj)) {
       let hasRequestBody = false;
       let requestBodyProperties = null;
-      let hasContent = false;
+      let hasContent = false; //check if json has content in responses to recognize if it is GET or POST, true - get, false - post
       let returnType = "";
+
+      //let
+
       if (!operation || typeof operation !== "object") continue;
 
       if (
@@ -65,9 +68,9 @@ const fetchApiEndpointData = async () => {
         const schema = successResponse.content[firstContentType]?.schema;
 
         if (schema) {
-            console.log("123"); //code here is executed 
-            //ISSUE: where I even could find data type to return? 
-            
+          console.log("123"); //code here is executed
+          //ISSUE: where I even could find data type to return?
+
           if (schema.type === "array" && schema.items?.$ref) {
             const ref = schema.items.$ref;
             returnType = ref.split("/").pop();
@@ -75,11 +78,9 @@ const fetchApiEndpointData = async () => {
           } else if (schema.$ref) {
             returnType = schema.$ref.split("/").pop();
             console.log(schema.$ref.split("/").pop());
-            
           } else if (schema.type) {
             returnType = schema.type;
             console.log(schema.type);
-            
 
             if (schema.format) returnType += `(${schema.format})`; //CHECK THIS LINE
           }
@@ -93,7 +94,7 @@ const fetchApiEndpointData = async () => {
         hasRequestBody: hasRequestBody,
         requestBodyProperties: requestBodyProperties,
         hasContent: hasContent,
-        returnType: returnType || "any"
+        returnType: returnType || "any",
       });
     }
   }
@@ -146,15 +147,21 @@ const generateApiFile = async () => {
 
         if (!response.ok) {
             throw new Error("HTTP error! status:" + response.status);
-        }   
-
-        
+        }
 
         return [];        
       
       \n}\n`;
         break;
     }
+
+    //1. how to recognize that POST has to upload data to db and doesn't behave as GET? - Check if json has "content" in "responses"
+    //a. if has just go to $ref and take this last part after last / -> that is your type to return
+    //b. if has not - you know that this POST is uploading data.
+
+    //2. how to recognize if returned type should be array or sth else?
+    //a. if "content" > "text/plain" > "schema" > "type" = "array" set type as "$ref" value + [] (array of given type)
+    //b. if "content" doesn't have this "type":"array" just set type as "$ref" value
 
     const typeName = endpoint.tags[0];
 
