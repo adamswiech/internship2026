@@ -125,5 +125,23 @@ namespace KSeF_appliction.Server.Controllers
 
             return faktury;
         }
+
+
+        [HttpGet("GetFaktura")]
+        public ActionResult<Faktura> GetFaktura(int fakturaId)
+        {
+            var faktura = _db.Faktura
+                .Include(f => f.podmiot1)
+                .Include(f => f.podmiot2)
+                .Include(f => f.Wiersze)
+                .FirstOrDefault(f => f.Id == fakturaId);
+
+            if (faktura == null)
+            {
+                return NotFound($"Faktura with ID {fakturaId} not found.");
+            }
+
+            return faktura;
+        }
     }
 }
