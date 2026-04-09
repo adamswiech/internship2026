@@ -102,78 +102,26 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Podmiot"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Podmiot"
+                  }
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Podmiot"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Podmiot"
+                  }
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Podmiot"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/Faktura/GetIloscFaktur": {
-      "get": {
-        "tags": [
-          "Faktura"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "integer",
-                  "format": "int32"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "integer",
-                  "format": "int32"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "integer",
-                  "format": "int32"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/Faktura/GetCzyIstniejeFaktura": {
-      "get": {
-        "tags": [
-          "Faktura"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "boolean"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "boolean"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "boolean"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Podmiot"
+                  }
                 }
               }
             }
@@ -310,10 +258,6 @@
           "dataOd",
           "dataWyslania",
           "kodWaluty",
-          "kwatoaNetto",
-          "kwotaNaloznosci",
-          "kwotaPodatku",
-          "kwotaPodatkuPLN",
           "nabywca",
           "nrFaktury",
           "sprzedawca"
@@ -366,13 +310,6 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/FaWierszDTO"
-            },
-            "nullable": true
-          },
-          "dodatkoweInformacje": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "string"
             },
             "nullable": true
           }
