@@ -53,3 +53,39 @@ th {
 tr:nth-child(even) {
   background-color: lightgray;
 }
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  height: 50px;
+  padding: 10px 20px;
+  background-color: gray;
+}
+
+nav span {
+  display: flex;
+  gap: 10px;
+}
+
+nav div {
+  font-size: 20px;
+  color: red;
+  background-color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+
+nav span button {
+  border: none;
+  font-size: 15px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: .3s all;
+}
+
+nav span button:hover {
+  background-color: ghostwhite;
+}
