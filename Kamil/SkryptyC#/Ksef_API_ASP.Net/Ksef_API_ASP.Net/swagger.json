@@ -1,0 +1,382 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "Ksef_API_ASP.Net",
+    "version": "1.0"
+  },
+  "paths": {
+    "/Faktura/GetFaktura": {
+      "get": {
+        "tags": [
+          "Faktura"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FakturaDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FakturaDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FakturaDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Faktura/InsertFakturaFromXml": {
+      "post": {
+        "tags": [
+          "Faktura"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FakturaDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FakturaDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FakturaDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Faktura/GetPodmiot": {
+      "get": {
+        "tags": [
+          "Faktura"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Podmiot"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Podmiot"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Podmiot"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Test": {
+      "get": {
+        "tags": [
+          "Test"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Test/GetTest": {
+      "get": {
+        "tags": [
+          "Test"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FakturaDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FakturaDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FakturaDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Test/GetPodmiot": {
+      "get": {
+        "tags": [
+          "Test"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PodmiotDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PodmiotDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PodmiotDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "FaWierszDTO": {
+        "required": [
+          "nazwaUslugi"
+        ],
+        "type": "object",
+        "properties": {
+          "nrWiersza": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "kursWaluty": {
+            "type": "number",
+            "format": "double"
+          },
+          "nazwaUslugi": {
+            "type": "string",
+            "nullable": true
+          },
+          "miara": {
+            "type": "number",
+            "format": "double"
+          },
+          "ilosc": {
+            "type": "number",
+            "format": "double"
+          },
+          "cenaJednostkowa": {
+            "type": "number",
+            "format": "double"
+          },
+          "wartoscSprzedazyNetto": {
+            "type": "number",
+            "format": "double"
+          },
+          "wartoscPodatkuVat": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "FakturaDTO": {
+        "required": [
+          "dataDo",
+          "dataOd",
+          "dataWyslania",
+          "kodWaluty",
+          "nabywca",
+          "nrFaktury",
+          "sprzedawca"
+        ],
+        "type": "object",
+        "properties": {
+          "sprzedawca": {
+            "$ref": "#/components/schemas/PodmiotDTO"
+          },
+          "nabywca": {
+            "$ref": "#/components/schemas/PodmiotDTO"
+          },
+          "kodWaluty": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataWyslania": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "nrFaktury": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataOd": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dataDo": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "kwatoaNetto": {
+            "type": "number",
+            "format": "double"
+          },
+          "kwotaPodatku": {
+            "type": "number",
+            "format": "double"
+          },
+          "kwotaPodatkuPLN": {
+            "type": "number",
+            "format": "double"
+          },
+          "kwotaNaloznosci": {
+            "type": "number",
+            "format": "double"
+          },
+          "faWiersze": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FaWierszDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Podmiot": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nip": {
+            "type": "string",
+            "nullable": true
+          },
+          "nazwa": {
+            "type": "string",
+            "nullable": true
+          },
+          "kodKraju": {
+            "type": "string",
+            "nullable": true
+          },
+          "adresL1": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PodmiotDTO": {
+        "required": [
+          "adresL1",
+          "kodKraju",
+          "nip"
+        ],
+        "type": "object",
+        "properties": {
+          "nip": {
+            "type": "string",
+            "nullable": true
+          },
+          "nazwa": {
+            "type": "string",
+            "nullable": true
+          },
+          "kodKraju": {
+            "type": "string",
+            "nullable": true
+          },
+          "adresL1": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Faktura"
+    },
+    {
+      "name": "Test"
+    }
+  ]
+}

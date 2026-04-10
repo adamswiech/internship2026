@@ -4,7 +4,7 @@
     {
 
         public required string Nip { get; set; }
-        public required string Nazwa { get; set; }
+        public string Nazwa { get; set; }
         public required string KodKraju { get; set; }
         public required string AdresL1 { get; set; }
         

@@ -19,7 +19,7 @@ namespace Ksef.Models
         public decimal P_14_1 { get; set; } // Kwota podatku
         public decimal P_14_W { get; set; } // kwota podatku PLN
         public decimal P_15 { get; set; } // kwota Kwota należności 
-
+        public decimal  KursWaluty { get; set; }
         public required List<FaWiersz> FaWiersze { get; set; }
     }
 }

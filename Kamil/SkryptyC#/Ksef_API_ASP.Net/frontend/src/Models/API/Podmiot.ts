@@ -1,6 +1,8 @@
+
 export interface Podmiot{
-    Nip: string,
-    Nazwa: string,
-    KodKraju: string,
-    AdresL1: string
+	id: number,
+	nip?: string,
+	nazwa?: string,
+	kodKraju?: string,
+	adresL1?: string,
 }

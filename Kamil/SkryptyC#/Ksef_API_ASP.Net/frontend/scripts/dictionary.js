@@ -3,7 +3,8 @@ export const dictionaryType = {
     "string" : "string",
     "number" : "number",
     "integer" : "number",
-    "boolean": "boolean"
+    "boolean": "boolean",
+    "object": "object",
 };
 export const dictionaryFormat = {
     "date-time" : "Date",
