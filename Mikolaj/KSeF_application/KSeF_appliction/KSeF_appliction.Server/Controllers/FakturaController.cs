@@ -143,5 +143,11 @@ namespace KSeF_appliction.Server.Controllers
 
             return faktura;
         }
+
+        [HttpGet("GetPodmioty")]
+        public ActionResult<List<Podmiot>> GetPodmioty()
+        {
+            return _db.Podmiot.ToList();
+        }
     }
 }
