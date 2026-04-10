@@ -1,0 +1,906 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "KSeF_app_fix.Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "version": "1.0"
+  },
+  "paths": {
+    "/s/Internal/schema": {
+      "get": {
+        "tags": [
+          "Internal"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Invoice/upload": {
+      "post": {
+        "tags": [
+          "Invoice"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "file": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Invoice/GetInvoiceById={id}": {
+      "get": {
+        "tags": [
+          "Invoice"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Invoice"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Invoice"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Invoice"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Invoice/GetAllInvoices": {
+      "get": {
+        "tags": [
+          "Invoice"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Invoice"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Invoice"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Invoice"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Party/GetPartyById={id}": {
+      "get": {
+        "tags": [
+          "Party"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Party"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Party"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Party"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Address": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "countryCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "line1": {
+            "type": "string",
+            "nullable": true
+          },
+          "line2": {
+            "type": "string",
+            "nullable": true
+          },
+          "gln": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BankAccount": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fullNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "swift": {
+            "type": "string",
+            "nullable": true
+          },
+          "bankName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "isBankOwnAccount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Carrier": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "countryCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "taxId": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "addressId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Charge": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "settlementId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "settlement": {
+            "$ref": "#/components/schemas/Settlement"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ContactInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Contract": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "contractDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "contractNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "termsId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Deduction": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "settlementId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "settlement": {
+            "$ref": "#/components/schemas/Settlement"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Invoice": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "invoiceNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "ksefNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "issueDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "deliveryDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "issuePlace": {
+            "type": "string",
+            "nullable": true
+          },
+          "currencyCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "currencyRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "sellerId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "buyerId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "seller": {
+            "$ref": "#/components/schemas/Party"
+          },
+          "buyer": {
+            "$ref": "#/components/schemas/Party"
+          },
+          "otherParties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Party"
+            },
+            "nullable": true
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InvoiceLine"
+            },
+            "nullable": true
+          },
+          "taxSummaries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TaxSummary"
+            },
+            "nullable": true
+          },
+          "payment": {
+            "$ref": "#/components/schemas/PaymentInfo"
+          },
+          "settlement": {
+            "$ref": "#/components/schemas/Settlement"
+          },
+          "factorBankAccountId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "factorBankAccount": {
+            "$ref": "#/components/schemas/BankAccount"
+          },
+          "sellerBankAccountId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "sellerBankAccount": {
+            "$ref": "#/components/schemas/BankAccount"
+          },
+          "transactionTerms": {
+            "$ref": "#/components/schemas/Terms"
+          },
+          "footerNote": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InvoiceLine": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "invoiceId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "pricePerPiceNetto": {
+            "type": "number",
+            "format": "double"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unit": {
+            "type": "string",
+            "nullable": true
+          },
+          "taxRate": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "priceTotalNetto": {
+            "type": "string",
+            "nullable": true
+          },
+          "taxValue": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MyResponse": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "bankAccount": {
+            "$ref": "#/components/schemas/BankAccount"
+          },
+          "contactInfo": {
+            "$ref": "#/components/schemas/ContactInfo"
+          },
+          "invoice": {
+            "$ref": "#/components/schemas/Invoice"
+          },
+          "invoiceLine": {
+            "$ref": "#/components/schemas/InvoiceLine"
+          },
+          "party": {
+            "$ref": "#/components/schemas/Party"
+          },
+          "paymentInfo": {
+            "$ref": "#/components/schemas/PaymentInfo"
+          },
+          "partialPayment": {
+            "$ref": "#/components/schemas/PartialPayment"
+          },
+          "settlement": {
+            "$ref": "#/components/schemas/Settlement"
+          },
+          "charge": {
+            "$ref": "#/components/schemas/Charge"
+          },
+          "deduction": {
+            "$ref": "#/components/schemas/Deduction"
+          },
+          "terms": {
+            "$ref": "#/components/schemas/Terms"
+          },
+          "contract": {
+            "$ref": "#/components/schemas/Contract"
+          },
+          "orderInfo": {
+            "$ref": "#/components/schemas/OrderInfo"
+          },
+          "transportInfo": {
+            "$ref": "#/components/schemas/TransportInfo"
+          },
+          "carrier": {
+            "$ref": "#/components/schemas/Carrier"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "orderNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "termsId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PartialPayment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "method": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentInfo": {
+            "$ref": "#/components/schemas/PaymentInfo"
+          },
+          "paymentInfoId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Party": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "role": {
+            "type": "string",
+            "nullable": true
+          },
+          "eori": {
+            "type": "string",
+            "nullable": true
+          },
+          "nip": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "mainAddressId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "mainAddress": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "correspondenceAddressID": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "correspondenceAddress": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "contactInfoId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "contact": {
+            "$ref": "#/components/schemas/ContactInfo"
+          },
+          "customerNumber": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "invoiceId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPartial": {
+            "type": "boolean"
+          },
+          "partialPayments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PartialPayment"
+            },
+            "nullable": true
+          },
+          "paymentDueDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "paymentTermsDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentMethod": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Settlement": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "invoiceId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "charges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Charge"
+            },
+            "nullable": true
+          },
+          "deductions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Deduction"
+            },
+            "nullable": true
+          },
+          "totalToPay": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TaxSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "invoiceId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "taxRate": {
+            "type": "string",
+            "nullable": true
+          },
+          "netto": {
+            "type": "number",
+            "format": "double"
+          },
+          "taxAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "brutto": {
+            "type": "number",
+            "format": "double"
+          },
+          "plnAmount": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Terms": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "invoiceId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "contract": {
+            "$ref": "#/components/schemas/Contract"
+          },
+          "order": {
+            "$ref": "#/components/schemas/OrderInfo"
+          },
+          "deliveryTerms": {
+            "type": "string",
+            "nullable": true
+          },
+          "transport": {
+            "$ref": "#/components/schemas/TransportInfo"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransportInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "transportType": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "carrier": {
+            "$ref": "#/components/schemas/Carrier"
+          },
+          "transportOrderNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "cargoDescription": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "packagingUnit": {
+            "type": "string",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "shipFromId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "shipFrom": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "shipViaID": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "shipVia": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "shipToID": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "shipTo": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "termsId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Internal"
+    },
+    {
+      "name": "Invoice"
+    },
+    {
+      "name": "Party"
+    }
+  ]
+}
