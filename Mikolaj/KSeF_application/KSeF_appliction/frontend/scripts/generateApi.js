@@ -6,8 +6,7 @@ import { dictionaryType } from "./dictionary.js";
 const API_PATH = process.env.API_PATH;
 const HTTPS_URL = apiAddressesList.httpsApiAddress;
 
-console.log("\x1b[32mgenerateApi.js\x1b[0m");
-console.log("HTTPS_URL: ", HTTPS_URL);
+console.log("\x1b[32m> generateApi.js started...\x1b[0m");
 
 const deleteAllDataFromApi = async () => {
   try {
@@ -31,6 +30,8 @@ function mediaTypeToJsBodyType(mediaType) {
 
   return pascalCase || "Raw";
 }
+
+const importsList = [];
 
 const fetchApiEndpointData = async () => {
   const swaggerJsonContent = await accessSwaggerJsonContent;
@@ -63,7 +64,6 @@ const fetchApiEndpointData = async () => {
       if (Array.isArray(operation.parameters)) {
         parameters = operation.parameters.map((param) => {
           const schema = param.schema || {};
-
           args.push({
             name: param.name,
             in: param.in,
@@ -123,7 +123,7 @@ const fetchApiEndpointData = async () => {
 
       const successResponse =
         operation.responses?.["200"] || operation.responses?.["201"];
-    if (successResponse?.content) {
+      if (successResponse?.content) {
         hasContent = true;
 
         const firstContentType = Object.keys(successResponse.content)[0];
@@ -133,10 +133,16 @@ const fetchApiEndpointData = async () => {
           if (schema.type === "array" && schema.items?.$ref) {
             const ref = schema.items.$ref;
             //for arrays
+            let returnTypeFromRefNotArray = ref.split("/").pop();
             returnTypeFromRef = `${ref.split("/").pop()}[]`;
+
+            !importsList.includes(returnTypeFromRefNotArray) &&
+              importsList.push(returnTypeFromRefNotArray);
           } else if (schema.$ref) {
             //for single return
             returnTypeFromRef = `${schema.$ref.split("/").pop()}`;
+            !importsList.includes(returnTypeFromRef) &&
+              importsList.push(returnTypeFromRef);
           } else if (schema.type) {
             returnTypeFromRef = schema.type;
             if (schema.format) returnTypeFromRef += `(${schema.format})`; //CHECK THIS LINE
@@ -156,33 +162,28 @@ const fetchApiEndpointData = async () => {
         returnType: returnTypeFromRef || "any",
         args: args,
       });
-
-      console.log(
-        `\nmethod:${method}, 
-        url: ${path}, 
-        tags: ${tags}, 
-        hasRequestBody: ${hasRequestBody},
-        format: ${requestBodyProperties != null ? requestBodyProperties.format : "null"}, 
-        type: ${requestBodyProperties != null ? requestBodyProperties.type : "null"}, 
-        fileName: ${requestBodyProperties != null ? requestBodyProperties.name : "null"}, 
-        hasContent: ${hasContent}, 
-        returnType: ${returnTypeFromRef == "any" ? "xyz" : returnTypeFromRef}`,
-      );
     }
   }
   return dataList;
 }; //whole function works
 
 const apiEndpointsList = await fetchApiEndpointData();
-  
+
 export const generateApiFile = async () => {
-  let imports = [];
+  for (let importEl of importsList) {
+    await fs.appendFile(
+      `${API_PATH}/api.ts`,
+      `import type {${ importEl }} from "../src/interfaces/${importEl}";\n`,
+      "utf8",
+    );
+  }
 
   await fs.appendFile(
     `${API_PATH}/api.ts`,
-    `export default class Api {\n`,
+    `\nexport default class Api {\n`,
     "utf8",
   );
+
   let i = 0;
 
   for (const endpoint of apiEndpointsList) {
@@ -249,12 +250,13 @@ export const generateApiFile = async () => {
     //a. if "content" > "text/plain" > "schema" > "type" = "array" set type as "$ref" value + [] (array of given type)
     //b. if "content" doesn't have this "type":"array" just set type as "$ref" value
 
-    const typeName = endpoint.tags[0];
+    // const typeName = endpoint.tags[0];
+    // console.log(typeName);
 
-    if (!imports.includes(typeName)) {
-      console.log(typeName);
-      imports.push(typeName);
-    }
+    // if (!imports.includes(typeName)) {
+    // //   console.log(typeName);
+    //   imports.push(typeName);
+    // }
 
     i++;
 
@@ -263,13 +265,13 @@ export const generateApiFile = async () => {
 
   await fs.appendFile(`${API_PATH}/api.ts`, `}\n`, "utf8");
 
-  for (let el of imports) {
-    await fs.appendFile(
-      `${API_PATH}/api.ts`,
-      `import type {${el}} from "../src/interfaces/${el}";\n`,
-      "utf8",
-    );
-  }
+  //   for (let el of imports) {
+  //     await fs.appendFile(
+  //       `${API_PATH}/api.ts`,
+  //       `import type {${el}} from "../src/interfaces/${el}";\n`,
+  //       "utf8",
+  //     );
+  //   }
 
-  console.log("API methods have been generated!");
+  console.log("\x1b[32mAPI methods have been generated!\x1b[0m");
 };

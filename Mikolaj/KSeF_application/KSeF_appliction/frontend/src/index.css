@@ -2,15 +2,14 @@
   display: none !important;
 }
 
-
 .active {
-    color: green;
-    background-color: red;
+  color: green;
+  background-color: red;
 }
 
 .passive {
-    color: black;
-    background-color: #F0F0F0;
+  color: black;
+  background-color: #f0f0f0;
 }
 
 nav span button {
@@ -19,7 +18,7 @@ nav span button {
   padding: 5px 10px;
   border-radius: 10px;
   cursor: pointer;
-  transition: .3s all;
+  transition: 0.3s all;
 }
 
 nav span button:hover {

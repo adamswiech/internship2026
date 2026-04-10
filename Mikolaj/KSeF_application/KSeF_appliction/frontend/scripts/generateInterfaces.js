@@ -2,16 +2,21 @@ import fs from "node:fs/promises";
 import "dotenv/config";
 import { dictionaryType, dictionaryFormat } from "./dictionary.js";
 import { accessSwaggerJsonContent } from "./accessServer.js";
-
 const INTERFACES_PATH = process.env.INTERFACES_PATH;
+
+console.log("\x1b[32m> generateInterfaces.js started...\x1b[0m");
 
 const deleteAllInterfaces = async () => {
   try {
-    await fs.unlink(`${INTERFACES_PATH}/Podmiot.ts`);
-    await fs.unlink(`${INTERFACES_PATH}/FaWiersz.ts`);
-    await fs.unlink(`${INTERFACES_PATH}/Faktura.ts`);
-  } catch {
-    console.log("No interfaces to delete\n");
+    const files = await fs.readdir(INTERFACES_PATH);
+    for (const file of files) {
+      const filePath = `${INTERFACES_PATH}/${file}`;
+      await fs.unlink(filePath);
+    }
+
+    // console.log(`Deleted ${files.length} interface files`);
+  } catch (error) {
+    console.log("No interfaces to delete or directory doesn't exist\n");
   }
 };
 
@@ -44,10 +49,10 @@ export const generateInterfaces = async () => {
           dictionaryFormat[propertiesObjects[objectsKeys[j]].format];
 
         if (schemasList[mainKey].properties[name].items) {
-          //action on items list
           const objRef = Object.values(
             schemasList[mainKey].properties[name].items,
           )[0];
+
           const objRefName = objRef.substring(objRef.lastIndexOf("/") + 1);
 
           await fs.appendFile(
@@ -56,9 +61,8 @@ export const generateInterfaces = async () => {
             "utf8",
           );
 
-          if (!imports.includes(`${objRefName}`)) imports.push(`${objRefName}`);
+          !imports.includes(`${objRefName}`) && imports.push(`${objRefName}`);
         } else if (propertiesObjects[objectsKeys[j]]["$ref"]) {
-          //action on $ref
           const objRef = propertiesObjects[objectsKeys[j]]["$ref"];
           const objRefName = objRef.substring(objRef.lastIndexOf("/") + 1);
 
@@ -68,7 +72,7 @@ export const generateInterfaces = async () => {
             "utf8",
           );
 
-          if (!imports.includes(`${objRefName}`)) imports.push(`${objRefName}`);
+          !imports.includes(`${objRefName}`) && imports.push(`${objRefName}`);
         } else {
           await fs.appendFile(
             `${INTERFACES_PATH}/${mainKey}.ts`,
@@ -87,7 +91,7 @@ export const generateInterfaces = async () => {
         );
       });
     }
-    console.log("\x1b[32mInterfaces successfully generated.\x1b[0m");
+    console.log("\x1b[32mInterfaces have been generated!\x1b[0m");
   } catch (e) {
     console.log("\x1b[31mInterfaces generating error.\x1b[0m");
     console.log(`\x1b[31mError: ${e}\x1b[0m`);

@@ -1,3 +1,6 @@
+import type {Faktura} from "../src/interfaces/Faktura";
+import type {Podmiot} from "../src/interfaces/Podmiot";
+
 export default class Api {
 public static async AddXML(file:FormData): Promise<any> {
         const response = await fetch(
@@ -32,5 +35,13 @@ public static async AddXML(file:FormData): Promise<any> {
         }
 
         return jsonResponse;
+        }public static async GetPodmioty(): Promise<Podmiot[]> {
+        const response = await fetch(`https://localhost:7459/api/Faktura/GetPodmioty`);
+        const jsonResponse: Podmiot[] = await response.json();
+
+        if (!response.ok) {
+            throw new Error("HTTP error! status: " + response.status);
+        }
+
+        return jsonResponse;
         }}
-import type {Faktura} from "../src/interfaces/Faktura";

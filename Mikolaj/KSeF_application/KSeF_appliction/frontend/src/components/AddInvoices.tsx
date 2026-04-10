@@ -42,7 +42,6 @@ export default function AddInvoices() {
         <input type="file" accept=".xml" onChange={handleFileChange} />
         <button onClick={addInvoice}>Dodaj fakturę</button>
       </div>
-
       {status && <p>{status}</p>}
     </div>
   );

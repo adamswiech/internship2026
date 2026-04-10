@@ -4,6 +4,8 @@ import "dotenv/config";
 export let apiAddressesList = { httpApiAddress: "", httpsApiAddress: "" };
 const FILE_PATH = process.env.LAUNCH_SETTINGS_PATH;
 
+console.log("\x1b[32m> accessServer.js started...\x1b[0m");
+
 const readConfig = async () => {
   const content = await fs.readFile(FILE_PATH, "utf-8");
   return JSON.parse(content);
@@ -12,7 +14,6 @@ const readConfig = async () => {
 const config = await readConfig();
 
 const getServersURLs = () => {
-  //function to get from json from C# addresses of server
   const profiles = config.profiles;
   const profilesLen = Object.keys(profiles).length;
 
@@ -25,11 +26,11 @@ const getServersURLs = () => {
     apiAddressesList.httpsApiAddress =
       urls.find((url) => url.startsWith("https:")) ?? "";
 
-    if (apiAddressesList.httpApiAddress != "") {
-      console.log(`HTTP address: ${apiAddressesList.httpApiAddress}`);
-    } else {
-      console.log(`HTTPS address: ${apiAddressesList.httpsApiAddress}\n`);
-    }
+    // if (apiAddressesList.httpApiAddress != "") {
+    //   console.log(`HTTP address: ${apiAddressesList.httpApiAddress}`);
+    // } else {
+    //   console.log(`HTTPS address: ${apiAddressesList.httpsApiAddress}`);
+    // }
   }
 };
 

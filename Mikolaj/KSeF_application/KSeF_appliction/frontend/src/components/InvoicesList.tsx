@@ -5,12 +5,7 @@ import Api from "../../scripts/api";
 
 export default function InvoicesList() {
   const [invoicesArray, setInvoicesArray] = useState<Faktura[]>([]);
-
   const [fetchStatus, setFetchStatus] = useState<boolean>(false);
-
-  
-
-  
 
   useEffect(() => {
     const getInvoices = async () => {
@@ -21,15 +16,12 @@ export default function InvoicesList() {
     };
 
     getInvoices();
-  }, [status]);
+  }, [fetchStatus]);
 
   return (
     <div className="invoices-list-container">
-      
-
       <div className="invoices-list-container-element">
         <h2>Wszystkie faktury</h2>
-
         {fetchStatus ? (
           invoicesArray.map((item: Faktura) => (
             <InvoiceTableRow key={item.id} item={item} />
