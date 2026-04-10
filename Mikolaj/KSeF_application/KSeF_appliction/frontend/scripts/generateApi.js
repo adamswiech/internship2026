@@ -5,6 +5,7 @@ import { dictionaryType } from "./dictionary.js";
 
 const API_PATH = process.env.API_PATH;
 const HTTPS_URL = apiAddressesList.httpsApiAddress;
+const importsList = [];
 
 console.log("\x1b[32m> generateApi.js started...\x1b[0m");
 
@@ -30,8 +31,6 @@ function mediaTypeToJsBodyType(mediaType) {
 
   return pascalCase || "Raw";
 }
-
-const importsList = [];
 
 const fetchApiEndpointData = async () => {
   const swaggerJsonContent = await accessSwaggerJsonContent;

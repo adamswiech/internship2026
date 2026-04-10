@@ -25,18 +25,14 @@ const getServersURLs = () => {
       urls.find((url) => url.startsWith("http:")) ?? "";
     apiAddressesList.httpsApiAddress =
       urls.find((url) => url.startsWith("https:")) ?? "";
-
-    // if (apiAddressesList.httpApiAddress != "") {
-    //   console.log(`HTTP address: ${apiAddressesList.httpApiAddress}`);
-    // } else {
-    //   console.log(`HTTPS address: ${apiAddressesList.httpsApiAddress}`);
-    // }
   }
 };
 
 const fetchSwaggerJson = async () => {
   try {
-    const response = await fetch(`${apiAddressesList.httpsApiAddress}/swagger/v1/swagger.json`);
+    const response = await fetch(
+      `${apiAddressesList.httpsApiAddress}/swagger/v1/swagger.json`,
+    );
 
     if (!response.ok) {
       const error = await response.text();

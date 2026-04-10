@@ -13,8 +13,6 @@ const deleteAllInterfaces = async () => {
       const filePath = `${INTERFACES_PATH}/${file}`;
       await fs.unlink(filePath);
     }
-
-    // console.log(`Deleted ${files.length} interface files`);
   } catch (error) {
     console.log("No interfaces to delete or directory doesn't exist\n");
   }

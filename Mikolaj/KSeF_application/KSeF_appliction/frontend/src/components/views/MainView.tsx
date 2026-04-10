@@ -5,7 +5,7 @@ import Api from "../../../scripts/api";
 
 export default function MainView() {
   const [activeView, setActiveView] = useState<number>(0);
-  
+
   const handleChangeView = (id: number) => {
     setActiveView(id);
   };
