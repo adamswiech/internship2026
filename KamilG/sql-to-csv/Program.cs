@@ -9,7 +9,7 @@ internal class Program
     static void Main()
     {
         Connect();
-        Console.ReadKey();
+        //Console.ReadKey();
     }
 
     static void Connect()
@@ -22,7 +22,7 @@ internal class Program
 
         conn = new SqlConnection(constr);
 
-        //// to open the connection
+        //to open the connection
         conn.Open();
         Console.WriteLine("Connection Open!");
         string csvPath = @"C:\Users\VULCAN\Documents\repo\internship2026\KamilG\sql-to-csv\export.csv";

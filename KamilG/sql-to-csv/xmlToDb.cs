@@ -12,7 +12,6 @@ namespace sql_to_csv
         {
             var file = XDocument.Load(path);
             var qu = @"Insert into dane (firstname, lastname, city, email) values (@firstname, @lastname, @city, @email)";
-            //using var connection = new SqlConnection(conn);
             using var cmd = new SqlCommand(qu, conn);
             foreach (var user in file.Root.Elements("User"))
             {

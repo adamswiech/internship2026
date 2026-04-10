@@ -1,0 +1,1 @@
+bcp master.dbo.dane in "C:\Users\VULCAN\Documents\repo\internship2026\KamilG\sql-to-csv\export.csv" -S (localdb)\MSSQLLocalDB -T -c -t "," -F 2 -E -b 10000
