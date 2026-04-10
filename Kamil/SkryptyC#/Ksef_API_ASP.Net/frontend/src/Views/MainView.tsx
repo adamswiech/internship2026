@@ -1,6 +1,7 @@
 import { useState } from "react";
 import FakturaListView from "./FakturaListView";
-import SentFakturaView from "./SentFakturaView";
+
+import SendFakturaView from './SendFakturaView';
 
 const MainView = ()=>{
   const [view,setView] = useState(<FakturaListView/>);
@@ -9,7 +10,7 @@ const MainView = ()=>{
     <div>
       <nav>
         <button onClick={()=> setView(<FakturaListView/>)}>Faktury</button>
-        <button onClick={()=> setView(<SentFakturaView/>)}>Sent Faktura</button>
+        <button onClick={()=> setView(<SendFakturaView/>)}>send Faktura</button>
       </nav>
         {view}
     </div>

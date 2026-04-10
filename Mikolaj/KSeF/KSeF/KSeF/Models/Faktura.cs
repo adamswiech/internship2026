@@ -5,8 +5,8 @@
         public int Id { get; set; }
         public int Podmiot1Id { get; set; }
         public int Podmiot2Id { get; set; }
-        public Podmiot podmiot1 = new Podmiot(); //podmiot 1
-        public Podmiot podmiot2 = new Podmiot(); //podmiot 2
+        public Podmiot podmiot1 { get; set; } //podmiot 1
+        public Podmiot podmiot2 { get; set; } //podmiot 2
         public string Kod_waluty { get; set; } //kod waluty
         public DateTime P_1 { get; set; }//data wystawienia
         public string P_2 { get; set; } //numer faktury

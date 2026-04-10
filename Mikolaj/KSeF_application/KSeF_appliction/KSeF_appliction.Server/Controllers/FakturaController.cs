@@ -20,6 +20,7 @@ namespace KSeF_appliction.Server.Controllers
         [HttpPost("AddXML")]
         public ActionResult AddXML(IFormFile file)
         {
+            using var transaction = _db.Database.BeginTransactionAsync();
             try
             {
                 if (file == null || file.Length == 0)
@@ -142,6 +143,12 @@ namespace KSeF_appliction.Server.Controllers
             }
 
             return faktura;
+        }
+
+        [HttpGet("GetPodmioty")]
+        public ActionResult<List<Podmiot>> GetPodmioty()
+        {
+            return _db.Podmiot.ToList();
         }
     }
 }

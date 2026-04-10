@@ -20,6 +20,8 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 if (string.IsNullOrEmpty(connectionString))
     throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
+Console.WriteLine("=== Connection String ===");
+Console.WriteLine($"Connection string: '{connectionString}'");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString)
