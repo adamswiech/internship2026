@@ -25,10 +25,12 @@ internal class Program
         //// to open the connection
         conn.Open();
         Console.WriteLine("Connection Open!");
+        string csvPath = @"C:\Users\VULCAN\Documents\repo\internship2026\KamilG\sql-to-csv\export.csv";
+        string Xmlpath = @"C:\Users\VULCAN\Documents\repo\internship2026\KamilG\sql-to-csv\export.xml";
+
 
 
         // DB -> CSV generator
-        //string csvPath = @"C:\Users\VULCAN\Documents\repo\internship2026\KamilG\sql-to-csv\export.csv";
         //Stopwatch stopWatch1 = new Stopwatch();
         //stopWatch1.Start();
         //sql_to_csv.Convert.ConvertToCsv(constr, csvPath);
@@ -37,12 +39,11 @@ internal class Program
         //Console.WriteLine("Single: " + Time1);
 
         //DB -> XML generator
-        string Xmlpath = @"C:\Users\VULCAN\Documents\repo\internship2026\KamilG\sql-to-csv\export.xml";
-        sql_to_csv.xml.xmlE(constr, "SELECT * FROM dane;", Xmlpath);
+        //sql_to_csv.xml.xmlE(constr, "SELECT * FROM dane;", Xmlpath);
+
 
         // XML -> DB generator
-
-
+        sql_to_csv.xmlToDb.xmlToDbE(conn, Xmlpath);
 
 
 
