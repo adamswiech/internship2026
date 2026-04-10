@@ -6,6 +6,8 @@ import dotenv from "dotenv";
 import { env } from "node:process";
 dotenv.config();
 
+
+
 export async function buildApi(urlsFilePath){
     const bases = await readBaseUrl(urlsFilePath);
     const base = bases.httpUrl ?? bases.httpsUrl;
@@ -47,21 +49,6 @@ export async function buildApi(urlsFilePath){
 
 }
 
-
-
-
-async function writeApi(apiCodes){
-    const baseDir = path.resolve(process.cwd(), "./src/api");
-
-    await mkdir(baseDir, { recursive: true });
-
-    for (const [tag, code] of Object.entries(apiCodes)) {
-        const filePath = path.join(baseDir, `${tag}.ts`)
-        await writeFile(filePath, code, "utf-8")
-        console.log(`Written ${tag} API\n`)
-    }
-
-}
 
 
 async function genApi(endpoints, baseUrl) {
@@ -127,6 +114,77 @@ async function genApi(endpoints, baseUrl) {
 
 }
 
+
+async function writeApi(apiCodes){
+    const baseDir = path.resolve(process.cwd(), "./src/api");
+
+    await mkdir(baseDir, { recursive: true });
+
+    for (const [tag, code] of Object.entries(apiCodes)) {
+        const filePath = path.join(baseDir, `${tag}.ts`)
+        await writeFile(filePath, code, "utf-8")
+        console.log(`Written ${tag} API\n`)
+    }
+
+}
+
+async function getSwaggerJson(url) {
+    const envPath = stripQuotes(process.env.SWAGGER_LOCAL_FILE);
+    const fallbackPath = path.resolve(process.cwd(), "../KSeF_app_fix.Server/swagger.json");
+    const localPath = envPath || fallbackPath;
+
+    if (!envPath) {
+        console.warn("SWAGGER_LOCAL_FILE is not set. Using fallback:", fallbackPath);
+    }
+
+    try {
+        if (localPath && fs.existsSync(localPath)) {
+            const data = await readFile(localPath, "utf8");
+            return JSON.parse(data);
+        }
+    } catch (err) {
+        console.error("Local swagger.json failed, falling back to URL:", err);
+    }
+
+
+    try {
+        const res = await fetch(url);
+
+        if (!res.ok) {
+            const body = await res.text();
+            console.error("Fetch error:", res.status, res.statusText, body);
+            return null;
+        }
+
+        return await res.json();
+    } catch (err) {
+        console.error("Error fetching swagger.json:", err);
+        return null;
+    }
+}
+
+
+async function readBaseUrl(urlsFilePath) {
+    try {
+        const data = await readFile(urlsFilePath, "utf-8");
+        const json = JSON.parse(data);
+
+        return {
+            httpUrl: json.httpUrl ?? null,
+            httpsUrl: json.httpsUrl ?? null,
+        };
+    } catch (err) {
+        console.error("Failed to read or parse urls.json:", err);
+        return {
+            httpUrl: null,
+            httpsUrl: null,
+        };
+    }
+}
+
+//------------------------------------------------------------------------------------------------------------
+// 
+//------------------------------------------------------------------------------------------------------------
 async function getParams(params = []) {
     if (!params.length) {
         return {
@@ -151,6 +209,7 @@ async function getParams(params = []) {
         usage
     };
 }
+
 async function getRequestBody(requestBody, imports) {
     if (!requestBody) {
         return {
@@ -296,59 +355,4 @@ function stripQuotes(value) {
     return String(value || "")
         .trim()
         .replace(/^['"]|['"]$/g, "");
-}
-
-
-async function getSwaggerJson(url) {
-    const envPath = stripQuotes(process.env.SWAGGER_LOCAL_FILE);
-    const fallbackPath = path.resolve(process.cwd(), "../KSeF_app_fix.Server/swagger.json");
-    const localPath = envPath || fallbackPath;
-
-    if (!envPath) {
-        console.warn("SWAGGER_LOCAL_FILE is not set. Using fallback:", fallbackPath);
-    }
-
-    try {
-        if (localPath && fs.existsSync(localPath)) {
-            const data = await readFile(localPath, "utf8");
-            return JSON.parse(data);
-        }
-    } catch (err) {
-        console.error("Local swagger.json failed, falling back to URL:", err);
-    }
-
-
-    try {
-        const res = await fetch(url);
-
-        if (!res.ok) {
-            const body = await res.text();
-            console.error("Fetch error:", res.status, res.statusText, body);
-            return null;
-        }
-
-        return await res.json();
-    } catch (err) {
-        console.error("Error fetching swagger.json:", err);
-        return null;
-    }
-}
-
-
-async function readBaseUrl(urlsFilePath) {
-    try {
-        const data = await readFile(urlsFilePath, "utf-8");
-        const json = JSON.parse(data);
-
-        return {
-            httpUrl: json.httpUrl ?? null,
-            httpsUrl: json.httpsUrl ?? null,
-        };
-    } catch (err) {
-        console.error("Failed to read or parse urls.json:", err);
-        return {
-            httpUrl: null,
-            httpsUrl: null,
-        };
-    }
 }
