@@ -28,19 +28,19 @@ internal class Program
 
 
         // DB -> CSV generator
-        string csvPath = @"C:\Users\VULCAN\Documents\repo\internship2026\KamilG\sql-to-csv\export.csv";
-        Stopwatch stopWatch1 = new Stopwatch();
-        stopWatch1.Start();
-        sql_to_csv.Convert.ConvertToCsv(constr, csvPath);
-        stopWatch1.Stop();
-        TimeSpan Time1 = stopWatch1.Elapsed;
-        Console.WriteLine("Single: " + Time1);
+        //string csvPath = @"C:\Users\VULCAN\Documents\repo\internship2026\KamilG\sql-to-csv\export.csv";
+        //Stopwatch stopWatch1 = new Stopwatch();
+        //stopWatch1.Start();
+        //sql_to_csv.Convert.ConvertToCsv(constr, csvPath);
+        //stopWatch1.Stop();
+        //TimeSpan Time1 = stopWatch1.Elapsed;
+        //Console.WriteLine("Single: " + Time1);
 
         //DB -> XML generator
         string Xmlpath = @"C:\Users\VULCAN\Documents\repo\internship2026\KamilG\sql-to-csv\export.xml";
         sql_to_csv.xml.xmlE(constr, "SELECT * FROM dane;", Xmlpath);
 
-
+        // XML -> DB generator
 
 
 
