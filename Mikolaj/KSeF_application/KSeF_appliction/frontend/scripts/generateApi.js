@@ -56,7 +56,7 @@ const fetchApiEndpointData = async () => {
       let requestBodyProperties = null;
       let hasContent = false; //check if json has content in responses to recognize if it is GET or POST, true - get, false - post
       let returnTypeFromRef = "";
-      let tags = null;
+      //   let tags = null;
       let args = [];
       let parameters = []; //fix this XDDD
 
@@ -173,7 +173,7 @@ export const generateApiFile = async () => {
   for (let importEl of importsList) {
     await fs.appendFile(
       `${API_PATH}/api.ts`,
-      `import type {${ importEl }} from "../src/interfaces/${importEl}";\n`,
+      `import type {${importEl}} from "../src/interfaces/${importEl}";\n`,
       "utf8",
     );
   }
@@ -183,8 +183,6 @@ export const generateApiFile = async () => {
     `\nexport default class Api {\n`,
     "utf8",
   );
-
-  let i = 0;
 
   for (const endpoint of apiEndpointsList) {
     const endpointName = endpoint.url.substring(
@@ -240,38 +238,31 @@ export const generateApiFile = async () => {
         return jsonResponse;
     }`;
         break;
+
+      case "PUT":
+        console.log(
+          "\x1b[31mUndefined endpoint method PUT! Define action method in generateApi.js\x1b[0m",
+        );
+        return;
+        break;
+
+      case "DELETE":
+        console.log(
+          "\x1b[31mUndefined endpoint method DELETE! Define action in generateApi.js\x1b[0m",
+        );
+        return;
+        break;
+
+      default:
+        console.log(
+          "\x1b[31mUndefined or unknown endpoint method! Check if methods were declared properly in generateApi.js\x1b[0m",
+        );
+        return;
     }
-
-    //1. how to recognize that POST has to upload data to db and doesn't behave as GET? - Check if json has "content" in "responses"
-    //a. if has just go to $ref and take this last part after last / -> that is your type to return
-    //b. if has not - you know that this POST is uploading data.
-
-    //2. how to recognize if returned type should be array or sth else?
-    //a. if "content" > "text/plain" > "schema" > "type" = "array" set type as "$ref" value + [] (array of given type)
-    //b. if "content" doesn't have this "type":"array" just set type as "$ref" value
-
-    // const typeName = endpoint.tags[0];
-    // console.log(typeName);
-
-    // if (!imports.includes(typeName)) {
-    // //   console.log(typeName);
-    //   imports.push(typeName);
-    // }
-
-    i++;
 
     await fs.appendFile(`${API_PATH}/api.ts`, methodCode, "utf8");
   }
 
   await fs.appendFile(`${API_PATH}/api.ts`, `}\n`, "utf8");
-
-  //   for (let el of imports) {
-  //     await fs.appendFile(
-  //       `${API_PATH}/api.ts`,
-  //       `import type {${el}} from "../src/interfaces/${el}";\n`,
-  //       "utf8",
-  //     );
-  //   }
-
   console.log("\x1b[32mAPI methods have been generated!\x1b[0m");
 };

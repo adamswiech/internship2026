@@ -12,7 +12,7 @@ p_6_Do: Date;
 p_13_1: number;
 p_14_1: number;
 p_14_W: number;
-p_15: number;
+p_15: any;
 wiersze: FaWiersz[];
 }
 import type { Podmiot } from "./Podmiot";
