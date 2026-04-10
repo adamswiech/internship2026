@@ -14,7 +14,7 @@ namespace sql_to_csv
             string query = "SELECT * FROM dane;";
 
             ExportQueryToCsv(constr, query, csvPath);
-            Console.WriteLine($"Zapisano CSV: {csvPath}");
+            Console.WriteLine($"Zapisano CSV");
         }
 
         static void ExportQueryToCsv(string connectionString, string query, string outputPath)

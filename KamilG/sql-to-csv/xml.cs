@@ -18,6 +18,7 @@ namespace sql_to_csv
                 dataAdapter.Fill(dataset, "tabela");
                 dataset.WriteXml(path, XmlWriteMode.WriteSchema);
             }
+            Console.WriteLine("Zapisane XML");
         }
         
     }
