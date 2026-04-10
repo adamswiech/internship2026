@@ -15,8 +15,8 @@ export default function MainView() {
         <div>KSeF Application</div>
 
         <span>
-          <button onClick={() => handleChangeView(0)}>Lista faktur</button>
-          <button onClick={() => handleChangeView(1)}>Dodaj faktury</button>
+          <button className={activeView === 0 ? "active" : "passive"} onClick={() => handleChangeView(0)}>Lista faktur</button>
+          <button className={activeView === 1 ? "active" : "passive"} onClick={() => handleChangeView(1)}>Dodaj faktury</button>
         </span>
       </nav>
 

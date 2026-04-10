@@ -18,7 +18,7 @@ const deleteAllInterfaces = async () => {
 await deleteAllInterfaces();
 const swaggerJsonContent = await accessSwaggerJsonContent;
 
-const generateInterfaces = async () => {
+export const generateInterfaces = async () => {
   try {
     const schemasList = swaggerJsonContent.components.schemas; //this path here is always the same so can be hardcoded (in the latest versions of swagger)
     const keys = Object.keys(schemasList); //main keys - faktura, fawiersz, podmiot
@@ -93,5 +93,3 @@ const generateInterfaces = async () => {
     console.log(`\x1b[31mError: ${e}\x1b[0m`);
   }
 };
-
-generateInterfaces();

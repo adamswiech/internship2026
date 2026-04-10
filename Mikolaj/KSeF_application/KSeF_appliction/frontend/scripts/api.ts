@@ -15,7 +15,7 @@ public static async AddXML(file:FormData): Promise<any> {
 
         return jsonResponse;
     }public static async GetFaktury(): Promise<Faktura[]> {
-        const response = await fetch("https://localhost:7459/api/Faktura/GetFaktury");
+        const response = await fetch(`https://localhost:7459/api/Faktura/GetFaktury`);
         const jsonResponse: Faktura[] = await response.json();
 
         if (!response.ok) {
@@ -24,7 +24,7 @@ public static async AddXML(file:FormData): Promise<any> {
 
         return jsonResponse;
         }public static async GetFaktura(fakturaId: number): Promise<Faktura> {
-        const response = await fetch("https://localhost:7459/api/Faktura/GetFaktura");
+        const response = await fetch(`https://localhost:7459/api/Faktura/GetFaktura?fakturaId=${fakturaId}`);
         const jsonResponse: Faktura = await response.json();
 
         if (!response.ok) {

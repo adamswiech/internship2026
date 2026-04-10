@@ -123,7 +123,7 @@ const fetchApiEndpointData = async () => {
 
       const successResponse =
         operation.responses?.["200"] || operation.responses?.["201"];
-      if (successResponse?.content) {
+    if (successResponse?.content) {
         hasContent = true;
 
         const firstContentType = Object.keys(successResponse.content)[0];
@@ -170,21 +170,12 @@ const fetchApiEndpointData = async () => {
       );
     }
   }
-
   return dataList;
 }; //whole function works
 
 const apiEndpointsList = await fetchApiEndpointData();
-
-// const printArgs = (args) => {
-//     let argsText = "";
-
-//     for(let el of args) {
-//         argsText += `${el}: any, `;
-//     }
-// }
-
-const generateApiFile = async () => {
+  
+export const generateApiFile = async () => {
   let imports = [];
 
   await fs.appendFile(
@@ -193,6 +184,7 @@ const generateApiFile = async () => {
     "utf8",
   );
   let i = 0;
+
   for (const endpoint of apiEndpointsList) {
     const endpointName = endpoint.url.substring(
       endpoint.url.lastIndexOf("/") + 1,
@@ -207,10 +199,18 @@ const generateApiFile = async () => {
           : ""
     }): Promise<${endpoint.returnType}> {`;
 
+    let queryString = "";
+
+    if (endpoint.args && endpoint.args.length > 0) {
+      queryString =
+        "?" +
+        endpoint.args.map((arg) => `${arg.name}=\${${arg.name}}`).join("&");
+    }
+
     switch (endpoint.method) {
       case "GET":
         methodCode += `
-        const response = await fetch("${HTTPS_URL}${endpoint.url}");
+        const response = await fetch(\`${HTTPS_URL}${endpoint.url}${queryString}\`);
         const jsonResponse: ${endpoint.returnType} = await response.json();
 
         if (!response.ok) {
@@ -273,5 +273,3 @@ const generateApiFile = async () => {
 
   console.log("API methods have been generated!");
 };
-
-generateApiFile();
