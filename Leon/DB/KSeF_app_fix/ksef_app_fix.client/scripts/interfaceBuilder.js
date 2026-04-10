@@ -1,4 +1,5 @@
 import { readFile, writeFile, mkdir } from "node:fs/promises";
+import fs from 'node:fs';
 import path from "node:path";
 
 
@@ -142,19 +143,38 @@ function mapSwaggerTypeToTS(propSchema, imports) {
 // -----------------------------------------------------------------------------
 // FETCH + FILE HELPERS
 // -----------------------------------------------------------------------------
+function stripQuotes(value) {
+    return String(value || "")
+        .trim()
+        .replace(/^['"]|['"]$/g, "");
+}
+
 
 async function getSwaggerJson(url) {
+    const envPath = stripQuotes(process.env.SWAGGER_LOCAL_FILE);
+    const fallbackPath = path.resolve(process.cwd(), "../KSeF_app_fix.Server/swagger.json");
+    const localPath = envPath || fallbackPath;
+
+    if (!envPath) {
+        console.warn("SWAGGER_LOCAL_FILE is not set. Using fallback:", fallbackPath);
+    }
+
+    try {
+        if (localPath && fs.existsSync(localPath)) {
+            const data = await readFile(localPath, "utf8");
+            return JSON.parse(data);
+        }
+    } catch (err) {
+        console.error("Local swagger.json failed, falling back to URL:", err);
+    }
+
+
     try {
         const res = await fetch(url);
 
         if (!res.ok) {
             const body = await res.text();
-            console.error(
-                "Fetch error:",
-                res.status,
-                res.statusText,
-                body
-            );
+            console.error("Fetch error:", res.status, res.statusText, body);
             return null;
         }
 

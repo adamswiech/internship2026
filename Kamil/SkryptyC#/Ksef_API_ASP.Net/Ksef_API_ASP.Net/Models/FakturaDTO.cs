@@ -12,12 +12,11 @@ namespace Ksef_API_ASP.Net.Models
         public required string NrFaktury { get; set; } 
         public required DateTime DataOd { get; set; } 
         public required DateTime DataDo { get; set; }
-        public required decimal KwatoaNetto { get; set; } 
-        public required decimal KwotaPodatku { get; set; } 
-        public required decimal KwotaPodatkuPLN { get; set; } 
-        public required decimal KwotaNaloznosci { get; set; } 
+        public  decimal KwatoaNetto { get; set; } 
+        public  decimal KwotaPodatku { get; set; } 
+        public  decimal KwotaPodatkuPLN { get; set; } 
+        public  decimal KwotaNaloznosci { get; set; } 
         public  List<FaWierszDTO> FaWiersze { get; set; }
-        public Dictionary<string, string> DodatkoweInformacje { get; set; }
        
     }
 }

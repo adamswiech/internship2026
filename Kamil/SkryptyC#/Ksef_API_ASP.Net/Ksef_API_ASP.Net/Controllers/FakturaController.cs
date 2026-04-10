@@ -2,9 +2,13 @@ using Ksef.Models;
 using Ksef_API_ASP.Net.Models;
 using Ksef_ASP.net.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Swashbuckle.Swagger;
 using System.Diagnostics;
+using System.Linq;
 using System.Text.Json;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace Ksef_ASP.net.Controllers;
 
@@ -12,77 +16,18 @@ namespace Ksef_ASP.net.Controllers;
 [Route("[controller]")]
 public class FakturaController : Controller
 {
+    private readonly AppDbContext _context;
+
+    public FakturaController(AppDbContext context)
+    {
+        _context = context;
+    }
 
     [HttpGet("GetFaktura")]
     public ActionResult<List<FakturaDTO>> GetFaktura()
     {
-        var sprzedawca = new Podmiot
-        {
-            Nip = "1234567890",
-            Nazwa = "Firma Sprzedawca Sp. z o.o.",
-            KodKraju = "PL",
-            AdresL1 = "ul. Kwiatowa 1, 00-001 Warszawa"
-        };
-
-        var nabywca = new Podmiot
-        {
-            Nip = "9876543210",
-            Nazwa = "Firma Nabywca S.A.",
-            KodKraju = "PL",
-            AdresL1 = "ul. Długa 5, 30-002 Kraków"
-        };
-
-        var w1 = new FaWiersz { NrWiersza = 1, KursWaluty = 1m, P_7 = "Usługa programistyczna", P_8A = 1m, P_8B = 10m, P_9A = 200m, P_11 = 2000m, P_12 = 460m };
-        var w2 = new FaWiersz { NrWiersza = 2, KursWaluty = 1m, P_7 = "Konsultacja", P_8A = 1m, P_8B = 2m, P_9A = 500m, P_11 = 1000m, P_12 = 230m };
-
-        var fakt1 = new Faktura
-        {
-            Podmiot1 = sprzedawca,
-            Podmiot2 = nabywca,
-            KodWaluty = "PLN",
-            P_1 = DateTime.Today,
-            P_2 = "FV/2026/001",
-            P_6_Od = DateTime.Today.AddDays(-10),
-            P_6_Do = DateTime.Today.AddDays(-9),
-            P_13_1 = 3000m,
-            P_14_1 = 690m,
-            P_14_W = 690m,
-            P_15 = 3690m,
-            FaWiersze = new List<FaWiersz> { w1, w2 }
-        };
-
-        var zagraniczny = new Podmiot
-        {
-            Nip = "DE123456789",
-            Nazwa = "German Client GmbH",
-            KodKraju = "DE",
-            AdresL1 = "Musterstrasse 10, 10115 Berlin"
-        };
-
-        var w3 = new FaWiersz { NrWiersza = 1, KursWaluty = 4.5m, P_7 = "Szkolenie zdalne", P_8A = 1m, P_8B = 1m, P_9A = 1000m, P_11 = 1000m, P_12 = 0m };
-
-        var fakt2 = new Faktura
-        {
-            Podmiot1 = sprzedawca,
-            Podmiot2 = zagraniczny,
-            KodWaluty = "EUR",
-            P_1 = DateTime.Today.AddDays(-5),
-            P_2 = "FV/2026/002",
-            P_6_Od = DateTime.Today.AddDays(-15),
-            P_6_Do = DateTime.Today.AddDays(-14),
-            P_13_1 = 1000m,
-            P_14_1 = 0m,
-            P_14_W = 0m,
-            P_15 = 4500m,
-            FaWiersze = new List<FaWiersz> { w3 }
-        };
-
-        var facturaList = new List<Faktura> { fakt1, fakt2 };
-        var fakturaListDTO = new List<FakturaDTO>();
-
-        foreach (var f in facturaList)
-        {
-            var newf = new FakturaDTO
+        var result = _context.Faktura
+            .Select(f => new FakturaDTO
             {
                 Sprzedawca = new PodmiotDTO
                 {
@@ -107,11 +52,7 @@ public class FakturaController : Controller
                 KwotaPodatku = f.P_14_1,
                 KwotaPodatkuPLN = f.P_14_W,
                 KwotaNaloznosci = f.P_15,
-                FaWiersze = new List<FaWierszDTO>()
-            };
-            foreach (var w in f.FaWiersze)
-            {
-                newf.FaWiersze.Add(new FaWierszDTO
+                FaWiersze = f.FaWiersze.Select(w => new FaWierszDTO
                 {
                     NrWiersza = w.NrWiersza,
                     KursWaluty = w.KursWaluty,
@@ -121,38 +62,108 @@ public class FakturaController : Controller
                     CenaJednostkowa = w.P_9A,
                     WartoscSprzedazyNetto = w.P_11,
                     WartoscPodatkuVat = w.P_12
-                });
-            }
-            fakturaListDTO.Add(newf);
-        }
-        return fakturaListDTO;
+
+                }).ToList(),
+            })
+            .AsEnumerable()
+            .ToList();
+
+        return result;
     }
 
     [HttpPost("InsertFakturaFromXml")]
-    public ActionResult<FakturaDTO> InsertFakturaFromXml([FromBody] string xml)
+    public ActionResult<FakturaDTO> InsertFakturaFromXml([FromBody] string xmlString)
     {
-        return NoContent();
-    }
-    [HttpGet("GetPodmiot")]
-    public ActionResult<Podmiot> GetPodmiot()
-    {
-        return new Podmiot(){
-            Nip = "DE123456789",
-            Nazwa = "German Client GmbH",
-            KodKraju = "DE",
-            AdresL1 = "Musterstrasse 10, 10115 Berlin"
+        XmlSerializer xmlSerializer = new XmlSerializer(typeof(KsefFaktura));
+        using var reader = new StringReader(xmlString);
+        var xml = (KsefFaktura)xmlSerializer.Deserialize(reader);
+
+
+        Faktura faktura = new Faktura
+        {
+            Podmiot1 = new Podmiot
+            {
+                Nip = xml.Podmiot1.DaneIdentyfikacyjne.NIP,
+                Nazwa = xml.Podmiot1.DaneIdentyfikacyjne.Nazwa,
+                KodKraju = xml.Podmiot1.Adres.KodKraju,
+                AdresL1 = xml.Podmiot1.Adres.AdresL1,
+            } ,
+            Podmiot2 = new Podmiot
+            {
+                Nip = xml.Podmiot2.DaneIdentyfikacyjne.NIP,
+                Nazwa = xml.Podmiot2.DaneIdentyfikacyjne.Nazwa,
+                KodKraju = xml.Podmiot2.Adres.KodKraju,
+                AdresL1 = xml.Podmiot2.Adres.AdresL1,
+            },
+            KodWaluty = xml.Fa.KodWaluty,
+            P_1 = xml.Fa.P_1,
+            P_2 = xml.Fa.P_2,
+            P_6_Od = xml.Fa.OkresFa.P_6_Od,
+            P_6_Do = xml.Fa.OkresFa.P_6_Do,
+            P_13_1 = xml.Fa.P_13_1,
+            P_14_1 = xml.Fa.P_14_1,
+            P_14_W = xml.Fa.P_14_1W,
+            P_15 = xml.Fa.P_15,
+            FaWiersze = xml.Fa.FaWiersz.Select(w => new FaWiersz
+            {
+                NrWiersza = w.NrWierszaFa,
+                P_7 = w.P_7,
+                P_8A = w.P_8A,
+                P_8B = w.P_8B,
+                P_9A = w.P_9A,
+                P_11 = w.P_11,
+                P_12 = w.P_12,
+                KursWaluty = w.KursWaluty
+            }).ToList()
+        };
+        _context.Faktura.Add(faktura);
+
+        _context.SaveChanges();
+
+        return new FakturaDTO
+        {
+            Sprzedawca = new PodmiotDTO
+            {
+                Nip = faktura.Podmiot1.Nip,
+                Nazwa = faktura.Podmiot1.Nazwa,
+                KodKraju = faktura.Podmiot1.KodKraju,
+                AdresL1 = faktura.Podmiot1.AdresL1
+            },
+            Nabywca = new PodmiotDTO
+            {
+                Nip = faktura.Podmiot2.Nip,
+                Nazwa = faktura.Podmiot2.Nazwa,
+                KodKraju = faktura.Podmiot2.KodKraju,
+                AdresL1 = faktura.Podmiot2.AdresL1
+            },
+            KodWaluty = faktura.KodWaluty,
+            DataWyslania = faktura.P_1,
+            NrFaktury = faktura.P_2,
+            DataOd = faktura.P_6_Od,
+            DataDo = faktura.P_6_Do,
+            KwatoaNetto = faktura.P_13_1,
+            KwotaPodatku = faktura.P_14_1,
+            KwotaPodatkuPLN = faktura.P_14_W,
+            KwotaNaloznosci = faktura.P_15,
+            FaWiersze = faktura.FaWiersze.Select(w => new FaWierszDTO
+            {
+                NrWiersza = w.NrWiersza,
+                KursWaluty = w.KursWaluty,
+                NazwaUslugi = w.P_7,
+                Miara = w.P_8A,
+                Ilosc = w.P_8B,
+                CenaJednostkowa = w.P_9A,
+                WartoscSprzedazyNetto = w.P_11,
+                WartoscPodatkuVat = w.P_12
+
+            }).ToList(),
         };
     }
 
-    [HttpGet("GetIloscFaktur")]
-    public ActionResult<int> GetIloscFaktur()
+    [HttpGet("GetPodmiot")]
+    public ActionResult<List<Podmiot>> GetPodmiot()
     {
-        return 1;
+        return _context.Podmiot.ToList();
     }
 
-    [HttpGet("GetCzyIstniejeFaktura")]
-    public ActionResult<bool> GetCzyIstniejeFaktura()
-    {
-        return false;
-    }
 }

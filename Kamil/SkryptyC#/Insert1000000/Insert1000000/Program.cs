@@ -5,9 +5,17 @@ Inserter inserter = new Inserter();
 Selector s = new Selector();
 
 //for( int  i = 0; i < 1; i++)
-    //inserter.Insert();
 
-//var multyTime = DateTime.Now  - DateTime.Now;
+var time = DateTime.Now;
+inserter.InsertFromXml();
+Console.WriteLine(DateTime.Now - time);
+
+time = DateTime.Now;
+inserter.Insert();
+Console.WriteLine(DateTime.Now - time);
+
+
+
 //var normalTime = DateTime.Now - DateTime.Now;
 
 //int testCount = 1;
@@ -18,7 +26,8 @@ Selector s = new Selector();
 //    multyTime +=DateTime.Now - start;
 
 //    start = DateTime.Now;
-    s.SelectToXML();
+//s.SelectToXML();
+
 //    normalTime += DateTime.Now - start;
 //    Console.WriteLine(multyTime + " " + normalTime);
 //}

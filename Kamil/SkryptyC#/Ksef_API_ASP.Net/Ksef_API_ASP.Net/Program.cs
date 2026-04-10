@@ -1,19 +1,40 @@
 
+using Ksef;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using Newtonsoft.Json.Linq;
 using Sprache;
 using Swashbuckle.AspNetCore.Swagger;
-
-
+using System.Globalization;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
+CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
 // Add services to the container.
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+if (string.IsNullOrEmpty(connectionString))
+    throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+Console.WriteLine("=== Connection String ===");
+Console.WriteLine($"Connection string: '{connectionString}'");
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(connectionString)
+    );
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+
+
+
+
 
 builder.Services.AddCors(options =>
 {
@@ -40,6 +61,13 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 SaveSwaggerJson(app);
+
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(CultureInfo.InvariantCulture),
+    SupportedCultures = new[] { CultureInfo.InvariantCulture },
+    SupportedUICultures = new[] { CultureInfo.InvariantCulture }
+});
 
 app.UseCors("AllowMyOrigin");
 
