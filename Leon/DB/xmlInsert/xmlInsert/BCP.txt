@@ -1,0 +1,12 @@
+1
+sqllocaldb start MSSQLLocalDB
+
+2.Get the Named Pipe , Copy the entire pipe path.
+sqllocaldb info MSSQLLocalDB
+
+
+3 Use that pipe in your BCP command
+bcp InterDB.dbo.people in Data.csv -S "pipe" -T -c -t ";"
+
+4. stop 
+sqllocaldb stop MSSQLLocalDB
