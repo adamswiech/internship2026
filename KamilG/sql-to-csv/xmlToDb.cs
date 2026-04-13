@@ -1,7 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
+using System.Data;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Xml.Linq;
 
 namespace sql_to_csv
@@ -11,19 +10,43 @@ namespace sql_to_csv
         public static void xmlToDbE(SqlConnection conn, string path)
         {
             var file = XDocument.Load(path);
-            var qu = @"Insert into dane (firstname, lastname, city, email) values (@firstname, @lastname, @city, @email)";
-            using var cmd = new SqlCommand(qu, conn);
-            foreach (var user in file.Root.Elements("User"))
+            var users = file.Root?.Elements("User");
+            if (users is null)
             {
-                cmd.Parameters.Clear();
-                //cmd.Parameters.AddWithValue("@id", (int)user.Attribute("id"));
-                cmd.Parameters.AddWithValue("@firstname", (string)user.Element("Name").Element("FirstName"));
-                cmd.Parameters.AddWithValue("@lastname", (string)user.Element("Name").Element("LastName"));
-                cmd.Parameters.AddWithValue("@city", (string)user.Element("Location"));
-                cmd.Parameters.AddWithValue("@email", (string)user.Element("ContactInfo").Element("Email"));
-                cmd.ExecuteNonQuery();
+                Console.WriteLine("Brak danych do zapisania");
+                return;
             }
-             Console.WriteLine("Zapisane do DB");
+
+            var table = new DataTable();
+            table.Columns.Add("firstname", typeof(string));
+            table.Columns.Add("lastname", typeof(string));
+            table.Columns.Add("city", typeof(string));
+            table.Columns.Add("email", typeof(string));
+
+            foreach (var user in users)
+            {
+                table.Rows.Add(
+                    (object?)user.Element("Name")?.Element("FirstName")?.Value ?? DBNull.Value,
+                    (object?)user.Element("Name")?.Element("LastName")?.Value ?? DBNull.Value,
+                    (object?)user.Element("Location")?.Value ?? DBNull.Value,
+                    (object?)user.Element("ContactInfo")?.Element("Email")?.Value ?? DBNull.Value
+                );
+            }
+
+            using var bulkCopy = new SqlBulkCopy(conn, SqlBulkCopyOptions.TableLock, null)
+            {
+                DestinationTableName = "dane",
+                BatchSize = 5000,
+                BulkCopyTimeout = 0
+            };
+
+            bulkCopy.ColumnMappings.Add("firstname", "firstname");
+            bulkCopy.ColumnMappings.Add("lastname", "lastname");
+            bulkCopy.ColumnMappings.Add("city", "city");
+            bulkCopy.ColumnMappings.Add("email", "email");
+
+            bulkCopy.WriteToServer(table);
+            Console.WriteLine("Zapisane do DB");
         }
     }
 }
