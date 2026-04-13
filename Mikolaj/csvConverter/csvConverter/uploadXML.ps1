@@ -44,6 +44,8 @@ $connection.Open()
 
 Write-Host "Connected to database." -ForegroundColor Green
 
+
+
 $bulkCopy = New-Object System.Data.SqlClient.SqlBulkCopy($connection)
 $bulkCopy.DestinationTableName = "dbo.PersonalData";
 

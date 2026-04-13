@@ -7,6 +7,6 @@ $pipe2 = ($info | Select-String "Instance pipe name").ToString().Split(":")[2].T
 $pipe = $pipe1 + ":" + $pipe2
 
 Write-Host "Using pipe: $pipe"
-bcp "mikolaj_db.dbo.PersonalData" in "C:\Users\Vulcan\source\repos\internship2026\Mikolaj\csvConverter\csvConverter\out1.csv" -S $pipe -T -c -t ";" -F 2
+bcp "mikolaj_db.dbo.PersonalData" in "C:\Users\Vulcan\source\repos\internship2026\Mikolaj\csvConverter\csvConverter\out1.csv" -S $pipe -T -c -t ";" -F 2 -h "FIRE_TRIGGERS"
 
-sqllocaldb stop MSSQLLocalDB
+sqllocaldb stop MSSQLLocalDB 
