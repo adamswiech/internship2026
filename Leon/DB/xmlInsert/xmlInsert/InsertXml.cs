@@ -276,7 +276,7 @@ namespace xmlInsert
         };
         public void BulkCopyF(DataTable dt, SqlConnection connection, String scenario)
         {
-            using (SqlBulkCopy bulkCopy = new SqlBulkCopy(connection))
+            using (SqlBulkCopy bulkCopy = new SqlBulkCopy(connection, SqlBulkCopyOptions.TableLock, null))
             {
                 bulkCopy.DestinationTableName = "InterDB.dbo.people";
                 bulkCopy.BulkCopyTimeout = 0;
@@ -323,8 +323,8 @@ namespace xmlInsert
                     dt.Columns.Add("middle_name", typeof(string));
                     dt.Columns.Add("last_name", typeof(string));
                     dt.Columns.Add("age", typeof(int));
-                    dt.Columns.Add("height_cm", typeof(int));
-                    dt.Columns.Add("weight_kg", typeof(int));
+                    dt.Columns.Add("height_cm", typeof(decimal));
+                    dt.Columns.Add("weight_kg", typeof(decimal));
                     dt.Columns.Add("city", typeof(string));
                     dt.Columns.Add("country", typeof(string));
                     dt.Columns.Add("favorite_number", typeof(int));
@@ -350,7 +350,11 @@ namespace xmlInsert
                             Console.WriteLine($"Running {s.Name}");
 
                             if (s.Sql != null){
-                                cmd.CommandText = $"DROP INDEX IF EXISTS {s.IndexName} ON InterDB.dbo.people";
+                                cmd.CommandText = @"
+                                    DROP INDEX IF EXISTS IX1 ON dbo.people;
+                                    DROP INDEX IF EXISTS IX2 ON dbo.people;
+                                    DROP INDEX IF EXISTS IX3 ON dbo.people;
+                                    DROP INDEX IF EXISTS IX4 ON dbo.people;";
                                 cmd.ExecuteNonQuery();
                                 cmd.CommandText = s.Sql;
                                 cmd.ExecuteNonQuery();
@@ -358,6 +362,8 @@ namespace xmlInsert
                             decimal x = 0;
                             for (int i = 0; i < 3; i++)
                             {
+                                cmd.CommandText = "CHECKPOINT;\r\nDBCC DROPCLEANBUFFERS;\r\nDBCC FREEPROCCACHE;";
+                                cmd.ExecuteNonQuery();
                                 var sw = Stopwatch.StartNew();
                                 BulkCopyF(dt, connection, s.Name);
                                 sw.Stop();
