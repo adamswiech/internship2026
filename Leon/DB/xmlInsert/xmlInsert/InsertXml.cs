@@ -1,5 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Data;
+using System.Diagnostics;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
@@ -14,184 +16,90 @@ namespace xmlInsert
 
         public void InsertLinq(string xmlFilePath)
         {
-            XDocument doc = XDocument.Load(xmlFilePath);
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            var sw = Stopwatch.StartNew();
+            try
             {
-                connection.Open();
+                XDocument doc = XDocument.Load(xmlFilePath);
 
-                string insertQuery = @"
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string insertQuery = @"
                     INSERT INTO dbo.people
                     (first_name, middle_name, last_name, age, height_cm, weight_kg, city, country, favorite_number)
                     VALUES
                     (@first, @middle, @last, @age, @height, @weight, @city, @country, @fav)
                 ";
 
-                foreach (var person in doc.Descendants("Person"))
-                {
-                    using (SqlCommand cmd = new SqlCommand(insertQuery, connection))
+                    foreach (var person in doc.Descendants("Person"))
                     {
-                        cmd.Parameters.AddWithValue("@first", (string)person.Element("Name")?.Element("first_name"));
-                        cmd.Parameters.AddWithValue("@middle", (string)person.Element("Name")?.Element("middle_name"));
-                        cmd.Parameters.AddWithValue("@last", (string)person.Element("Name")?.Element("last_name"));
-                        cmd.Parameters.AddWithValue("@age", (int)person.Element("Stats")?.Element("age"));
-                        cmd.Parameters.AddWithValue("@height", (decimal)person.Element("Stats")?.Element("height_cm"));
-                        cmd.Parameters.AddWithValue("@weight", (decimal)person.Element("Stats")?.Element("weight_kg"));
-                        cmd.Parameters.AddWithValue("@city", (string)person.Element("Location")?.Element("city"));
-                        cmd.Parameters.AddWithValue("@country", (string)person.Element("Location")?.Element("country"));
-                        cmd.Parameters.AddWithValue("@fav", (int)person.Element("Stats")?.Element("favorite_number"));
+                        using (SqlCommand cmd = new SqlCommand(insertQuery, connection))
+                        {
+                            cmd.Parameters.AddWithValue("@first", (string)person.Element("Name")?.Element("first_name"));
+                            cmd.Parameters.AddWithValue("@middle", (string)person.Element("Name")?.Element("middle_name"));
+                            cmd.Parameters.AddWithValue("@last", (string)person.Element("Name")?.Element("last_name"));
+                            cmd.Parameters.AddWithValue("@age", (int)person.Element("Stats")?.Element("age"));
+                            cmd.Parameters.AddWithValue("@height", (decimal)person.Element("Stats")?.Element("height_cm"));
+                            cmd.Parameters.AddWithValue("@weight", (decimal)person.Element("Stats")?.Element("weight_kg"));
+                            cmd.Parameters.AddWithValue("@city", (string)person.Element("Location")?.Element("city"));
+                            cmd.Parameters.AddWithValue("@country", (string)person.Element("Location")?.Element("country"));
+                            cmd.Parameters.AddWithValue("@fav", (int)person.Element("Stats")?.Element("favorite_number"));
 
-                        cmd.ExecuteNonQuery();
+                            cmd.ExecuteNonQuery();
+                        }
                     }
                 }
+            }
+            finally
+            {
+                sw.Stop();
+                Console.WriteLine($"InsertLinq took {sw.Elapsed.TotalMilliseconds} ms");
             }
         }
         public void InsertLinqBulk(string xmlFilePath)
         {
-            XDocument doc = XDocument.Load(xmlFilePath);
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            var sw = Stopwatch.StartNew();
+            try
             {
-                connection.Open();
+                XDocument doc = XDocument.Load(xmlFilePath);
 
-                string insertQuery = @"
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string insertQuery = @"
                     INSERT INTO dbo.people
                     (first_name, middle_name, last_name, age, height_cm, weight_kg, city, country, favorite_number)
                     VALUES
                     (@first, @middle, @last, @age, @height, @weight, @city, @country, @fav)
                 ";
-                DataTable dt = new DataTable();
-                dt.Columns.Add("first_name", typeof(string));
-                dt.Columns.Add("middle_name", typeof(string));
-                dt.Columns.Add("last_name", typeof(string));
-                dt.Columns.Add("age", typeof(int));
-                dt.Columns.Add("height_cm", typeof(int));
-                dt.Columns.Add("weight_kg", typeof(int));
-                dt.Columns.Add("city", typeof(string));
-                dt.Columns.Add("country", typeof(string));
-                dt.Columns.Add("favorite_number", typeof(int));
-                foreach (var person in doc.Descendants("Person"))
-                {
-                    dt.Rows.Add(
-                        (string)person.Element("Name")?.Element("first_name"),
-                        (string)person.Element("Name")?.Element("middle_name"),
-                        (string)person.Element("Name")?.Element("last_name"),
-                        (int)person.Element("Stats")?.Element("age"),
-                        (decimal)person.Element("Stats")?.Element("height_cm"),
-                        (decimal)person.Element("Stats")?.Element("weight_kg"),
-                        (string)person.Element("Location")?.Element("city"),
-                        (string)person.Element("Location")?.Element("country"),
-                        (int)person.Element("Stats")?.Element("favorite_number")
-                    );
-
-                }
-                using (SqlBulkCopy bulkCopy = new SqlBulkCopy(connectionString))
-                {
-                    bulkCopy.DestinationTableName = "InterDB.dbo.people";
-                    bulkCopy.BulkCopyTimeout = 0;
-
-                    bulkCopy.ColumnMappings.Add("first_name", "first_name");
-                    bulkCopy.ColumnMappings.Add("middle_name", "middle_name");
-                    bulkCopy.ColumnMappings.Add("last_name", "last_name");
-                    bulkCopy.ColumnMappings.Add("age", "age");
-                    bulkCopy.ColumnMappings.Add("height_cm", "height_cm");
-                    bulkCopy.ColumnMappings.Add("weight_kg", "weight_kg");
-                    bulkCopy.ColumnMappings.Add("city", "city");
-                    bulkCopy.ColumnMappings.Add("country", "country");
-                    bulkCopy.ColumnMappings.Add("favorite_number", "favorite_number");
-
-                    try
-                    {
-                        bulkCopy.WriteToServer(dt);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
-                }
-            }
-        }
-        public void InsertSerialize(string xmlFilePath)
-        {
-            using (XmlReader reader = XmlReader.Create(xmlFilePath)){
-                XmlSerializer serializer = new XmlSerializer(typeof(People));
-                People people = (People)serializer.Deserialize(reader);
-
-                using (var connection = new SqlConnection(connectionString))
-                {
-                    connection.Open();
-                    using (var transaction = connection.BeginTransaction())
-                    using (var cmd = connection.CreateCommand())
-                    {
-                        cmd.Transaction = transaction;
-
-                        cmd.Connection = connection;
-                        cmd.CommandText = @"
-                            INSERT INTO dbo.people
-                            (first_name, middle_name, last_name, age, height_cm, weight_kg, city, country, favorite_number)
-                            VALUES
-                            (@first, @middle, @last, @age, @height, @weight, @city, @country, @fav)
-                        ";
-                        foreach (var person in people.Persons)
-                        {
-                            cmd.Parameters.Clear();
-                            cmd.Parameters.Add("@first", SqlDbType.NVarChar, 50).Value = person.Name.FirstName;
-                            cmd.Parameters.Add("@middle", SqlDbType.NVarChar, 50).Value = person.Name.MiddleName;
-                            cmd.Parameters.Add("@last", SqlDbType.NVarChar, 50).Value = person.Name.LastName;
-                            cmd.Parameters.Add("@age", SqlDbType.Int).Value = person.Stats.Age;
-                            var heightParam = cmd.Parameters.Add("@height", SqlDbType.Decimal);
-                                heightParam.Precision = 5;
-                                heightParam.Scale = 2;
-                                heightParam.Value = person.Stats.HeightCm;
-                            var weightParam = cmd.Parameters.Add("@weight", SqlDbType.Decimal);
-                                weightParam.Precision = 5;
-                                weightParam.Scale = 2;
-                                weightParam.Value = person.Stats.WeightKg;
-                            cmd.Parameters.Add("@city", SqlDbType.NVarChar, 50).Value = person.Location.City    ;
-                            cmd.Parameters.Add("@country", SqlDbType.NVarChar, 50).Value = person.Location.Country;
-                            cmd.Parameters.Add("@fav", SqlDbType.Int).Value = person.Stats.FavoriteNumber;
-                            cmd.ExecuteNonQuery();
-                        }
-                        transaction.Commit();
-                    }
-                }
-            }
-        }
-        public void InsertSerializeBulk(string xmlFilePath)
-        {
-            using (XmlReader reader = XmlReader.Create(xmlFilePath))
-            {
-                XmlSerializer serializer = new XmlSerializer(typeof(People));
-                People people = (People)serializer.Deserialize(reader);
-
-                using (var connection = new SqlConnection(connectionString))
-                {
-                    connection.Open();
                     DataTable dt = new DataTable();
-                        dt.Columns.Add("first_name", typeof(string));
-                        dt.Columns.Add("middle_name", typeof(string));
-                        dt.Columns.Add("last_name", typeof(string));
-                        dt.Columns.Add("age", typeof(int));
-                        dt.Columns.Add("height_cm", typeof(decimal));
-                        dt.Columns.Add("weight_kg", typeof(decimal));
-                        dt.Columns.Add("city", typeof(string));
-                        dt.Columns.Add("country", typeof(string));
-                        dt.Columns.Add("favorite_number", typeof(int));
-                    foreach (var person in people.Persons)
+                    dt.Columns.Add("first_name", typeof(string));
+                    dt.Columns.Add("middle_name", typeof(string));
+                    dt.Columns.Add("last_name", typeof(string));
+                    dt.Columns.Add("age", typeof(int));
+                    dt.Columns.Add("height_cm", typeof(int));
+                    dt.Columns.Add("weight_kg", typeof(int));
+                    dt.Columns.Add("city", typeof(string));
+                    dt.Columns.Add("country", typeof(string));
+                    dt.Columns.Add("favorite_number", typeof(int));
+                    foreach (var person in doc.Descendants("Person"))
                     {
                         dt.Rows.Add(
-                            person.Name.FirstName,
-                            person.Name.MiddleName,
-                            person.Name.LastName,
-                            person.Stats.Age,
-                            person.Stats.HeightCm,
-                            person.Stats.WeightKg,
-                            person.Location.City,
-                            person.Location.Country,
-                            person.Stats.FavoriteNumber
+                            (string)person.Element("Name")?.Element("first_name"),
+                            (string)person.Element("Name")?.Element("middle_name"),
+                            (string)person.Element("Name")?.Element("last_name"),
+                            (int)person.Element("Stats")?.Element("age"),
+                            (decimal)person.Element("Stats")?.Element("height_cm"),
+                            (decimal)person.Element("Stats")?.Element("weight_kg"),
+                            (string)person.Element("Location")?.Element("city"),
+                            (string)person.Element("Location")?.Element("country"),
+                            (int)person.Element("Stats")?.Element("favorite_number")
                         );
+
                     }
-                    using (SqlBulkCopy bulkCopy = new SqlBulkCopy(connection))
+                    using (SqlBulkCopy bulkCopy = new SqlBulkCopy(connectionString))
                     {
                         bulkCopy.DestinationTableName = "InterDB.dbo.people";
                         bulkCopy.BulkCopyTimeout = 0;
@@ -216,6 +124,260 @@ namespace xmlInsert
                         }
                     }
                 }
+            }
+            finally
+            {
+                sw.Stop();
+                Console.WriteLine($"InsertLinqBulk took {sw.Elapsed.TotalMilliseconds} ms");
+            }
+        }
+        public void InsertSerialize(string xmlFilePath)
+        {
+            var sw = Stopwatch.StartNew();
+            try
+            {
+                using (XmlReader reader = XmlReader.Create(xmlFilePath)){
+                    XmlSerializer serializer = new XmlSerializer(typeof(People));
+                    People people = (People)serializer.Deserialize(reader);
+
+                    using (var connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
+                        using (var transaction = connection.BeginTransaction())
+                        using (var cmd = connection.CreateCommand())
+                        {
+                            cmd.Transaction = transaction;
+
+                            cmd.Connection = connection;
+                            cmd.CommandText = @"
+                            INSERT INTO dbo.people
+                            (first_name, middle_name, last_name, age, height_cm, weight_kg, city, country, favorite_number)
+                            VALUES
+                            (@first, @middle, @last, @age, @height, @weight, @city, @country, @fav)
+                        ";
+                            foreach (var person in people.Persons)
+                            {
+                                cmd.Parameters.Clear();
+                                cmd.Parameters.Add("@first", SqlDbType.NVarChar, 50).Value = person.Name.FirstName;
+                                cmd.Parameters.Add("@middle", SqlDbType.NVarChar, 50).Value = person.Name.MiddleName;
+                                cmd.Parameters.Add("@last", SqlDbType.NVarChar, 50).Value = person.Name.LastName;
+                                cmd.Parameters.Add("@age", SqlDbType.Int).Value = person.Stats.Age;
+                                var heightParam = cmd.Parameters.Add("@height", SqlDbType.Decimal);
+                                    heightParam.Precision = 5;
+                                    heightParam.Scale = 2;
+                                    heightParam.Value = person.Stats.HeightCm;
+                                var weightParam = cmd.Parameters.Add("@weight", SqlDbType.Decimal);
+                                    weightParam.Precision = 5;
+                                    weightParam.Scale = 2;
+                                    weightParam.Value = person.Stats.WeightKg;
+                                cmd.Parameters.Add("@city", SqlDbType.NVarChar, 50).Value = person.Location.City    ;
+                                cmd.Parameters.Add("@country", SqlDbType.NVarChar, 50).Value = person.Location.Country;
+                                cmd.Parameters.Add("@fav", SqlDbType.Int).Value = person.Stats.FavoriteNumber;
+                                cmd.ExecuteNonQuery();
+                            }
+                            transaction.Commit();
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                sw.Stop();
+                Console.WriteLine($"InsertSerialize took {sw.Elapsed.TotalMilliseconds} ms");
+            }
+        }
+        public void InsertSerializeBulk(string xmlFilePath)
+        {
+            var sw = Stopwatch.StartNew();
+            try
+            {
+                using (XmlReader reader = XmlReader.Create(xmlFilePath))
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(People));
+                    People people = (People)serializer.Deserialize(reader);
+
+                    using (var connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
+                        DataTable dt = new DataTable();
+                            dt.Columns.Add("first_name", typeof(string));
+                            dt.Columns.Add("middle_name", typeof(string));
+                            dt.Columns.Add("last_name", typeof(string));
+                            dt.Columns.Add("age", typeof(int));
+                            dt.Columns.Add("height_cm", typeof(decimal));
+                            dt.Columns.Add("weight_kg", typeof(decimal));
+                            dt.Columns.Add("city", typeof(string));
+                            dt.Columns.Add("country", typeof(string));
+                            dt.Columns.Add("favorite_number", typeof(int));
+                        foreach (var person in people.Persons)
+                        {
+                            dt.Rows.Add(
+                                person.Name.FirstName,
+                                person.Name.MiddleName,
+                                person.Name.LastName,
+                                person.Stats.Age,
+                                person.Stats.HeightCm,
+                                person.Stats.WeightKg,
+                                person.Location.City,
+                                person.Location.Country,
+                                person.Stats.FavoriteNumber
+                            );
+                        }
+                        using (SqlBulkCopy bulkCopy = new SqlBulkCopy(connection))
+                        {
+                            bulkCopy.DestinationTableName = "InterDB.dbo.people";
+                            bulkCopy.BulkCopyTimeout = 0;
+
+                            bulkCopy.ColumnMappings.Add("first_name", "first_name");
+                            bulkCopy.ColumnMappings.Add("middle_name", "middle_name");
+                            bulkCopy.ColumnMappings.Add("last_name", "last_name");
+                            bulkCopy.ColumnMappings.Add("age", "age");
+                            bulkCopy.ColumnMappings.Add("height_cm", "height_cm");
+                            bulkCopy.ColumnMappings.Add("weight_kg", "weight_kg");
+                            bulkCopy.ColumnMappings.Add("city", "city");
+                            bulkCopy.ColumnMappings.Add("country", "country");
+                            bulkCopy.ColumnMappings.Add("favorite_number", "favorite_number");
+
+                            try
+                            {
+                                bulkCopy.WriteToServer(dt);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                sw.Stop();
+                Console.WriteLine($"InsertSerializeBulk took {sw.Elapsed.TotalMilliseconds} ms");
+            }
+        }
+
+
+
+        public class Scenario
+        {
+            public string Name { get; set; }
+            public string Sql { get; set; }
+            public string IndexName { get; set; }
+        }
+
+        public List<Scenario> scenarios = new()
+        {
+            new() { Name = "No index", Sql = null, IndexName = null },
+            new() { Name = "Index first_name", Sql = "CREATE INDEX IX1 ON dbo.people(first_name)", IndexName = "IX1" },
+            new() { Name = "Index last_name", Sql = "CREATE INDEX IX2 ON dbo.people(last_name)", IndexName = "IX2" },
+            new() { Name = "Index first+last", Sql = "CREATE INDEX IX3 ON dbo.people(first_name, last_name)", IndexName = "IX3" },
+            new() { Name = "Index last+first", Sql = "CREATE INDEX IX4 ON dbo.people(last_name, first_name)", IndexName = "IX4" }
+        };
+        public void BulkCopyF(DataTable dt, SqlConnection connection, String scenario)
+        {
+            using (SqlBulkCopy bulkCopy = new SqlBulkCopy(connection))
+            {
+                bulkCopy.DestinationTableName = "InterDB.dbo.people";
+                bulkCopy.BulkCopyTimeout = 0;
+
+                bulkCopy.ColumnMappings.Add("first_name", "first_name");
+                bulkCopy.ColumnMappings.Add("middle_name", "middle_name");
+                bulkCopy.ColumnMappings.Add("last_name", "last_name");
+                bulkCopy.ColumnMappings.Add("age", "age");
+                bulkCopy.ColumnMappings.Add("height_cm", "height_cm");
+                bulkCopy.ColumnMappings.Add("weight_kg", "weight_kg");
+                bulkCopy.ColumnMappings.Add("city", "city");
+                bulkCopy.ColumnMappings.Add("country", "country");
+                bulkCopy.ColumnMappings.Add("favorite_number", "favorite_number");
+
+                try
+                {
+                    bulkCopy.WriteToServer(dt);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+        }
+        public void InsertTest(string xmlFilePath)
+        {
+
+            try
+            {
+                XDocument doc = XDocument.Load(xmlFilePath);
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string insertQuery = @"
+                    INSERT INTO dbo.people
+                    (first_name, middle_name, last_name, age, height_cm, weight_kg, city, country, favorite_number)
+                    VALUES
+                    (@first, @middle, @last, @age, @height, @weight, @city, @country, @fav)
+                ";
+                    DataTable dt = new DataTable();
+                    dt.Columns.Add("first_name", typeof(string));
+                    dt.Columns.Add("middle_name", typeof(string));
+                    dt.Columns.Add("last_name", typeof(string));
+                    dt.Columns.Add("age", typeof(int));
+                    dt.Columns.Add("height_cm", typeof(int));
+                    dt.Columns.Add("weight_kg", typeof(int));
+                    dt.Columns.Add("city", typeof(string));
+                    dt.Columns.Add("country", typeof(string));
+                    dt.Columns.Add("favorite_number", typeof(int));
+                    foreach (var person in doc.Descendants("Person"))
+                    {
+                        dt.Rows.Add(
+                            (string)person.Element("Name")?.Element("first_name"),
+                            (string)person.Element("Name")?.Element("middle_name"),
+                            (string)person.Element("Name")?.Element("last_name"),
+                            (int)person.Element("Stats")?.Element("age"),
+                            (decimal)person.Element("Stats")?.Element("height_cm"),
+                            (decimal)person.Element("Stats")?.Element("weight_kg"),
+                            (string)person.Element("Location")?.Element("city"),
+                            (string)person.Element("Location")?.Element("country"),
+                            (int)person.Element("Stats")?.Element("favorite_number")
+                        );
+
+                    }
+                    using (SqlCommand cmd = new SqlCommand("TRUNCATE TABLE dbo.people", connection))
+                    {
+                        foreach (var s in scenarios)
+                        {
+                            Console.WriteLine($"Running {s.Name}");
+
+                            if (s.Sql != null){
+                                cmd.CommandText = $"DROP INDEX IF EXISTS {s.IndexName} ON InterDB.dbo.people";
+                                cmd.ExecuteNonQuery();
+                                cmd.CommandText = s.Sql;
+                                cmd.ExecuteNonQuery();
+                            }
+                            decimal x = 0;
+                            for (int i = 0; i < 3; i++)
+                            {
+                                var sw = Stopwatch.StartNew();
+                                BulkCopyF(dt, connection, s.Name);
+                                sw.Stop();
+                                Console.WriteLine($"{s.Name} {i} took {sw.Elapsed.TotalMilliseconds} ms");
+                                x += sw.ElapsedMilliseconds;
+                            }
+                            Console.WriteLine($"{s.Name} average time: {x / 3} ms");
+
+                            if(s.IndexName != null){
+                               cmd.CommandText = $"DROP INDEX IF EXISTS {s.IndexName} ON InterDB.dbo.people";
+                               cmd.ExecuteNonQuery();
+                            }
+                            cmd.CommandText = "TRUNCATE TABLE dbo.people";
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+            finally
+            {
             }
         }
     }

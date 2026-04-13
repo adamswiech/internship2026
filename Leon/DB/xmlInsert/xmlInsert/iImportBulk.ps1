@@ -1,3 +1,5 @@
+$sw = [System.Diagnostics.Stopwatch]::StartNew()
+
 function Write-BatchToSql {
     param(
         [System.Data.DataTable]$Data,
@@ -36,7 +38,7 @@ function Write-BatchToSql {
 
 
 [xml]$xml = new-Object xml
-$xml.Load("Data.xml")
+$xml.Load("DataSmall.xml")
 
 $connectionString = "Server=(localdb)\MSSQLLocalDB;Database=InterDB;Integrated Security=True"
 
@@ -67,10 +69,13 @@ foreach ($p in $xml.SelectNodes("//Person")) {
     $row["country"]    = [string]$p.SelectSingleNode("country").InnerText
     $row["favorite_number"] = [int]$p.SelectSingleNode("favorite_number").InnerText
     $table.Rows.Add($row)
-    if ($table.Rows.Count -ge 10000) {
+    if ($table.Rows.Count -ge 5000) {
         Write-BatchToSql -Data $table -Connection $connection
     }
 }
 Write-BatchToSql -Data $table -Connection $connection
 $connection.Close()
 Write-Host "Connection closed."
+
+$sw.Stop()
+Write-Host "Execution time: $($sw.Elapsed.TotalSeconds) seconds" -ForegroundColor Yellow
