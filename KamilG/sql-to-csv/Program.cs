@@ -43,22 +43,14 @@ internal class Program
 
 
         // XML -> DB generator
+        Stopwatch stopWatch1 = new Stopwatch();
+        stopWatch1.Start();
         sql_to_csv.xmlToDb.xmlToDbE(conn, Xmlpath);
+        stopWatch1.Stop();
+        TimeSpan Time1 = stopWatch1.Elapsed;
+        Console.WriteLine(Time1);
 
 
-
-        //using (XmlWriter writer = XmlWriter.Create("books.xml"))
-        //{
-        //    writer.WriteStartElement("book");
-        //    writer.WriteElementString("title", "Graphics Programming using GDI+");
-        //    writer.WriteElementString("author", "Mahesh Chand");
-        //    writer.WriteStartElement("publication");
-        //    writer.WriteElementString("publisher", "Addison-Wesley");
-        //    writer.WriteEndElement();
-        //    writer.WriteElementString("price", "64.95");
-        //    Console.WriteLine("XML file created successfully.");
-        //    writer.WriteEndElement();
-        //    writer.Flush();
-        //}
+        
     }
 }

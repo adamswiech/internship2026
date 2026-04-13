@@ -23,7 +23,7 @@ Write-Host "added columns" -ForegroundColor Blue
 foreach($u in $userNodes)
 {
 	$row = $table.NewRow()
- $row["id"] = [int]$u.Attributes["id"].Value
+	$row["id"] = [int]$u.Attributes["id"].Value
 	$row["firstname"] = [string]$u.SelectSingleNode("Name/FirstName").InnerText
 	$row["lastname"] = [string]$u.SelectSingleNode("Name/LastName").InnerText
 	$row["city"] = [string]$u.SelectSingleNode("Location").InnerText
