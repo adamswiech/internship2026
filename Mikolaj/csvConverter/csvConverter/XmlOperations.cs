@@ -3,16 +3,16 @@ using System.Xml.Linq;
 
 namespace csvConverter
 {
-    public class XML_converter
+    public class XmlOperations
     {
         private readonly string _connectionString;
 
-        public XML_converter(string connectionString)
+        public XmlOperations(string connectionString)
         {
             _connectionString = connectionString;
         }
 
-        public async Task LoadXML(string xmlFilePath)
+        public async Task loadFile(string xmlFilePath)
         {
             XDocument doc = XDocument.Load(xmlFilePath);
 
@@ -60,6 +60,60 @@ namespace csvConverter
             catch (Exception exception)
             {
                 await transaction.RollbackAsync();
+                Console.WriteLine($"Error: {exception.Message}");
+                throw;
+            }
+        }
+
+        public async Task<List<PersonalDataModel>> selectByIndex(string columnName, string columnValue, string index)
+        {
+            var allowedColumns = new HashSet<string>
+    {
+        "FirstName", "LastName", "PhoneNumber", "EmailAddress",
+        "Country", "City", "PostCode", "Gender", "Age"
+    };
+
+            if (!allowedColumns.Contains(columnName))
+                throw new ArgumentException($"Invalid column name: {columnName}");
+
+            using var connection = new SqlConnection(_connectionString);
+            await connection.OpenAsync();
+
+            var results = new List<PersonalDataModel>();
+
+            try
+            {
+                var selectCmd = new SqlCommand(@$"
+            SELECT FirstName, LastName, PhoneNumber, EmailAddress, Country, City, PostCode, Gender, Age
+            FROM PersonalData WITH (INDEX({index}))
+            WHERE {columnName} = @Value",
+                    connection);
+
+                selectCmd.Parameters.AddWithValue("@Value", columnValue);
+
+                using (var reader = await selectCmd.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        results.Add(new PersonalDataModel
+                        {
+                            firstName = reader["FirstName"].ToString(),
+                            lastName = reader["LastName"].ToString(),
+                            phoneNumber = reader["PhoneNumber"].ToString(),
+                            emailAddress = reader["EmailAddress"].ToString(),
+                            country = reader["Country"].ToString(),
+                            city = reader["City"].ToString(),
+                            postCode = reader["PostCode"].ToString(),
+                            gender = reader["Gender"].ToString(),
+                            age = Convert.ToInt32(reader["Age"])
+                        });
+                    }
+                }
+
+                return results;
+            }
+            catch (Exception exception)
+            {
                 Console.WriteLine($"Error: {exception.Message}");
                 throw;
             }

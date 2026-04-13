@@ -1,87 +1,51 @@
 ﻿using csvConverter;
 using System.Diagnostics;
 
-string connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=mikolaj_db;Integrated Security=True;TrustServerCertificate=True;";
-CSV_converter converter = new CSV_converter(connectionString);
+string createIndexSql = "CREATE INDEX idx_firstname ON PersonalData (FirstName)";
+string connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=mikolaj_db;Integrated Security=True;TrustServerCertificate=True;MultipleActiveResultSets=True;";
 
-XML_converter xmlConverter = new XML_converter(connectionString);
+XmlOperations xml = new XmlOperations(connectionString);
+//string xmlFilePath = @"C:/Users/Vulcan/source/repos/internship2026/Mikolaj/csvConverter/csvConverter/test.xml";
 
-PersonalDataModel personalDataModel = new PersonalDataModel();
-void multithreadingCSV()
-{
-    List<Thread> threads = new List<Thread>();
-    List<string> filesPaths = new List<string>();
-    Stopwatch stopwatch = new Stopwatch();
 
-    int threadsCount = 10; //MAIN THREAD + EVERY ADDITIONAL THREAD
-    long elementsCount = converter.countElements() / threadsCount;
-    stopwatch.Start();
 
-    Console.WriteLine("Timer started!");
+//await xml.loadFile(xmlFilePath);
 
-    converter.fetchData(0, elementsCount, 1);
-    filesPaths.Add($"{Path.GetFullPath($@"..\..\..\out1.csv")}");
+//using (SqlConnection connection = new SqlConnection(connectionString))
+//{
+//    connection.Open();
+//    using (SqlCommand command = new SqlCommand(createIndexSql, connection))
+//    {
+//        command.ExecuteNonQuery();
+//        Console.WriteLine("Index created successfully.");
+//    }
+//}
 
-    for (int i = 1; i <= (threadsCount - 1); i++)
-    {
-        int localCounter = i;
-        filesPaths.Add($"{Path.GetFullPath($@"..\..\..\out{localCounter}.csv")}");
+Stopwatch stopwatch2 = new Stopwatch();
+stopwatch2.Start();
+var firstNameIdx = await xml.selectByIndex("FirstName", "Emily", "idx_firstname");
+stopwatch2.Stop();
+TimeSpan elapsedTime2 = stopwatch2.Elapsed;
+Console.WriteLine($"Elapsed time for firstname index: {elapsedTime2}");
 
-        CSV_converter converter_t = new CSV_converter(connectionString);
-        Thread t = new Thread(() => converter_t.fetchData(elementsCount * localCounter, elementsCount, localCounter + 1));
 
-        threads.Add(t);
-        t.Start();
-    }
+Stopwatch stopwatch1 = new Stopwatch();
+stopwatch1.Start();
+var lastNameIdx = await xml.selectByIndex("LastName", "Johnson", "idx_lastname");
+stopwatch1.Stop();
+TimeSpan elapsedTime1 = stopwatch1.Elapsed;
+Console.WriteLine($"Elapsed time for lastname index: {elapsedTime1}");
 
-    foreach (var t in threads)
-    {
-        t.Join();
-    }
 
-    void mergeFilesCSV()
-    {
-        string destFilePath = Path.GetFullPath(@"..\..\..\output.csv");
-        File.WriteAllText(destFilePath, "");
 
-        using (TextWriter tw = new StreamWriter(destFilePath, true))
-        {
-            foreach (string filePath in filesPaths)
-            {
-                using (TextReader tr = new StreamReader(filePath))
-                {
-                    tw.WriteLine(tr.ReadToEnd());
-                    tr.Close();
-                    tr.Dispose();
-                }
+//var lastName_firstNameIdx = await xml.selectByIndex("Johnson", "idx_lastname");
+//var firstName_lastNameIdx = await xml.selectByIndex("Johnson", "idx_lastname");
 
-                Console.WriteLine("File Processed : " + filePath);
-            }
 
-            tw.Close();
-            tw.Dispose();
-        }
-    }
+//foreach (var p in list)
+//{
+//    Console.WriteLine(p.firstName);
+//}
 
-    mergeFilesCSV();
 
-    stopwatch.Stop();
-    TimeSpan elapsedTime = stopwatch.Elapsed;
 
-    Console.WriteLine($"Elapsed time for {threadsCount} threads: {elapsedTime}");
-}
-
-Stopwatch stopwatch = new Stopwatch();
-stopwatch.Start();
-
-Console.WriteLine("Started inserting xml in c#");
-
-//multithreadingCSV();
-await xmlConverter.LoadXML(@"C:\Users\Vulcan\source\repos\internship2026\Mikolaj\csvConverter\csvConverter\personal_data.xml");
-
-//converter.fetchData(0, 0, 0);
-
-stopwatch.Stop();
-TimeSpan elapsedTime = stopwatch.Elapsed;
-
-Console.WriteLine($"Elapsed time for upload xml file to database: {elapsedTime}");
