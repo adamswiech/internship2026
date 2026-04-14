@@ -4,6 +4,7 @@ using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Data;
 using System.Text;
+using System.Xml.Linq;
 
 namespace Insert1000000
 {
@@ -65,7 +66,7 @@ namespace Insert1000000
             string[] kraje =
             {
                 "Polska", "Jugosławia", "Kurdystan", "Serbia", "Palestyna", "Kosovo", "Tajwan", "Watykan",
-                "SentinelPółnocny", "Somaliland", "Sudan", "Rodezja", "Włochy", "Chiny", "Czechosłowacja", "Austrowęgry"
+                "sendinelPółnocny", "Somaliland", "Sudan", "Rodezja", "Włochy", "Chiny", "Czechosłowacja", "Austrowęgry"
             };
 
             string[] wojewodztwa =
@@ -149,10 +150,90 @@ namespace Insert1000000
                     }
 
                 }
-                Console.WriteLine("Local time: " + (DateTime.Now - start));
-                Console.WriteLine("UTC time: " + (DateTime.UtcNow - utcStart));
+                //Console.WriteLine("Local time: " + (DateTime.Now - start));
+                //Console.WriteLine("UTC time: " + (DateTime.UtcNow - utcStart));
             }
 
+        }
+
+        public void InsertFromXml()
+        {
+            string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=UsersDb;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Application Name=\"SQL Server Management Studio\";Command Timeout=0";
+            
+            var path = Path.GetFullPath(@"..\..\..\output.xml");
+
+            var doc = XDocument.Load(path);
+            DataTable users = ConvertXmlToDataTable(doc);
+
+
+            BulkInsertDataTable(users, connectionString, "users");
+        }
+        private DataTable ConvertXmlToDataTable(XDocument doc)
+        {
+            DataTable users = new DataTable();
+            users.Columns.Add("Imie", typeof(string));
+            users.Columns.Add("DrugieImie", typeof(string));
+            users.Columns.Add("Nazwisko", typeof(string));
+            users.Columns.Add("IsAdmin", typeof(bool));
+            users.Columns.Add("Kraj", typeof(string));
+            users.Columns.Add("Wojewodztwo", typeof(string));
+            users.Columns.Add("Miasto", typeof(string));
+            users.Columns.Add("Ulica", typeof(string));
+            users.Columns.Add("NrBloku", typeof(long));
+            users.Columns.Add("NrMieszkania", typeof(long));
+
+            var usersOb = doc.Root.Elements("User");
+            foreach(var u in usersOb)
+            {
+                DataRow row = users.NewRow();
+
+                row["IsAdmin"] = (bool?)u.Element("IsAdmin") ?? false;
+
+                var nazwa = u.Element("Nazwa");
+                row["Imie"] = nazwa?.Element("Imie")?.Value ?? "";
+                row["DrugieImie"] = nazwa?.Element("DrugieImie")?.Value ?? "";
+                row["Nazwisko"] = nazwa?.Element("Nazwisko")?.Value ?? "";
+
+                var adres = u.Element("Adres");
+                row["Kraj"] = adres?.Element("Kraj")?.Value ?? "";
+                row["Wojewodztwo"] = adres?.Element("Wojewodztwo")?.Value ?? "";
+                row["Miasto"] = adres?.Element("Miasto")?.Value ?? "";
+
+                var mieszkanie = adres?.Element("Mieszkanie");
+                row["Ulica"] = mieszkanie?.Element("Ulica")?.Value ?? "";
+                row["NrBloku"] = mieszkanie?.Element("NrBloku")?.Value ?? "";
+                row["NrMieszkania"] = mieszkanie?.Element("NrMieszkania")?.Value ?? "";
+                users.Rows.Add(row);
+            }
+
+            return users;
+        }
+
+        private void BulkInsertDataTable(DataTable table, string connectionString, string destinationTable)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                using (SqlBulkCopy bulkCopy = new SqlBulkCopy(conn))
+                {
+                    bulkCopy.DestinationTableName = destinationTable;
+
+                    bulkCopy.ColumnMappings.Add("Imie", "Imie");
+                    bulkCopy.ColumnMappings.Add("DrugieImie", "DrugieImie");
+                    bulkCopy.ColumnMappings.Add("Nazwisko", "Nazwisko");
+                    bulkCopy.ColumnMappings.Add("IsAdmin", "IsAdmin");
+                    bulkCopy.ColumnMappings.Add("Kraj", "Kraj");
+                    bulkCopy.ColumnMappings.Add("Wojewodztwo", "Wojewodztwo");
+                    bulkCopy.ColumnMappings.Add("Miasto", "Miasto");
+                    bulkCopy.ColumnMappings.Add("Ulica", "Ulica");
+                    bulkCopy.ColumnMappings.Add("NrBloku", "NrBloku");
+                    bulkCopy.ColumnMappings.Add("NrMieszkania", "NrMieszkania");
+
+                    bulkCopy.WriteToServer(table);
+                    Console.WriteLine("Bulk insert succes");
+                }
+            }
         }
     }
 }

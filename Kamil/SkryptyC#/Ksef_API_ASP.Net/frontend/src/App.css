@@ -13,7 +13,8 @@ h2 {
 }
 
 table {
-  width: 100%;
+  width: 70%;
+  margin: auto;
 }
 
 table caption {
@@ -48,6 +49,7 @@ nav{
   background-color: rgb(238, 238, 250);
   display: flex;
 }
+
 nav button{
   width: 150px;
   height: 100%;
@@ -60,13 +62,27 @@ nav > button:hover{
   background-color: rgb(127, 126, 145);
   border-bottom: 2px solid black;
 }
-.sentXmlView{
+
+nav button{
+  width: 150px;
+  height: 100%;
+  border: none;
+  background-color: rgb(238, 238, 250);
+  font-size: large;
+  transition: all 0.2s;
+}
+nav > button:hover{
+  background-color: rgb(127, 126, 145);
+  border-bottom: 2px solid black;
+}
+
+.sendXmlView{
   display: flex;
   align-items: center;
   flex-direction: column;
 }
 
-.sentInvoiceButton{
+.sendInvoiceButton{
   border: 1px solid silver;
   width: 200px;
   height: 50px;
@@ -76,6 +92,6 @@ nav > button:hover{
   transition: all 0.2s;
   margin-top: 20px;
 }
-.sentInvoiceButton:hover{
+.sendInvoiceButton:hover{
     background-color: silver;
 }

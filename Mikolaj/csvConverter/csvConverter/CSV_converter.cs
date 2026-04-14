@@ -1,5 +1,4 @@
 ﻿using Microsoft.Data.SqlClient;
-using System.Xml.Serialization;
 
 namespace csvConverter
 {
@@ -52,69 +51,68 @@ namespace csvConverter
             conn.Open();
 
             string projectRoot = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\"));
-            string outputFile = Path.Combine(projectRoot, "out.xml");
+            string outputFile = Path.Combine(projectRoot, "out.csv");
             File.WriteAllText(outputFile, string.Empty);
-
             using var reader = cmd.ExecuteReader();
             //List<PersonalDataModel> personalData = new List<PersonalDataModel>();
 
             using (StreamWriter writer = new StreamWriter(outputFile, append: true))
             {
-                List<Person> personalData = new List<Person>();
+                List<PersonalDataModel> personalData = new List<PersonalDataModel>();
                 while (reader.Read())
                 {
-                    //PersonalDataModel pdm;
-                    //personalData.Add(pdm = new PersonalDataModel
-                    //{
-                    //    id = reader.GetInt32(reader.GetOrdinal("Id")),
-                    //    firstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                    //    lastName = reader.GetString(reader.GetOrdinal("LastName")),
-                    //    phoneNumber = reader.GetString(reader.GetOrdinal("PhoneNumber")),
-                    //    emailAddress = reader.GetString(reader.GetOrdinal("EmailAddress")),
-                    //    country = reader.GetString(reader.GetOrdinal("Country")),
-                    //    city = reader.GetString(reader.GetOrdinal("City")),
-                    //    postCode = reader.GetString(reader.GetOrdinal("PostCode")),
-                    //    gender = reader.GetString(reader.GetOrdinal("Gender")),
-                    //    age = reader.GetInt32(reader.GetOrdinal("Age")),
-                    //});
-
-                    var person = new Person
+                    PersonalDataModel pdm;
+                    personalData.Add(pdm = new PersonalDataModel
                     {
-                        Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                        PersonalData = new PersonalInfo
-                        {
-                            FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                            LastName = reader.GetString(reader.GetOrdinal("LastName")),
-                            Gender = reader.GetString(reader.GetOrdinal("Gender")),
-                            Age = reader.GetInt32(reader.GetOrdinal("Age"))
-                        },
-                        PrivateAddress = new Address
-                        {
-                            Country = reader.GetString(reader.GetOrdinal("Country")),
-                            City = reader.GetString(reader.GetOrdinal("City")),
-                            PostCode = reader.GetString(reader.GetOrdinal("PostCode"))
-                        },
-                        ContactData = new Contact
-                        {
-                            PhoneNumber = reader.GetString(reader.GetOrdinal("PhoneNumber")),
-                            EmailAddress = reader.GetString(reader.GetOrdinal("EmailAddress"))
-                        }
-                    };
+                        id = reader.GetInt32(reader.GetOrdinal("Id")),
+                        firstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                        lastName = reader.GetString(reader.GetOrdinal("LastName")),
+                        phoneNumber = reader.GetString(reader.GetOrdinal("PhoneNumber")),
+                        emailAddress = reader.GetString(reader.GetOrdinal("EmailAddress")),
+                        country = reader.GetString(reader.GetOrdinal("Country")),
+                        city = reader.GetString(reader.GetOrdinal("City")),
+                        postCode = reader.GetString(reader.GetOrdinal("PostCode")),
+                        gender = reader.GetString(reader.GetOrdinal("Gender")),
+                        age = reader.GetInt32(reader.GetOrdinal("Age")),
+                    });
 
-                    personalData.Add(person);
+                    //var person = new Person
+                    //{
+                    //    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                    //    PersonalData = new PersonalInfo
+                    //    {
+                    //        FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                    //        LastName = reader.GetString(reader.GetOrdinal("LastName")),
+                    //        Gender = reader.GetString(reader.GetOrdinal("Gender")),
+                    //        Age = reader.GetInt32(reader.GetOrdinal("Age"))
+                    //    },
+                    //    PrivateAddress = new Address
+                    //    {
+                    //        Country = reader.GetString(reader.GetOrdinal("Country")),
+                    //        City = reader.GetString(reader.GetOrdinal("City")),
+                    //        PostCode = reader.GetString(reader.GetOrdinal("PostCode"))
+                    //    },
+                    //    ContactData = new Contact
+                    //    {
+                    //        PhoneNumber = reader.GetString(reader.GetOrdinal("PhoneNumber")),
+                    //        EmailAddress = reader.GetString(reader.GetOrdinal("EmailAddress"))
+                    //    }
+                    //};
+
+                    //personalData.Add(person);
 
 
 
                 }
 
-                System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(personalData.GetType(), new XmlRootAttribute("PersonsList"));
-                x.Serialize(writer, personalData);
+                //System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(personalData.GetType(), new XmlRootAttribute("PersonsList"));
+                //x.Serialize(writer, personalData);
 
-                conn.Close();
-                reader.Close();
+                //conn.Close();
+                //reader.Close();
 
 
-                //createCSV(filesCount, personalData);
+                createCSV(filesCount, personalData);
 
                 //this is version of code that support exporting data from db to xml 
                 //version with exporting data from db to csv is avaliable on gh in commit "Saving data from db to CSV file works" in branch main.

@@ -1,9 +1,10 @@
 import "./App.css";
-import InvoicesList from "./components/InvoicesList";
+import MainView from "./components/views/MainView";
+
 function App() {
   return (
     <>
-      <InvoicesList />
+      <MainView />
     </>
   );
 }

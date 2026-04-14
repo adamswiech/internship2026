@@ -12,6 +12,5 @@
         public string postCode { get; set; }
         public string gender { get; set; }
         public int age { get; set; }
-        public PersonalDataModel() { }
     }
 }
