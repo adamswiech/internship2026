@@ -68,13 +68,19 @@ namespace csvConverter
         public async Task<List<PersonalDataModel>> selectByIndex(string columnName, string columnValue, string index)
         {
             var allowedColumns = new HashSet<string>
-    {
-        "FirstName", "LastName", "PhoneNumber", "EmailAddress",
-        "Country", "City", "PostCode", "Gender", "Age"
-    };
+            {
+                "FirstName", "LastName", "PhoneNumber", "EmailAddress",
+                "Country", "City", "PostCode", "Gender", "Age"
+            };
 
-            if (!allowedColumns.Contains(columnName))
-                throw new ArgumentException($"Invalid column name: {columnName}");
+            // Extract column names from index name (e.g. "idx_lastname_firstname" -> ["LastName", "FirstName"])
+            var indexColumnMap = new Dictionary<string, string[]>
+    {
+        { "idx_firstname",            new[] { "FirstName" } },
+        { "idx_lastname",             new[] { "LastName" } },
+        { "idx_firstname_lastname",   new[] { "FirstName", "LastName" } },
+        { "idx_lastname_firstname",   new[] { "LastName", "FirstName" } },
+    };
 
             using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
@@ -83,13 +89,38 @@ namespace csvConverter
 
             try
             {
-                var selectCmd = new SqlCommand(@$"
-            SELECT FirstName, LastName, PhoneNumber, EmailAddress, Country, City, PostCode, Gender, Age
-            FROM PersonalData WITH (INDEX({index}))
-            WHERE {columnName} = @Value",
-                    connection);
+                string whereClause;
+                SqlCommand selectCmd;
 
-                selectCmd.Parameters.AddWithValue("@Value", columnValue);
+                if (!string.IsNullOrEmpty(columnName))
+                {
+                    // Single column case
+                    if (!allowedColumns.Contains(columnName))
+                        throw new ArgumentException($"Invalid column name: {columnName}");
+
+                    whereClause = $"WHERE {columnName} = @Value0";
+                    selectCmd = new SqlCommand($"SELECT * FROM PersonalData WITH (INDEX({index})) {whereClause}", connection);
+                    selectCmd.Parameters.AddWithValue("@Value0", columnValue);
+                }
+                else
+                {
+                    // Multi column case - derive columns from index name
+                    if (!indexColumnMap.TryGetValue(index, out var columns))
+                        throw new ArgumentException($"Unknown index: {index}");
+
+                    var values = columnValue.Split(' ');
+
+                    if (values.Length != columns.Length)
+                        throw new ArgumentException($"Expected {columns.Length} values for index '{index}', got {values.Length}");
+
+                    var conditions = columns.Select((col, i) => $"{col} = @Value{i}");
+                    whereClause = "WHERE " + string.Join(" AND ", conditions);
+
+                    selectCmd = new SqlCommand($"SELECT * FROM PersonalData WITH (INDEX({index})) {whereClause}", connection);
+
+                    for (int i = 0; i < values.Length; i++)
+                        selectCmd.Parameters.AddWithValue($"@Value{i}", values[i]);
+                }
 
                 using (var reader = await selectCmd.ExecuteReaderAsync())
                 {
@@ -118,6 +149,20 @@ namespace csvConverter
                 throw;
             }
         }
+
+        public async Task createNewIdx(string connectionString, string createIndexSql)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(createIndexSql, connection))
+                {
+                    command.ExecuteNonQuery();
+                    Console.WriteLine("Index created successfully.");
+                }
+            }
+        }
+
 
     }
 }
