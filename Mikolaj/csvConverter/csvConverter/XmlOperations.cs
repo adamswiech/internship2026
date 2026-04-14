@@ -12,7 +12,7 @@ namespace csvConverter
             _connectionString = connectionString;
         }
 
-        public async Task loadFile(string xmlFilePath)
+        public async Task loadFileToDb(string xmlFilePath)
         {
             XDocument doc = XDocument.Load(xmlFilePath);
 
@@ -65,22 +65,30 @@ namespace csvConverter
             }
         }
 
-        public async Task<List<PersonalDataModel>> selectByIndex(string columnName, string columnValue, string index)
+        public async Task<List<PersonalDataModel>> selectByIndex(string searchValue, string columnName)
         {
             var allowedColumns = new HashSet<string>
             {
-                "FirstName", "LastName", "PhoneNumber", "EmailAddress",
-                "Country", "City", "PostCode", "Gender", "Age"
+            "FirstName", "LastName", "PhoneNumber", "EmailAddress",
+            "Country", "City", "PostCode", "Gender", "Age"
             };
 
-            // Extract column names from index name (e.g. "idx_lastname_firstname" -> ["LastName", "FirstName"])
-            var indexColumnMap = new Dictionary<string, string[]>
-    {
-        { "idx_firstname",            new[] { "FirstName" } },
-        { "idx_lastname",             new[] { "LastName" } },
-        { "idx_firstname_lastname",   new[] { "FirstName", "LastName" } },
-        { "idx_lastname_firstname",   new[] { "LastName", "FirstName" } },
-    };
+            var columns = columnName.Split(',').Select(c => c.Trim()).ToList();
+            var values = searchValue.Split(',').Select(v => v.Trim()).ToList();
+
+            // Validate all columns
+            foreach (var col in columns)
+            {
+                if (!allowedColumns.Contains(col))
+                    throw new ArgumentException($"Invalid column name: {col}");
+            }
+
+            if (columns.Count != values.Count)
+                throw new ArgumentException("Column count and value count must match.");
+
+            // Build WHERE clause: "LastName LIKE @Value0 AND FirstName LIKE @Value1"
+            var whereParts = columns.Select((col, i) => $"{col} LIKE @Value{i}");
+            var whereClause = string.Join(" AND ", whereParts);
 
             using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
@@ -89,37 +97,11 @@ namespace csvConverter
 
             try
             {
-                string whereClause;
-                SqlCommand selectCmd;
+                var selectCmd = new SqlCommand($"SELECT * FROM PersonalData WHERE {whereClause}", connection);
 
-                if (!string.IsNullOrEmpty(columnName))
+                for (int i = 0; i < values.Count; i++)
                 {
-                    // Single column case
-                    if (!allowedColumns.Contains(columnName))
-                        throw new ArgumentException($"Invalid column name: {columnName}");
-
-                    whereClause = $"WHERE {columnName} = @Value0";
-                    selectCmd = new SqlCommand($"SELECT * FROM PersonalData WITH (INDEX({index})) {whereClause}", connection);
-                    selectCmd.Parameters.AddWithValue("@Value0", columnValue);
-                }
-                else
-                {
-                    // Multi column case - derive columns from index name
-                    if (!indexColumnMap.TryGetValue(index, out var columns))
-                        throw new ArgumentException($"Unknown index: {index}");
-
-                    var values = columnValue.Split(' ');
-
-                    if (values.Length != columns.Length)
-                        throw new ArgumentException($"Expected {columns.Length} values for index '{index}', got {values.Length}");
-
-                    var conditions = columns.Select((col, i) => $"{col} = @Value{i}");
-                    whereClause = "WHERE " + string.Join(" AND ", conditions);
-
-                    selectCmd = new SqlCommand($"SELECT * FROM PersonalData WITH (INDEX({index})) {whereClause}", connection);
-
-                    for (int i = 0; i < values.Length; i++)
-                        selectCmd.Parameters.AddWithValue($"@Value{i}", values[i]);
+                    selectCmd.Parameters.AddWithValue($"@Value{i}", values[i] + "%");
                 }
 
                 using (var reader = await selectCmd.ExecuteReaderAsync())
