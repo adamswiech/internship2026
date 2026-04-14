@@ -13,7 +13,7 @@ export default function GridView() {
     const fetchData = async () => {
       const response = await Api.fetchData(queryProps.offset, queryProps.limit);
       console.log(response);
-      setData(response);
+      setData((prevData) => [...prevData, ...response]);
     };
 
     fetchData();
@@ -29,6 +29,25 @@ export default function GridView() {
 
   return (
     <div className="app-box">
+      <div className="navigation">
+        <p>Site number: {navigation}</p>
+        <div className="navigation-buttons-box">
+          <button
+            onClick={() => {
+              setNavigation(navigation + 1);
+              setNext(navigation);
+            }}
+          >
+            Next
+          </button>
+          <button
+            onClick={() => navigation != 1 && setNavigation(navigation - 1)}
+          >
+            Prev
+          </button>
+        </div>
+      </div>
+
       <div className="search-bar">
         <input type="text" placeholder="Search for first or last name..." />
         <button onClick={() => handleSearch()}>Search</button>
@@ -50,30 +69,13 @@ export default function GridView() {
         </thead>
 
         <tbody>
-          {data.map((element: PersonalDataModel) => (
-            <GridElement key={element.id} element={element} />
-          ))}
+          {data
+            .slice(navigation * 20, navigation * 20 + 20)
+            .map((element: PersonalDataModel) => (
+              <GridElement key={element.id} element={element} />
+            ))}
         </tbody>
       </table>
-
-      <div className="navigation">
-        <p>Site number: {navigation}</p>
-        <div className="navigation-buttons-box">
-          <button
-            onClick={() => {
-              setNavigation(navigation + 1);
-              setNext(navigation);
-            }}
-          >
-            Next
-          </button>
-          <button
-            onClick={() => navigation != 1 && setNavigation(navigation - 1)}
-          >
-            Prev
-          </button>
-        </div>
-      </div>
     </div>
   );
 }
