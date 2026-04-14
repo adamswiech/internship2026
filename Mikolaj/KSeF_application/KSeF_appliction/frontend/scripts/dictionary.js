@@ -3,6 +3,7 @@ export const dictionaryType = {
   number: "number",
   integer: "number",
   boolean: "boolean",
+  object: "any"
 };
 
 export const dictionaryFormat = {

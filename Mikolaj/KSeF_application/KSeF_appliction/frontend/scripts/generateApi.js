@@ -1,12 +1,13 @@
 import { accessSwaggerJsonContent } from "./accessServer.js";
 import fs from "node:fs/promises";
 import { apiAddressesList } from "../scripts/accessServer.js";
+import { dictionaryType } from "./dictionary.js";
 
 const API_PATH = process.env.API_PATH;
 const HTTPS_URL = apiAddressesList.httpsApiAddress;
+const importsList = [];
 
-console.log("\x1b[32mgenerateApi.js\x1b[0m");
-console.log("HTTPS_URL: ", HTTPS_URL);
+console.log("\x1b[32m> generateApi.js started...\x1b[0m");
 
 const deleteAllDataFromApi = async () => {
   try {
@@ -16,6 +17,20 @@ const deleteAllDataFromApi = async () => {
   }
 };
 await deleteAllDataFromApi();
+
+function mediaTypeToJsBodyType(mediaType) {
+  if (!mediaType || typeof mediaType !== "string") {
+    return "Json";
+  }
+
+  let type = mediaType.split("/").pop()?.trim() || "";
+  const parts = type.split(/[-+]/);
+  const pascalCase = parts
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+    .join("");
+
+  return pascalCase || "Raw";
+}
 
 const fetchApiEndpointData = async () => {
   const swaggerJsonContent = await accessSwaggerJsonContent;
@@ -36,27 +51,73 @@ const fetchApiEndpointData = async () => {
 
   for (const [path, methodsObj] of Object.entries(paths)) {
     for (const [method, operation] of Object.entries(methodsObj)) {
-      let hasRequestBody = false;
+      let hasRequestBody = false; //clear this hardcoded values
       let requestBodyProperties = null;
       let hasContent = false; //check if json has content in responses to recognize if it is GET or POST, true - get, false - post
-      let returnType = "";
+      let returnTypeFromRef = "";
+      //   let tags = null;
+      let args = [];
+      let parameters = []; //fix this XDDD
 
-      //let
+      //here you add arguments to method arguments in api.ts
+      if (Array.isArray(operation.parameters)) {
+        parameters = operation.parameters.map((param) => {
+          const schema = param.schema || {};
+          args.push({
+            name: param.name,
+            in: param.in,
+            type: schema.type || "string",
+            format: schema.format || null,
+            required: !!param.required,
+            description: param.description || "",
+          });
+        });
+      }
 
       if (!operation || typeof operation !== "object") continue;
+      if (operation.requestBody?.content) {
+        const contentTypes = Object.keys(operation.requestBody.content);
 
-      if (
-        operation.requestBody?.content?.["multipart/form-data"]?.schema
-          ?.properties
-      ) {
-        const fileProps =
-          operation.requestBody.content["multipart/form-data"].schema.properties
-            .file;
+        if (contentTypes.length > 0) {
+          const mediaType =
+            contentTypes.find((ct) => ct.includes("multipart/form-data")) ||
+            contentTypes[0];
 
-        requestBodyProperties = {
-          type: fileProps.type,
-          format: fileProps.format,
-        };
+          const mediaTypeObject = operation.requestBody.content[mediaType];
+
+          if (mediaTypeObject?.schema?.properties) {
+            const properties = mediaTypeObject.schema.properties;
+
+            // Dynamically find the file/binary property
+            let fieldName = null;
+            let fileProps = null;
+
+            // First, look for a property with type: string + format: binary
+            for (const [propName, schema] of Object.entries(properties)) {
+              if (schema?.type === "string" && schema?.format === "binary") {
+                fieldName = propName;
+                fileProps = schema;
+                break;
+              }
+            }
+
+            // Fallback: if no binary field found, take the first property
+            if (!fieldName) {
+              fieldName = Object.keys(properties)[0];
+              fileProps = properties[fieldName];
+            }
+
+            // Now build the object
+            requestBodyProperties = {
+              name: fieldName, // ← "file" (or whatever the field is named)
+              type: fileProps?.type || "string",
+              format: fileProps?.format || "binary",
+              contentType: mediaTypeToJsBodyType(mediaType), // "FormData"
+              mediaType: mediaType, // original full media type (optional but useful)
+              isFileUpload: true,
+            };
+          }
+        }
       }
 
       const successResponse =
@@ -68,21 +129,24 @@ const fetchApiEndpointData = async () => {
         const schema = successResponse.content[firstContentType]?.schema;
 
         if (schema) {
-          console.log("123"); //code here is executed
-          //ISSUE: where I even could find data type to return?
-
           if (schema.type === "array" && schema.items?.$ref) {
             const ref = schema.items.$ref;
-            returnType = ref.split("/").pop();
-            console.log(ref.split("/").pop());
-          } else if (schema.$ref) {
-            returnType = schema.$ref.split("/").pop();
-            console.log(schema.$ref.split("/").pop());
-          } else if (schema.type) {
-            returnType = schema.type;
-            console.log(schema.type);
+            //for arrays
+            let returnTypeFromRefNotArray = ref.split("/").pop();
+            returnTypeFromRef = `${ref.split("/").pop()}[]`;
 
-            if (schema.format) returnType += `(${schema.format})`; //CHECK THIS LINE
+            !importsList.includes(returnTypeFromRefNotArray) &&
+              importsList.push(returnTypeFromRefNotArray);
+          } else if (schema.$ref) {
+            //for single return
+            returnTypeFromRef = `${schema.$ref.split("/").pop()}`;
+            !importsList.includes(returnTypeFromRef) &&
+              importsList.push(returnTypeFromRef);
+          } else if (schema.type) {
+            returnTypeFromRef = schema.type;
+            if (schema.format) returnTypeFromRef += `(${schema.format})`; //CHECK THIS LINE
+          } else {
+            returnTypeFromRef = "any";
           }
         }
       }
@@ -92,50 +156,71 @@ const fetchApiEndpointData = async () => {
         url: path,
         tags: Array.isArray(operation.tags) ? operation.tags : [],
         hasRequestBody: hasRequestBody,
-        requestBodyProperties: requestBodyProperties,
+        requestBodyProperties: requestBodyProperties || null,
         hasContent: hasContent,
-        returnType: returnType || "any",
+        returnType: returnTypeFromRef || "any",
+        args: args,
       });
     }
   }
-
   return dataList;
 }; //whole function works
 
 const apiEndpointsList = await fetchApiEndpointData();
 
-const generateApiFile = async () => {
-  let imports = [];
+export const generateApiFile = async () => {
+  for (let importEl of importsList) {
+    await fs.appendFile(
+      `${API_PATH}/api.ts`,
+      `import type {${importEl}} from "../src/interfaces/${importEl}";\n`,
+      "utf8",
+    );
+  }
 
   await fs.appendFile(
     `${API_PATH}/api.ts`,
-    `export default class Api {\n`,
+    `\nexport default class Api {\n`,
     "utf8",
   );
-  let i = 0;
+
   for (const endpoint of apiEndpointsList) {
     const endpointName = endpoint.url.substring(
       endpoint.url.lastIndexOf("/") + 1,
     );
     let methodCode = "";
 
+    methodCode = `public static async ${endpointName}(${
+      endpoint.requestBodyProperties != undefined
+        ? `${endpoint.requestBodyProperties.name}:${endpoint.requestBodyProperties.contentType}`
+        : endpoint.args.length > 0
+          ? endpoint.args[0].name + `: ${dictionaryType[endpoint.args[0].type]}`
+          : ""
+    }): Promise<${endpoint.returnType}> {`;
+
+    let queryString = "";
+
+    if (endpoint.args && endpoint.args.length > 0) {
+      queryString =
+        "?" +
+        endpoint.args.map((arg) => `${arg.name}=\${${arg.name}}`).join("&");
+    }
+
     switch (endpoint.method) {
       case "GET":
-        methodCode = `public static async ${endpointName}(): Promise<${apiEndpointsList[i].tags}[]> {
-        const response = await fetch("${HTTPS_URL}${endpoint.url}");
-        const jsonResponse: any[] = await response.json();
+        methodCode += `
+        const response = await fetch(\`${HTTPS_URL}${endpoint.url}${queryString}\`);
+        const jsonResponse: ${endpoint.returnType} = await response.json();
 
         if (!response.ok) {
-            throw new Error("HTTP error! status:" + response.status);
-        }   
-            
-        return jsonResponse;        
-      
-      \n}\n`;
+            throw new Error("HTTP error! status: " + response.status);
+        }
+
+        return jsonResponse;
+        }`;
         break;
 
       case "POST":
-        methodCode = `public static async ${endpointName}(file:${endpoint.returnType}): Promise<${apiEndpointsList[i].tags}[]> {
+        methodCode += `
         const response = await fetch(
             "${HTTPS_URL}${endpoint.url}", 
             {
@@ -143,79 +228,40 @@ const generateApiFile = async () => {
                 body: file
             }
         );
-        const jsonResponse: any[] = await response.json();
+        const jsonResponse: ${endpoint.returnType} = await response.json();
 
         if (!response.ok) {
-            throw new Error("HTTP error! status:" + response.status);
+            throw new Error("HTTP error! status: " + response.status);
         }
 
-        return [];        
-      
-      \n}\n`;
+        return jsonResponse;
+    }`;
         break;
+
+      case "PUT":
+        console.log(
+          "\x1b[31mUndefined endpoint method PUT! Define action method in generateApi.js\x1b[0m",
+        );
+        return;
+        break;
+
+      case "DELETE":
+        console.log(
+          "\x1b[31mUndefined endpoint method DELETE! Define action in generateApi.js\x1b[0m",
+        );
+        return;
+        break;
+
+      default:
+        console.log(
+          "\x1b[31mUndefined or unknown endpoint method! Check if methods were declared properly in generateApi.js\x1b[0m",
+        );
+        return;
     }
-
-    //1. how to recognize that POST has to upload data to db and doesn't behave as GET? - Check if json has "content" in "responses"
-    //a. if has just go to $ref and take this last part after last / -> that is your type to return
-    //b. if has not - you know that this POST is uploading data.
-
-    //2. how to recognize if returned type should be array or sth else?
-    //a. if "content" > "text/plain" > "schema" > "type" = "array" set type as "$ref" value + [] (array of given type)
-    //b. if "content" doesn't have this "type":"array" just set type as "$ref" value
-
-    const typeName = endpoint.tags[0];
-
-    if (!imports.includes(typeName)) {
-      console.log(typeName);
-      imports.push(typeName);
-    }
-
-    i++;
 
     await fs.appendFile(`${API_PATH}/api.ts`, methodCode, "utf8");
   }
 
   await fs.appendFile(`${API_PATH}/api.ts`, `}\n`, "utf8");
-
-  for (let el of imports) {
-    await fs.appendFile(
-      `${API_PATH}/api.ts`,
-      `import type {${el}} from "../src/interfaces/${el}";\n`,
-      "utf8",
-    );
-  }
-
-  console.log("API methods have been generated!");
+  console.log("\x1b[32mAPI methods have been generated!\x1b[0m");
 };
-
-generateApiFile();
-
-//SCHEMA FROM JSON ABOUT ENDPOINTS - SAME AS INTERFACES SCHEMA -> GET TYPE FOR METHOD IN CLASS FROM HERE
-// "schema": {
-//                 "type": "object",
-//                 "properties": {
-//                   "file": {
-//                     "type": "string",
-//                     "format": "binary"
-//                   }
-
-//EXAMPLE VIEW OF CLASS OF FIRST METHOD
-// import type { Faktura } from "../src/interfaces/Faktura";
-// export default class Api {
-//   public static async getFaktura(): Promise<Faktura[]> {
-//     const response = await fetch(
-//       "https://server-ksef_appliction.dev.localhost:7459/api/Faktura/GetFaktury",
-//     );
-//     const jsonResponse: any[] = await response.json();
-
-//     return jsonResponse.map(
-//       (item: any): Faktura => ({
-//         ...item,
-//         p_1: new Date(item.p_1),
-//         p_6_Od: new Date(item.p_6_Od),
-//         p_6_Do: new Date(item.p_6_Do),
-//         wiersze: item.wiersze,
-//       }),
-//     );
-//   }
-// }
