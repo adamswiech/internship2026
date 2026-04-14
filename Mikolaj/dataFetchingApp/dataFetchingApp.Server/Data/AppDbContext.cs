@@ -13,7 +13,6 @@ namespace dataFetchingApp.Server.Data
             modelBuilder.Entity<PersonalDataModel>(entity =>
             {
                 entity.ToTable("PersonalData", "dbo");
-                entity.Property(e => e.id).HasColumnName("Id");
                 entity.Property(e => e.firstName).HasColumnName("FirstName");
                 entity.Property(e => e.lastName).HasColumnName("LastName");
                 entity.Property(e => e.phoneNumber).HasColumnName("PhoneNumber");

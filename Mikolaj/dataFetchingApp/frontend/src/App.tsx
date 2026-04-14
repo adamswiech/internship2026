@@ -1,7 +1,11 @@
-import "./App.css";
+import GridView from "./components/GridView";
 
 function App() {
-  return <></>;
+  return (
+    <>
+      <GridView/>
+    </>
+  );
 }
 
 export default App;
