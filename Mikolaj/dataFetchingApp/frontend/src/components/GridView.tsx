@@ -6,13 +6,18 @@ import GridElement from "./GridElement";
 export default function GridView() {
   const [data, setData] = useState<PersonalDataModel[]>([]);
   const [queryProps, setQueryProps] = useState({ limit: 20, offset: 0 });
+
+  const [searchData, setSearchData] = useState({ firstName: "", lastName: "" });
+
+  const [tmp, setTmp] = useState("");
+
   const [navigation, setNavigation] = useState(1);
   const [next, setNext] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await Api.fetchData(queryProps.offset, queryProps.limit);
-      console.log(response);
+      //   console.log(response);
       setData((prevData) => [...prevData, ...response]);
     };
 
@@ -23,8 +28,24 @@ export default function GridView() {
     });
   }, [next]);
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     console.log("search");
+
+    const [firstName, lastName] = tmp.trim().split(/\s+/);
+
+    setSearchData({
+      firstName: firstName || "", // first part
+      lastName: lastName || "", // second part
+    });
+
+    const response = await Api.filterData(
+      queryProps.offset,
+      queryProps.limit,
+      searchData.firstName,
+      searchData.lastName,
+    );
+
+    console.log(response); //here continue tomorrow 
   };
 
   return (
@@ -49,7 +70,14 @@ export default function GridView() {
       </div>
 
       <div className="search-bar">
-        <input type="text" placeholder="Search for first or last name..." />
+        <input
+          onChange={(e) => {
+            setTmp(e.target.value);
+            console.log(e.target.value);
+          }}
+          type="text"
+          placeholder="Search for first or last name..."
+        />
         <button onClick={() => handleSearch()}>Search</button>
       </div>
       <table>
