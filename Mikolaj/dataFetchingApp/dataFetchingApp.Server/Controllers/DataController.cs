@@ -17,7 +17,7 @@ namespace dataFetchingApp.Server.Controllers
         }
 
         [HttpGet("fetchData")]
-        public ActionResult<List<PersonalDataModel>> fetchData()
+        public ActionResult<List<PersonalDataModel>> fetchData(int offset)
         {
             return _db.PersonalDataSet.ToList();
         }
