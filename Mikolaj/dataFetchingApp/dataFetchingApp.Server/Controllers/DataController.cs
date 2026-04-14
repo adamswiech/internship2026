@@ -1,6 +1,8 @@
 ﻿using dataFetchingApp.Server.Data;
 using dataFetchingApp.Server.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace dataFetchingApp.Server.Controllers
 {
@@ -17,9 +19,21 @@ namespace dataFetchingApp.Server.Controllers
         }
 
         [HttpGet("fetchData")]
-        public ActionResult<List<PersonalDataModel>> fetchData(int offset)
+        public async Task<ActionResult<List<PersonalDataModel>>> FetchPersonalData(int offset, int limit)
         {
-            return _db.PersonalDataSet.ToList();
+            var personsList = await _db.PersonalDataSet
+                .FromSqlRaw(@"
+            SELECT * 
+            FROM PersonalData 
+            ORDER BY Id
+            OFFSET @offset ROWS 
+            FETCH NEXT @limit ROWS ONLY",
+                    new SqlParameter("@offset", offset),
+                    new SqlParameter("@limit", limit))
+                .AsNoTracking()
+                .ToListAsync();
+
+            return personsList;
         }
     }
 }

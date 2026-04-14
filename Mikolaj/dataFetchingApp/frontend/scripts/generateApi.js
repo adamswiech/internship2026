@@ -189,11 +189,23 @@ export const generateApiFile = async () => {
     );
     let methodCode = "";
 
+    const renderArgs = () => {
+      // endpoint.args[0].name + `: ${dictionaryType[endpoint.args[0].type]}`
+
+      let argsListStr = "";
+
+      for (let el of endpoint.args) {
+        argsListStr += `${el.name} : ${dictionaryType[el.type]}, `;
+      }
+
+      return argsListStr;
+    };
+
     methodCode = `public static async ${endpointName}(${
       endpoint.requestBodyProperties != undefined
         ? `${endpoint.requestBodyProperties.name}:${endpoint.requestBodyProperties.contentType}`
         : endpoint.args.length > 0
-          ? endpoint.args[0].name + `: ${dictionaryType[endpoint.args[0].type]}`
+          ? renderArgs()
           : ""
     }): Promise<${endpoint.returnType}> {`;
 
