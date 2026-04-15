@@ -32,11 +32,11 @@ export default function GridView() {
 
         const searchResult = searchVal.split(" ");
 
-        const response = await Api.filterDataByLastName(
+        const response = await Api.filterData(
           queryProps.offset,
           queryProps.limit,
           searchResult[0], //change it here
-          // searchResult[1], //change it here
+          searchResult[1], //change it here
         );
 
         setData((prevData) => [...prevData, ...response]);
