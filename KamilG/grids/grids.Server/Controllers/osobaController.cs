@@ -19,10 +19,29 @@ using grids.Server.Models;
         }
 
     [HttpGet]
-        public async Task<ActionResult<List<Osoba>>> Index([FromQuery] int page = 1, [FromQuery] int pageSize = 100)
+        public async Task<ActionResult<List<Osoba>>> Index(
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 100,
+            [FromQuery] string? search = null)
         {
-            var data = await _context.Osoba
-                .AsNoTracking()
+            page = Math.Max(page, 1);
+            pageSize = Math.Clamp(pageSize, 1, 500);
+
+            IQueryable<Osoba> query = _context.Osoba.AsNoTracking();
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                var term = search.Trim();
+                var pattern = $"%{term}%";
+
+            query = query.Where(o =>
+                EF.Functions.Like(o.firstname, pattern));
+                    //EF.Functions.Like(o.lastname, pattern) ||
+                    //EF.Functions.Like(o.city, pattern) ||
+                    //EF.Functions.Like(o.email, pattern));
+            }
+
+            var data = await query
                 .OrderBy(o => o.id)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
