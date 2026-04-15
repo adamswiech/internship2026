@@ -169,6 +169,9 @@ const fetchApiEndpointData = async () => {
 const apiEndpointsList = await fetchApiEndpointData();
 
 export const generateApiFile = async () => {
+  let methodCode = "";
+  let queryString = "";
+
   for (let importEl of importsList) {
     await fs.appendFile(
       `${API_PATH}/api.ts`,
@@ -183,33 +186,28 @@ export const generateApiFile = async () => {
     "utf8",
   );
 
+  const renderFunctionArgs = (endpointArgs) => {
+    let argsListStr = "";
+
+    for (let el of endpointArgs) {
+      argsListStr += `${el.name} : ${dictionaryType[el.type]}, `;
+    }
+
+    return argsListStr;
+  };
+
   for (const endpoint of apiEndpointsList) {
     const endpointName = endpoint.url.substring(
       endpoint.url.lastIndexOf("/") + 1,
     );
-    let methodCode = "";
-
-    const renderArgs = () => {
-      // endpoint.args[0].name + `: ${dictionaryType[endpoint.args[0].type]}`
-
-      let argsListStr = "";
-
-      for (let el of endpoint.args) {
-        argsListStr += `${el.name} : ${dictionaryType[el.type]}, `;
-      }
-
-      return argsListStr;
-    };
 
     methodCode = `public static async ${endpointName}(${
       endpoint.requestBodyProperties != undefined
-        ? `${endpoint.requestBodyProperties.name}:${endpoint.requestBodyProperties.contentType}`
-        : endpoint.args.length > 0
-          ? renderArgs()
+        ? (`${endpoint.requestBodyProperties.name}:${endpoint.requestBodyProperties.contentType}`)
+        : (endpoint.args.length > 0)
+          ? renderFunctionArgs(endpoint.args)
           : ""
     }): Promise<${endpoint.returnType}> {`;
-
-    let queryString = "";
 
     if (endpoint.args && endpoint.args.length > 0) {
       queryString =

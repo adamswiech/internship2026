@@ -11,7 +11,6 @@ export default function GridView() {
   const [searchVal, setSearchVal] = useState("");
   const [status, setStatus] = useState("Loading...");
   const [operation, setOperation] = useState("FetchData");
-  const [pagesCount, setPagesCount] = useState(0);
 
   useEffect(() => {
     if (operation == "FetchData") {
@@ -60,7 +59,7 @@ export default function GridView() {
   return (
     <div className="app-box">
       <div className="navigation">
-        <p>Site number: {navigation}/{pagesCount}</p>
+        <p>Site number: {navigation}</p>
         <div className="navigation-buttons-box">
           <button
             onClick={() => {
