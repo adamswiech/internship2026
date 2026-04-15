@@ -24,7 +24,8 @@ namespace IndexApi.Controllers
             [FromQuery] int page = 1,
             [FromQuery] int pageSize = 20,
             [FromQuery] string? firstName = null,
-            [FromQuery] string? lastName = null)
+            [FromQuery] string? lastName = null,
+            [FromQuery] string? orderBy = null)
         {
             if (pageSize < 1)
             {
@@ -34,7 +35,7 @@ namespace IndexApi.Controllers
             {
                 return BadRequest("page must be greater than 0");
             }
-            var result = await _service.GetPeople(page, pageSize, firstName, lastName);
+            var result = await _service.GetPeople(page, pageSize, firstName, lastName, orderBy);
             return Ok(result);
         }
     }

@@ -7,6 +7,7 @@ export async function getPeople(params: {
   pageSize: number;
   firstName?: string;
   lastName?: string;
+  orderBy?: string;
 }): Promise<PagedDTO<Person>> {
   const url = new URL(`${BASE_URL}/people`);
   url.searchParams.append("page", params.page.toString());
@@ -18,6 +19,9 @@ export async function getPeople(params: {
 
   if (params.lastName) {
     url.searchParams.append("lastName", params.lastName);
+  }
+  if (params.orderBy) {
+    url.searchParams.append("orderBy", params.orderBy);
   }
   const res = await fetch(url.toString());
   if (!res.ok) {

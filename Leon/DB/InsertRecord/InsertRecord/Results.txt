@@ -148,3 +148,10 @@ DataTable creation: 30.85 sec
 Bulk copy insert: 77.68 sec
 Total time: 183.60 sec
 ----------------------------------------
+
+Run Time: 4/14/2026 2:30:26 PM
+Data generation: 68.39 sec
+DataTable creation: 23.12 sec
+Bulk copy insert: 50.28 sec
+Total time: 141.80 sec
+----------------------------------------

@@ -11,6 +11,7 @@ export default function App() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [orderBy, setOrderBy] = useState("id");
   const pageSize = 20;
 
 
@@ -22,6 +23,7 @@ export default function App() {
         pageSize,
         firstName: firstName || undefined,
         lastName: lastName || undefined,
+        orderBy,
       });
       setData(res.items);
       setTotalPages(res.totalPages);
@@ -32,11 +34,15 @@ export default function App() {
   };
   useEffect(() => {
     fetchData();
-  }, [page]);
+  }, [page, orderBy]);
 
   const handleSearch = () => {
     setPage(1);
     fetchData();
+  };
+  const handleOrder = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setOrderBy(e.target.value);
+    setPage(1);
   };
 
 
@@ -57,6 +63,18 @@ export default function App() {
         <button onClick={handleSearch}>
           Search
         </button>
+        <select onChange={handleOrder}>
+          <option value={"id"}>id</option>
+          <option value={"first_name"}>first_name</option>
+          <option value={"middle_name"}>middle_name</option>
+          <option value={"last_name"}>last_name</option>
+          <option value={"age"}>age</option>
+          <option value={"height"}>height</option>
+          <option value={"weight"}>weight</option>
+          <option value={"city"}>city</option>
+          <option value={"country"}>country</option>
+          <option value={"favourite_number"}>fav number</option>
+        </select>
       </div>
       {loading ? <p>Loading...</p> : null}
       <table>
