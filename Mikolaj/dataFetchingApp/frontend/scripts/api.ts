@@ -19,4 +19,13 @@ public static async fetchData(offset : number, limit : number, ): Promise<Person
         }
 
         return jsonResponse;
+        }public static async filterDataByLastName(offset : number, limit : number, lastName : string, ): Promise<PersonalDataModel[]> {
+        const response = await fetch(`https://localhost:7503/api/Data/filterDataByLastName?offset=${offset}&limit=${limit}&lastName=${lastName}`);
+        const jsonResponse: PersonalDataModel[] = await response.json();
+
+        if (!response.ok) {
+            throw new Error("HTTP error! status: " + response.status);
+        }
+
+        return jsonResponse;
         }}
