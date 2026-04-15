@@ -93,7 +93,7 @@ namespace IndexApi.Services
                 .Take(pageSize)
                 .ToListAsync();
 
-            var total = items.Count();
+            var total = await query.CountAsync();
             int pages = (int)(total + pageSize - 1) / pageSize;
             return new PagedDTO<Person>
             {
