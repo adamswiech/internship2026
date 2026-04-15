@@ -19,13 +19,16 @@ namespace IndexApi.Controllers
             _service = service;
         }
 
+
+
         [HttpGet]
         public async Task<ActionResult<PagedDTO<Person>>> GetPeople(
             [FromQuery] int page = 1,
             [FromQuery] int pageSize = 20,
             [FromQuery] string? firstName = null,
             [FromQuery] string? lastName = null,
-            [FromQuery] string? orderBy = null)
+            [FromQuery] string? orderBy = null,
+            [FromQuery] bool? reqPages = null)
         {
             if (pageSize < 1)
             {
@@ -35,7 +38,7 @@ namespace IndexApi.Controllers
             {
                 return BadRequest("page must be greater than 0");
             }
-            var result = await _service.GetPeople(page, pageSize, firstName, lastName, orderBy);
+            var result = await _service.GetPeople(page, pageSize, firstName, lastName, orderBy, reqPages);
             return Ok(result);
         }
     }

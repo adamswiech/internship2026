@@ -20,17 +20,17 @@ namespace IndexApi.Services
             int pageSize,
             string? firstName,
             string? lastName,
-            string? orderBy)
+            string? orderBy,
+            bool? reqPages)
         {
             _context.Database.SetCommandTimeout(150);
             var query = _context.Persons.AsNoTracking().AsQueryable();
 
-
             if (!string.IsNullOrEmpty(firstName))
-                query = query.Where(x => x.first_name.Contains(firstName));
+                query = query.Where(x => EF.Functions.Like(x.first_name, firstName + "%"));
 
             if (!string.IsNullOrEmpty(lastName))
-                query = query.Where(x => x.last_name.Contains(lastName));
+                query = query.Where(x => EF.Functions.Like(x.last_name, lastName + "%"));
 
             if (!string.IsNullOrEmpty(orderBy))
             {
@@ -86,20 +86,28 @@ namespace IndexApi.Services
                 query = query.OrderBy(x => x.id);
             }
 
-            
+
 
             var items = await query
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
-            var total = await query.CountAsync();
-            int pages = (int)(total + pageSize - 1) / pageSize;
+
+            int? total = null;
+            int? pages = null;
+            if (reqPages == true)
+            {
+                total = await query
+                    .OrderBy(x => 0)
+                    .CountAsync();
+                pages = (int)(total + pageSize - 1) / pageSize;
+            }
             return new PagedDTO<Person>
             {
                 Items = items,
-                TotalCount = total,
-                TotalPages = pages
+                TotalCount = reqPages == true ? total : null,
+                TotalPages = reqPages == true ? pages : null
             };
         }
     }

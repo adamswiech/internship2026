@@ -8,11 +8,15 @@ export async function getPeople(params: {
   firstName?: string;
   lastName?: string;
   orderBy?: string;
+  reqPages?: boolean;
 }): Promise<PagedDTO<Person>> {
   const url = new URL(`${BASE_URL}/people`);
   url.searchParams.append("page", params.page.toString());
   url.searchParams.append("pageSize", params.pageSize.toString());
-
+  
+  if (params.reqPages) {
+    url.searchParams.append("reqPages", "true");
+  }
   if (params.firstName) {
     url.searchParams.append("firstName", params.firstName);
   }

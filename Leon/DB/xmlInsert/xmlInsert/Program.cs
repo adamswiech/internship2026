@@ -16,7 +16,7 @@ InsertXml xmlI = new InsertXml();
 
 
 //xmlI.InsertLinq(fileXXS);
-xmlI.InsertLinqBulk(fileXXS);
+//xmlI.InsertLinqBulk(fileXXS);
 //xmlI.InsertSerialize(fileXXS);
 //xmlI.InsertSerializeBulk(fileXXS);
-//xmlI.InsertTest(file1M);
+xmlI.InsertTest(file1M);

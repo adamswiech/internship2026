@@ -15,7 +15,11 @@ export default function App() {
   const pageSize = 20;
 
 
-  const fetchData = async () => {
+type FetchOptions = {
+  reqPages?: boolean | false;
+};
+
+  const fetchData = async ({ reqPages }: FetchOptions = {}) => {
     setLoading(true);
     try {
       const res = await getPeople({
@@ -24,10 +28,13 @@ export default function App() {
         firstName: firstName || undefined,
         lastName: lastName || undefined,
         orderBy,
+        reqPages,
       });
       setData(res.items);
-      setTotalPages(res.totalPages);
-      console.log(res.totalPages);
+      if(res.totalPages){
+        setTotalPages(res.totalPages);
+        console.log(res.totalPages);
+      }
     } finally {
       setLoading(false);
     }
@@ -35,10 +42,13 @@ export default function App() {
   useEffect(() => {
     fetchData();
   }, [page, orderBy]);
+  useEffect(() => {
+    fetchData({ reqPages: true });
+  }, [window]);
 
   const handleSearch = () => {
     setPage(1);
-    fetchData();
+    fetchData({ reqPages: true });
   };
   const handleOrder = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setOrderBy(e.target.value);
