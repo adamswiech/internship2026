@@ -1,46 +1,47 @@
+import type {Faktura} from "../src/interfaces/Faktura";
+import type {Podmiot} from "../src/interfaces/Podmiot";
+
 export default class Api {
-public static async AddXML(): Promise<any> {
-            const response = await fetch(
-                "https://localhost:7459/api/Faktura/AddXML", 
-                {
-                    method: "POST",
-                    body: file
-                }
-            );
-            const jsonResponse: any = await response.json();
-
-            if (!response.ok) {
-                throw new Error("HTTP error! status:" + response.status);
+public static async AddXML(file:FormData): Promise<any> {
+        const response = await fetch(
+            "https://localhost:7459/api/Faktura/AddXML", 
+            {
+                method: "POST",
+                body: file
             }
+        );
+        const jsonResponse: any = await response.json();
 
-            return jsonResponse;        
-      
-}
-public static async GetFaktury(): Promise<Faktura[]> {
-        const response = await fetch("https://localhost:7459/api/Faktura/GetFaktury");
+        if (!response.ok) {
+            throw new Error("HTTP error! status: " + response.status);
+        }
+
+        return jsonResponse;
+    }public static async GetFaktury(): Promise<Faktura[]> {
+        const response = await fetch(`https://localhost:7459/api/Faktura/GetFaktury`);
         const jsonResponse: Faktura[] = await response.json();
 
         if (!response.ok) {
-            throw new Error("HTTP error! status:" + response.status);
-        }   
-            
-        return jsonResponse;        
-      
-      
-}
+            throw new Error("HTTP error! status: " + response.status);
+        }
 
-      public static async GetFaktura(fakturaId: number): Promise<Faktura> {
-        const response = await fetch("https://localhost:7459/api/Faktura/GetFaktura");
+        return jsonResponse;
+        }public static async GetFaktura(fakturaId: number): Promise<Faktura> {
+        const response = await fetch(`https://localhost:7459/api/Faktura/GetFaktura?fakturaId=${fakturaId}`);
         const jsonResponse: Faktura = await response.json();
 
         if (!response.ok) {
-            throw new Error("HTTP error! status:" + response.status);
-        }   
-            
-        return jsonResponse;        
-      
-      
-}
+            throw new Error("HTTP error! status: " + response.status);
+        }
 
-      }
-import type {Faktura} from "../src/interfaces/Faktura";
+        return jsonResponse;
+        }public static async GetPodmioty(): Promise<Podmiot[]> {
+        const response = await fetch(`https://localhost:7459/api/Faktura/GetPodmioty`);
+        const jsonResponse: Podmiot[] = await response.json();
+
+        if (!response.ok) {
+            throw new Error("HTTP error! status: " + response.status);
+        }
+
+        return jsonResponse;
+        }}

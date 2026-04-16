@@ -3,6 +3,7 @@ using KSeF.Models;
 
 using var dbContext = new AppDbContext();
 
+
 dbContext.Faktura.Add(new Faktura
 {
     podmiot1 = new Podmiot
