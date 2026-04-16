@@ -1,4 +1,4 @@
-﻿namespace csvConverter
+﻿namespace dataFetchingApp.Server.Models
 {
     public class PersonalDataModel
     {

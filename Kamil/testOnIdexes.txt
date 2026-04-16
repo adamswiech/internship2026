@@ -1,0 +1,107 @@
+DEF
+no trigger
+index ID
+
+6_000_000r
+insert time avg:00:00:03.9248684
+select time avg:00:00:00.9005337
+11_000_000r
+insert time avg:00:00:04.0837698
+select time avg:00:00:01.8843829
+
+17_000_000
+insert time avg:00:00:08.3080902
+
+
+
+IMIE
+no trigger
+index ID, Imie
+
+query = select * from users u where u.Imie like 'N%'
+6_000_000
+insert time avg:00:00:07.7769705
+select time avg:00:00:00.7435583
+11_000_000r
+insert time avg:00:00:07.2204070
+select time avg:00:00:01.8843829
+
+IMIE Nazwisko
+no trigger
+index ID, Imie,Nazwisko
+
+5_000_000
+insert time avg:00:00:13.6331064
+select time avg:00:00:00.7135256
+10_000_000
+insert time avg:00:00:13.9448645
+select time avg:00:00:01.5807141
+
+IMIE Nazwisko IMIE,NAZWISKO
+no trigger
+index ID, Imie,Nazwisko,(IMIE,NAZWISKO)
+
+query = select * from users u where u.Imie like 'N%' and u.Nazwisko like 'K%'
+5_000_000
+insert time avg:00:00:17.9932968
+select time avg:00:00:00.9246970
+10_000_000
+insert time avg:00:00:17.4169080
+select time avg:00:00:01.6795978
+15_000_000
+insert time avg:00:00:18.3200065
+select time avg:00:00:02.3732477
+
+
+IMIE Nazwisko
+index ID, Imie
+with trigger
+
+query = select * from users u where u.Imie like 'N%'
+~5_000_000
+insert time avg:00:00:04.1050410
+select time avg:00:00:00.7483468
+~10_000_000
+insert time avg:00:00:07.2822223
+select time avg:00:00:02.1887425
+
+
+
+all on 
+2660ms
+2500 cpu
+
+insert
+22000ms
+13800cpu
+
+
+imie nazwisko
+6000ms
+5200 cpu
+0cpu
+0ms
+
+insert
+10000cpu
+10000ms
+
+
+nazwisko
+3000ms
+3000cpu
+
+insert 
+4000cpu
+5500ms
+
+
+ID
+2300ms
+2300cpu
+13000cpu
+13000ms
+
+insert 
+2700cpu
+3000ms

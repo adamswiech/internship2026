@@ -1,80 +1,47 @@
 ﻿using csvConverter;
 using System.Diagnostics;
 
-string connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=mikolaj_db;Integrated Security=True;TrustServerCertificate=True;";
-CSV_converter converter = new CSV_converter(connectionString);
-//PersonalDataModel personalDataModel = new PersonalDataModel();
+string connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=mikolaj_db;Integrated Security=True;TrustServerCertificate=True;MultipleActiveResultSets=True;";
+XmlOperations xml = new XmlOperations(connectionString);
+string xmlFilePath = @"C:/Users/Vulcan/source/repos/internship2026/Mikolaj/csvConverter/csvConverter/test.xml";
 
-Stopwatch stopwatch = new Stopwatch();
-stopwatch.Start();
+//await xml.loadFileToDb(xmlFilePath);
+//await xml.createNewIdx(connectionString, "CREATE INDEX idx_lastname_firstname ON PersonalData (LastName, FirstName)");
 
-void multithreadingCSV()
-{
-    List<Thread> threads = new List<Thread>();
-    List<string> filesPaths = new List<string>();
-    Stopwatch stopwatch = new Stopwatch();
+//for first name
+Stopwatch stopwatch2 = new Stopwatch();
+stopwatch2.Start();
+var firstNameIdx = await xml.selectByIndex("E", "FirstName");
+stopwatch2.Stop();
+TimeSpan elapsedTime2 = stopwatch2.Elapsed;
+Console.WriteLine($"Elapsed time for firstname index: {elapsedTime2}");
 
-    int threadsCount = 10; //MAIN THREAD + EVERY ADDITIONAL THREAD
-    long elementsCount = converter.countElements() / threadsCount;
-    stopwatch.Start();
+//for last name
+Stopwatch stopwatch1 = new Stopwatch();
+stopwatch1.Start();
+var lastNameIdx = await xml.selectByIndex("J", "LastName");
+stopwatch1.Stop();
+TimeSpan elapsedTime1 = stopwatch1.Elapsed;
+Console.WriteLine($"Elapsed time for lastname index: {elapsedTime1}");
 
-    Console.WriteLine("Timer started!");
+//for first name & last name
+Stopwatch s3 = new Stopwatch();
+s3.Start();
+var firstName_lastNameIdx = await xml.selectByIndex("E,J", "FirstName,LastName");
+s3.Stop();
+TimeSpan elapsedTime3 = s3.Elapsed;
+Console.WriteLine($"Elapsed time for firstname & lastname index: {elapsedTime3}");
 
-    converter.fetchData(0, elementsCount, 1);
-    filesPaths.Add($"{Path.GetFullPath($@"..\..\..\out1.csv")}");
+//for last name & first name
+Stopwatch s4 = new Stopwatch();
+s4.Start();
+var lastName_firstNameIdx = await xml.selectByIndex("J,E", "LastName,FirstName");
+s4.Stop();
+TimeSpan elapsedTime4 = s4.Elapsed;
+Console.WriteLine($"Elapsed time for lastname & firstname index: {elapsedTime4}");
 
-    for (int i = 1; i <= (threadsCount - 1); i++)
-    {
-        int localCounter = i;
-        filesPaths.Add($"{Path.GetFullPath($@"..\..\..\out{localCounter}.csv")}");
 
-        CSV_converter converter_t = new CSV_converter(connectionString);
-        Thread t = new Thread(() => converter_t.fetchData(elementsCount * localCounter, elementsCount, localCounter + 1));
-
-        threads.Add(t);
-        t.Start();
-    }
-
-    foreach (var t in threads)
-    {
-        t.Join();
-    }
-
-    void mergeFilesCSV()
-    {
-        string destFilePath = Path.GetFullPath(@"..\..\..\output.csv");
-        File.WriteAllText(destFilePath, "");
-
-        using (TextWriter tw = new StreamWriter(destFilePath, true))
-        {
-            foreach (string filePath in filesPaths)
-            {
-                using (TextReader tr = new StreamReader(filePath))
-                {
-                    tw.WriteLine(tr.ReadToEnd());
-                    tr.Close();
-                    tr.Dispose();
-                }
-
-                Console.WriteLine("File Processed : " + filePath);
-            }
-
-            tw.Close();
-            tw.Dispose();
-        }
-    }
-
-    mergeFilesCSV();
-
-    stopwatch.Stop();
-    TimeSpan elapsedTime = stopwatch.Elapsed;
-
-    Console.WriteLine($"Elapsed time for {threadsCount} threads: {elapsedTime}");
-}
-
-converter.fetchData(0, 0, 0);
-
-stopwatch.Stop();
-TimeSpan elapsedTime = stopwatch.Elapsed;
-
-Console.WriteLine($"Elapsed time for export to .xml file: {elapsedTime}");
+//foreach (var p in lastNameIdx)
+//{
+//    Console.WriteLine($"{p.firstName} {p.lastName}");
+//}

@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="dataFetchingApp.AppHost/dataFetchingApp.AppHost.csproj" />
+  <Project Path="dataFetchingApp.Server/dataFetchingApp.Server.csproj" />
+  <Project Path="frontend/frontend.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+</Solution>
