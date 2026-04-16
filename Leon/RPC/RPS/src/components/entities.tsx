@@ -6,6 +6,8 @@ export type Entity = {
   color?: string;
   h?: number;
   w?: number;
+  mass?: number;
+  force?: number;
   id?: string;
 };
 export type RuntimeEntity = {
@@ -17,6 +19,8 @@ export type RuntimeEntity = {
   width: number;
   height: number;
   color: string;
+  mass: number;
+  force: number;
   draw(ctx: CanvasRenderingContext2D): void;
   update(canvasWidth: number, canvasHeight: number): void;
   collide(victim: RuntimeEntity): void;
@@ -28,9 +32,11 @@ export function createEntity(entity: Entity, id: string = Math.random().toString
         y: entity.y,
         vx: entity.vx ?? 5,
         vy: entity.vy ?? 5,
-        width: entity.w ?? 5,
-        height: entity.h ?? 5,
+        width: entity.w ?? 6,
+        height: entity.h ?? 6,
         color: entity.color ?? "blue",
+        mass: entity.mass ?? 1,
+        force: entity.force ?? 1,
         draw(ctx: CanvasRenderingContext2D) {
             ctx.fillStyle = this.color;
             ctx.fillRect(this.x, this.y, this.width, this.height);
@@ -70,25 +76,58 @@ export function createEntity(entity: Entity, id: string = Math.random().toString
     };
 }
 
+function rotation(vx: number, vy: number, angle: number) {
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    return {
+        x: vx * cos - vy * sin,
+        y: vx * sin + vy * cos,
+    };
+}
+
 function bounce(a: RuntimeEntity, b: RuntimeEntity) {
     const overlapX =
         Math.min(a.x + a.width - b.x, b.x + b.width - a.x);
     const overlapY =
         Math.min(a.y + a.height - b.y, b.y + b.height - a.y);
+    const baseX = overlapX < overlapY ? (a.x < b.x ? -1 : 1) : 0;
+    const baseY = overlapX < overlapY ? 0 : (a.y < b.y ? -1 : 1);
+    const relVx = a.vx - b.vx;
+    const relVy = a.vy - b.vy;
+    const relSpeed = relVx * baseX + relVy * baseY;
+    if (relSpeed > 0) {
+        return;
+    }
+
+    const Force = (a.force + b.force) / 2;
+    const i = -(1.0 + 0.9) * relSpeed * Force / (1 / a.mass + 1 / b.mass);
+    const iX = i * baseX;
+    const iY = i * baseY;
+
+    a.vx += iX / a.mass;
+    a.vy += iY / a.mass;
+    b.vx -= iX / b.mass;
+    b.vy -= iY / b.mass;
+
+    const randomAng = (Math.random() - 0.5) * (Math.PI / 6);
+    const aRot = rotation(a.vx, a.vy, randomAng);
+    const bRot = rotation(b.vx, b.vy, -randomAng);
+    a.vx = aRot.x;
+    a.vy = aRot.y;
+    b.vx = bRot.x;
+    b.vy = bRot.y;
     if (overlapX < overlapY) {
         if (a.x < b.x) {
             a.x -= overlapX;
         } else {
             a.x += overlapX;
         }
-        a.vx = -a.vx;
     } else {
         if (a.y < b.y) {
             a.y -= overlapY;
         } else {
             a.y += overlapY;
         }
-        a.vy = -a.vy;
     }
 }
 
