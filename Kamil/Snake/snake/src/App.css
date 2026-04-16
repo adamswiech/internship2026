@@ -1,0 +1,27 @@
+.rock,.scissors,.paper {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+}
+.Border{
+  border: 7px solid black;
+  margin: auto;
+}
+
+body{
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  
+}
+.scissors{
+  background-color: wheat;
+  border: 2px solid red;
+}
+.rock{
+  background-color: rgb(114, 114, 114);
+}
+.paper{
+  background-color: white;
+  border: 2px solid black;
+}
