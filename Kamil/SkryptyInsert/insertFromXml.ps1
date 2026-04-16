@@ -1,21 +1,16 @@
-
-
-
-
-
-
+[xml]$xml = New-Object xml
+$xml.Load(("C:\Users\VULCAN\Documents\Main\GIT\internship2026\Kamil\SkryptyInsert\output.xml"))
+Write-Host "123123"
 
 # =============================================
 # Load XML and create DataTable with proper mapping
 # =============================================
 
-Write-Host "test" -ForegroundColor Blue
-[xml]$xml = Get-Content "output.xml"
-Write-Host "test" -ForegroundColor Blue
 
 
 $table = New-Object System.Data.DataTable
 $table.TableName = "users"
+Write-Host "test" -ForegroundColor Blue
 
 [void]$table.Columns.Add("IsAdmin",       [bool])
 [void]$table.Columns.Add("Imie",          [string])
@@ -28,43 +23,58 @@ $table.TableName = "users"
 [void]$table.Columns.Add("NrBloku",       [string])
 [void]$table.Columns.Add("NrMieszkania",  [string])
 
+Write-Host "test" -ForegroundColor Blue
 
-foreach ($u in $xml.Descendants("User")) {   
+foreach ($u in $xml.SelectNodes("//User")){
     $row = $table.NewRow()
-    Write-Host "UserId: $($u.Element("Id"))" -ForegroundColor Blue
+    # Write-Host "UserId: $($u.SelectSingleNode("Nazwa").InnerText)" -ForegroundColor Blue
 
-    $row["IsAdmin"] = [bool]($u.Element("IsAdmin") -eq $true)
-    $nazwa = $u.Element("Nazwa")
-    $row["Imie"]       = $nazwa?.Element("Imie").Value
-    $row["DrugieImie"] = $nazwa?.Element("DrugieImie").Value
-    $row["Nazwisko"]   = $nazwa?.Element("Nazwisko").Value
-    $adres = $u.Element("Adres")
-    $row["Kraj"]       = $adres?.Element("Kraj").Value    
-    $row["Wojewodztwo"]= $adres?.Element("Wojewodztwo").Value 
-    $row["Miasto"]     = $adres?.Element("Miasto").Value   
-    $mieszkanie = $adres?.Element("Mieszkanie")
-    $row["Ulica"]        = $mieszkanie?.Element("Ulica").Value   
-    $row["NrBloku"]      = $mieszkanie?.Element("NrBloku").Value  
-    $row["NrMieszkania"] = $mieszkanie?.Element("NrMieszkania").Value 
+    $row["IsAdmin"] = [bool]($u.SelectSingleNode("IsAdmin").InnerText -eq $true)
+    $nazwa = $u.SelectSingleNode("Nazwa")
+    $row["Imie"]       = $nazwa.SelectSingleNode("Imie").InnerText
+    $row["DrugieImie"] = $nazwa.SelectSingleNode("DrugieImie").InnerText
+    $row["Nazwisko"]   = $nazwa.SelectSingleNode("Nazwisko").InnerText
+    $adres = $u.SelectSingleNode("Adres")
+    $row["Kraj"]       = $adres.SelectSingleNode("Kraj").InnerText
+    $row["Wojewodztwo"]= $adres.SelectSingleNode("Wojewodztwo").InnerText 
+    $row["Miasto"]     = $adres.SelectSingleNode("Miasto").InnerText
+    $mieszkanie = $adres.SelectSingleNode("Mieszkanie")
+    $row["Ulica"]        = $mieszkanie.SelectSingleNode("Ulica").InnerText  
+    $row["NrBloku"]      = $mieszkanie.SelectSingleNode("NrBloku").InnerText
+    $row["NrMieszkania"] = $mieszkanie.SelectSingleNode("NrMieszkania").InnerText
 
     [void]$table.Rows.Add($row)
+    
 }
 
 Write-Host "Created $($table.Rows.Count) rows from XML"
 
-$connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=UsersDb;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Application Name=\""SQL Server Management Studio\"";Command Timeout=0";
-            
-$bulkCopy = New-Object System.Data.SqlClient.SqlBulkCopy($connectionString)
+$connectionString = 'Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=UsersDb;Integrated Security=True'
+
+$connection = New-Object System.Data.SqlClient.SqlConnection($connectionString)
+$connection.Open()
+
+$bulkCopy = New-Object System.Data.SqlClient.SqlBulkCopy($connection)
+
 $bulkCopy.DestinationTableName = "dbo.users"
-$bulkCopy.BulkCopyTimeout = 0
+
+$bulkCopy.ColumnMappings.Add("IsAdmin", "IsAdmin")
+$bulkCopy.ColumnMappings.Add("Imie", "Imie")
+$bulkCopy.ColumnMappings.Add("DrugieImie", "DrugieImie")
+$bulkCopy.ColumnMappings.Add("Nazwisko", "Nazwisko")
+$bulkCopy.ColumnMappings.Add("Kraj", "Kraj")
+$bulkCopy.ColumnMappings.Add("Wojewodztwo", "Wojewodztwo")
+$bulkCopy.ColumnMappings.Add("Miasto", "Miasto")
+$bulkCopy.ColumnMappings.Add("Ulica", "Ulica")
+$bulkCopy.ColumnMappings.Add("NrBloku", "NrBloku")
+$bulkCopy.ColumnMappings.Add("NrMieszkania", "NrMieszkania")
+$bulkCopy.DestinationTableName = "dbo.users"
 
 try {
     $bulkCopy.WriteToServer($table)
-    Write-Host "Bulk copy completed successfully! $($table.Rows.Count) rows inserted." -ForegroundColor Green
-}
-catch {
-    Write-Host "Error during bulk copy: $($_.Exception.Message)" -ForegroundColor Red
 }
 finally {
     $bulkCopy.Close()
+    $connection.Close()
 }
+

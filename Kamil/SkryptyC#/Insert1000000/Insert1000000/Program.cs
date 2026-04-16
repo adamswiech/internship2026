@@ -4,25 +4,69 @@ Inserter inserter = new Inserter();
 
 Selector s = new Selector();
 
-//for( int  i = 0; i < 1; i++)
+
+
+string query = "select * from users u where u.Miasto like 'N%'";
 
 var time = DateTime.Now;
-inserter.InsertFromXml();
-Console.WriteLine(DateTime.Now - time);
+//s.Select(query);
+//Console.WriteLine(DateTime.Now - time);
 
-time = DateTime.Now;
-inserter.Insert();
-Console.WriteLine(DateTime.Now - time);
+query = "select * from users u where u.Nazwisko like 'N%'";
+
+var timeAll = DateTime.Now - DateTime.Now;
+var timeAllSelect = DateTime.Now - DateTime.Now;
+int max = 10;
+for (int i = 0; i < max; i++)
+{
+    time = DateTime.Now;
+    inserter.Insert();
+    timeAll += DateTime.Now - time;
+    //Console.WriteLine("insert time: " + $"{DateTime.Now - time}");
+
+    //time = DateTime.Now;
+    //s.Select2("select * from users u where u.Imie = 'Piotr'");
+    //timeAllSelect += DateTime.Now - time;
+    //Console.WriteLine("select time: " + $"{DateTime.Now - time}");
+}
+//Console.WriteLine("\ninsert time avg:" + $"{timeAll / max}");
+//Console.WriteLine("\nselect time avg:" + $"{timeAllSelect / max}");
+//s.Select(query);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//for( int  i = 0; i < 1; i++)
+
+//inserter.InsertFromXml();
+
+
+
+
+//s.Select();
 //var normalTime = DateTime.Now - DateTime.Now;
 
 //int testCount = 1;
 //for (int i = 0; i < testCount; i++)
 //{
 //    var start = DateTime.Now;
-//    s.SelectMultiThread(10);
 //    multyTime +=DateTime.Now - start;
 
 //    start = DateTime.Now;

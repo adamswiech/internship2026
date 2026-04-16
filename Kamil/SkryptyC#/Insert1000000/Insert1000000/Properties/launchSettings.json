@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "Insert1000000": {
+      "commandName": "Project"
+    },
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    }
+  }
+}
