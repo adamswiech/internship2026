@@ -7,11 +7,12 @@ function App() {
 
   useEffect(() => {
     if (entityRef.current.style.marginTop == "") {
-      entityRef.current.style.marginTop = "480px";
-      entityRef.current.style.marginLeft = "980px";
+      entityRef.current.style.marginTop = "0px";
+      entityRef.current.style.marginLeft = "0px";
     }
 
-    const velocity = Math.floor(Math.random() * (5 - 1) + 1);
+    // const velocity = Math.floor(Math.random() * (5 - 1) + 1);
+    const velocity = 5;
 
     console.log(velocity);
 
@@ -30,12 +31,20 @@ function App() {
 
       if (entityRef.current.up) {
         entityRef.current.style.marginTop = `${entityVector[1] - velocity}px`;
-        entityRef.current.style.marginLeft = `${entityVector[0] - velocity}px`;
+        // entityRef.current.style.marginLeft = `${entityVector[0] - velocity}px`;
       } else {
         entityRef.current.style.marginTop = `${entityVector[1] + velocity}px`;
-        entityRef.current.style.marginLeft = `${entityVector[0] + velocity}px`;
+        // entityRef.current.style.marginLeft = `${entityVector[0] + velocity}px`;
       }
 
+      if (entityRef.current.left) {
+        // entityRef.current.style.marginTop = `${entityVector[1] + velocity}px`;
+        entityRef.current.style.marginLeft = `${entityVector[0] + velocity}px`;
+      } 
+
+      if (entityRef.current.right) {
+                entityRef.current.style.marginLeft = `${entityVector[0] - velocity}px`;
+      }
       // console.log(
       //   `entityRef.current.style.marginTop = ${entityRef.current.style.marginTop}, entityRef.current.style.marginLeft = ${entityRef.current.style.marginLeft}`,
       // );
@@ -50,6 +59,19 @@ function App() {
       } else if (parseInt(entityRef.current.y) >= 480) {
         entityRef.current.up = true;
         entityRef.current.down = false;
+      }
+
+      if (parseInt(entityRef.current.x) <= 0) {
+        entityRef.current.left = true;
+        entityRef.current.right = false;
+      }else if (parseInt(entityRef.current.x) >= 980) {
+        entityRef.current.left = false;
+        entityRef.current.right = true;
+      }
+
+      for (let i = 0; i < 100; i++) {
+        console.log("entityRef.current.x = " + entityRef.current.x);
+        console.log("entityRef.current.y = " + entityRef.current.y);
       }
     }, delay);
     
