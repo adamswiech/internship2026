@@ -22,12 +22,14 @@ body {
 .entity {
     position: absolute;
     height: 20px;
+    /* margin-top: 480px;
+    margin-left: 980px; */
     width: 20px;
 }
 
 .game-board {
     position: relative;
-    width: 90vw;
-    height: 90vh;
+    width: 1000px;
+    height: 500px;
     border: 1px solid black;
 }
