@@ -3,56 +3,61 @@ import Entity from "./components/entity/Entity";
 
 function App() {
   const entityRef = useRef(null);
-  const delay = 30;
+  const [tmp, setTmp] = useState(false);
+  const delay = 100;
 
   useEffect(() => {
     if (entityRef.current.style.marginTop == "") {
-      entityRef.current.style.marginTop = "480px";
-      entityRef.current.style.marginLeft = "980px";
+      entityRef.current.style.left = `${15}px`; //start position x
+      entityRef.current.style.top = `${15}px`; //start position y
     }
 
-    const velocity = Math.floor(Math.random() * (5 - 1) + 1);
-
-    console.log(velocity);
-
     const stopInterval = () => {
+      console.log(`x = ${entityRef.current.x}`);
+      console.log(`y = ${entityRef.current.y}`);
       clearInterval(interval);
     };
 
-    entityRef.current.up = true;
-    entityRef.current.down = false;
-
     const interval = setInterval(() => {
-      entityRef.current.x = parseInt(entityRef.current.style.marginLeft);
-      entityRef.current.y = parseInt(entityRef.current.style.marginTop);
+      let distanceX = 5;
+      let distanceY = 5;
+
+      entityRef.current.x = parseInt(entityRef.current.style.left);
+      entityRef.current.y = parseInt(entityRef.current.style.top);
 
       const entityVector = [entityRef.current.x, entityRef.current.y];
 
-      if (entityRef.current.up) {
-        entityRef.current.style.marginTop = `${entityVector[1] - velocity}px`;
-        entityRef.current.style.marginLeft = `${entityVector[0] - velocity}px`;
-      } else {
-        entityRef.current.style.marginTop = `${entityVector[1] + velocity}px`;
-        entityRef.current.style.marginLeft = `${entityVector[0] + velocity}px`;
+      entityRef.current.i = 0;
+
+      
+      while (entityRef.current.i != 10) {
+        if (parseInt(entityRef.current.x) < 10) {
+          //left wall
+
+          distanceX = -distanceX;
+          
+        } else if (parseInt(entityRef.current.x) > 980) {
+          distanceX = -distanceX;
+          //right wall
+        } else if (parseInt(entityRef.current.y) > 480) {
+          // console.log("ighfuiodhguhdrui")
+          distanceY = -30;
+          break;
+          
+          //bottom wall
+        } else if (parseInt(entityRef.current.y) <= 10) {
+          //top wall
+          distanceY = -distanceY;
+        }
+
+        console.log(`entityRef.current.style.marginLeft = ${entityRef.current.style.marginLeft}, entityRef.current.style.marginTop = ${entityRef.current.style.marginTop}`)
+
+        entityRef.current.style.left = `${entityRef.current.x + distanceX}px`;
+        entityRef.current.style.top = `${entityRef.current.y + distanceY}px`;
+
+        entityRef.current.i++;
       }
-
-      // console.log(
-      //   `entityRef.current.style.marginTop = ${entityRef.current.style.marginTop}, entityRef.current.style.marginLeft = ${entityRef.current.style.marginLeft}`,
-      // );
-
-      // console.log(`x = ${entityRef.current.x}`);
-      // console.log(`y = ${entityRef.current.y}`);
-
-      if (parseInt(entityRef.current.y) <= 0) {
-        entityRef.current.up = false;
-        entityRef.current.down = true;
-        //based on vector value try to decide if you have to + or - velocity from value of margin
-      } else if (parseInt(entityRef.current.y) >= 480) {
-        entityRef.current.up = true;
-        entityRef.current.down = false;
-      }
-    }, delay);
-    
+    }, delay)
   }, []);
 
   return (
