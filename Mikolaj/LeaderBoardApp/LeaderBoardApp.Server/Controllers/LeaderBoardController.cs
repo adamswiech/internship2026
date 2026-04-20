@@ -34,5 +34,13 @@ namespace LeaderBoardApp.Server.Controllers
             _leaderBoardService.QueuePlayerScore(player);
             return Ok("Job enqueued.");
         }
+
+
+        [HttpGet("getAllScores")]
+        public ActionResult<IEnumerable<Player>> GetAllScores()
+        {
+            var scores = _context.PlayersSet.ToList();
+            return Ok(scores);
+        }
     }
 }
