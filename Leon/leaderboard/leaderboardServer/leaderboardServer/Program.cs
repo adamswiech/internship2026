@@ -1,9 +1,10 @@
-using IndexApi.Data;
-using IndexApi.Services;
+using leaderboardServer;
+using leaderboardServer.Data;
+using leaderboardServer.Services;
 using Microsoft.EntityFrameworkCore;
 using Hangfire;
 using Hangfire.SqlServer;
-using IndexApi;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +17,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<dbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<peopleServices>();
+
+builder.Services.AddMemoryCache();
+builder.Services.AddScoped<leaderboardService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -28,8 +31,10 @@ builder.Services.AddCors(options =>
 
 });
 
-// Configure Hangfire services (requires Hangfire packages)
+
+
 builder.AddHangfireServices();
+
 
 
 
@@ -51,8 +56,9 @@ else
     app.UseExceptionHandler();
 }
 
-// Enable Hangfire dashboard (consider securing this in production)
+
 app.UseHangfireDashboard("/hangfire");
+app.addRecurringJobs();
 
 
 //app.UseHttpsRedirection();

@@ -90,7 +90,7 @@ export default function board() {
 
     return(
         <>
-            <canvas ref={canvasRef} width={800} height={600} style={{border: '1px solid black'}}></canvas>
+            <canvas ref={canvasRef} width={1000} height={1000} style={{border: '1px solid black'}}></canvas>
         </>
     )
 }
