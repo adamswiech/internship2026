@@ -1,4 +1,4 @@
-﻿namespace databaseOperations
+﻿namespace dataFetchingApp.Server.Models
 {
     public class PersonalDataModel
     {

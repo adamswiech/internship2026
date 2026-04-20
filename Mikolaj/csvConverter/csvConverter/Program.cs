@@ -1,51 +1,47 @@
 ﻿using csvConverter;
 using System.Diagnostics;
 
-string createIndexSql = "CREATE INDEX idx_firstname ON PersonalData (FirstName)";
 string connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=mikolaj_db;Integrated Security=True;TrustServerCertificate=True;MultipleActiveResultSets=True;";
-
 XmlOperations xml = new XmlOperations(connectionString);
-//string xmlFilePath = @"C:/Users/Vulcan/source/repos/internship2026/Mikolaj/csvConverter/csvConverter/test.xml";
+string xmlFilePath = @"C:/Users/Vulcan/source/repos/internship2026/Mikolaj/csvConverter/csvConverter/test.xml";
 
+//await xml.loadFileToDb(xmlFilePath);
+//await xml.createNewIdx(connectionString, "CREATE INDEX idx_lastname_firstname ON PersonalData (LastName, FirstName)");
 
-
-//await xml.loadFile(xmlFilePath);
-
-//using (SqlConnection connection = new SqlConnection(connectionString))
-//{
-//    connection.Open();
-//    using (SqlCommand command = new SqlCommand(createIndexSql, connection))
-//    {
-//        command.ExecuteNonQuery();
-//        Console.WriteLine("Index created successfully.");
-//    }
-//}
-
+//for first name
 Stopwatch stopwatch2 = new Stopwatch();
 stopwatch2.Start();
-var firstNameIdx = await xml.selectByIndex("FirstName", "Emily", "idx_firstname");
+var firstNameIdx = await xml.selectByIndex("E", "FirstName");
 stopwatch2.Stop();
 TimeSpan elapsedTime2 = stopwatch2.Elapsed;
 Console.WriteLine($"Elapsed time for firstname index: {elapsedTime2}");
 
-
+//for last name
 Stopwatch stopwatch1 = new Stopwatch();
 stopwatch1.Start();
-var lastNameIdx = await xml.selectByIndex("LastName", "Johnson", "idx_lastname");
+var lastNameIdx = await xml.selectByIndex("J", "LastName");
 stopwatch1.Stop();
 TimeSpan elapsedTime1 = stopwatch1.Elapsed;
 Console.WriteLine($"Elapsed time for lastname index: {elapsedTime1}");
 
+//for first name & last name
+Stopwatch s3 = new Stopwatch();
+s3.Start();
+var firstName_lastNameIdx = await xml.selectByIndex("E,J", "FirstName,LastName");
+s3.Stop();
+TimeSpan elapsedTime3 = s3.Elapsed;
+Console.WriteLine($"Elapsed time for firstname & lastname index: {elapsedTime3}");
+
+//for last name & first name
+Stopwatch s4 = new Stopwatch();
+s4.Start();
+var lastName_firstNameIdx = await xml.selectByIndex("J,E", "LastName,FirstName");
+s4.Stop();
+TimeSpan elapsedTime4 = s4.Elapsed;
+Console.WriteLine($"Elapsed time for lastname & firstname index: {elapsedTime4}");
 
 
-//var lastName_firstNameIdx = await xml.selectByIndex("Johnson", "idx_lastname");
-//var firstName_lastNameIdx = await xml.selectByIndex("Johnson", "idx_lastname");
-
-
-//foreach (var p in list)
+//foreach (var p in lastNameIdx)
 //{
-//    Console.WriteLine(p.firstName);
+//    Console.WriteLine($"{p.firstName} {p.lastName}");
 //}
-
-
-

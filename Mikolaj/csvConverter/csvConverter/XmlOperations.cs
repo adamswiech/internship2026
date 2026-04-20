@@ -12,7 +12,7 @@ namespace csvConverter
             _connectionString = connectionString;
         }
 
-        public async Task loadFile(string xmlFilePath)
+        public async Task loadFileToDb(string xmlFilePath)
         {
             XDocument doc = XDocument.Load(xmlFilePath);
 
@@ -65,16 +65,30 @@ namespace csvConverter
             }
         }
 
-        public async Task<List<PersonalDataModel>> selectByIndex(string columnName, string columnValue, string index)
+        public async Task<List<PersonalDataModel>> selectByIndex(string searchValue, string columnName)
         {
             var allowedColumns = new HashSet<string>
-    {
-        "FirstName", "LastName", "PhoneNumber", "EmailAddress",
-        "Country", "City", "PostCode", "Gender", "Age"
-    };
+            {
+            "FirstName", "LastName", "PhoneNumber", "EmailAddress",
+            "Country", "City", "PostCode", "Gender", "Age"
+            };
 
-            if (!allowedColumns.Contains(columnName))
-                throw new ArgumentException($"Invalid column name: {columnName}");
+            var columns = columnName.Split(',').Select(c => c.Trim()).ToList();
+            var values = searchValue.Split(',').Select(v => v.Trim()).ToList();
+
+            // Validate all columns
+            foreach (var col in columns)
+            {
+                if (!allowedColumns.Contains(col))
+                    throw new ArgumentException($"Invalid column name: {col}");
+            }
+
+            if (columns.Count != values.Count)
+                throw new ArgumentException("Column count and value count must match.");
+
+            // Build WHERE clause: "LastName LIKE @Value0 AND FirstName LIKE @Value1"
+            var whereParts = columns.Select((col, i) => $"{col} LIKE @Value{i}");
+            var whereClause = string.Join(" AND ", whereParts);
 
             using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
@@ -83,13 +97,12 @@ namespace csvConverter
 
             try
             {
-                var selectCmd = new SqlCommand(@$"
-            SELECT FirstName, LastName, PhoneNumber, EmailAddress, Country, City, PostCode, Gender, Age
-            FROM PersonalData WITH (INDEX({index}))
-            WHERE {columnName} = @Value",
-                    connection);
+                var selectCmd = new SqlCommand($"SELECT * FROM PersonalData WHERE {whereClause}", connection);
 
-                selectCmd.Parameters.AddWithValue("@Value", columnValue);
+                for (int i = 0; i < values.Count; i++)
+                {
+                    selectCmd.Parameters.AddWithValue($"@Value{i}", values[i] + "%");
+                }
 
                 using (var reader = await selectCmd.ExecuteReaderAsync())
                 {
@@ -118,6 +131,20 @@ namespace csvConverter
                 throw;
             }
         }
+
+        public async Task createNewIdx(string connectionString, string createIndexSql)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(createIndexSql, connection))
+                {
+                    command.ExecuteNonQuery();
+                    Console.WriteLine("Index created successfully.");
+                }
+            }
+        }
+
 
     }
 }
