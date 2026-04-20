@@ -28,8 +28,8 @@ namespace LeaderBoardApp.Server.Controllers
             _leaderBoardService = leaderBoardService;
         }
 
-        [HttpPost("scores")]
-        public IActionResult UlopadScore(Player player)
+        [HttpPost("uploadScore")]
+        public IActionResult UploadScore(Player player)
         {
             _leaderBoardService.QueuePlayerScore(player);
             return Ok("Job enqueued.");

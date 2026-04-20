@@ -7,7 +7,7 @@ function App() {
   const [gameMode, setGameMode] = useState("");
 
   const handleUploadData = async () => {
-    const response =  await Api.scores(playerId, score, gameMode);
+    const response =  await Api.uploadScore(playerId, score, gameMode);
 
     console.log(response);
   };
