@@ -1,8 +1,8 @@
-﻿using Hangfire;
-using LeaderBoardApp.Server.Data;
+﻿using LeaderBoardApp.Server.Data;
 using LeaderBoardApp.Server.Models;
 using LeaderBoardApp.Server.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LeaderBoardApp.Server.Controllers
 {
@@ -10,26 +10,20 @@ namespace LeaderBoardApp.Server.Controllers
     [Route("api/[controller]")]
     public class LeaderBoardController : ControllerBase
     {
-        private readonly IBackgroundJobClient _backgroundJobClient;
-        private readonly IRecurringJobManager _recurringJobManager;
         private readonly AppDbContext _context;
         private readonly LeaderBoardService _leaderBoardService;
 
         public LeaderBoardController(
-            IBackgroundJobClient backgroundJobClient,
-            IRecurringJobManager recurringJobManager,
             AppDbContext context,
             LeaderBoardService leaderBoardService
             )
         {
-            _backgroundJobClient = backgroundJobClient;
-            _recurringJobManager = recurringJobManager;
             _context = context;
             _leaderBoardService = leaderBoardService;
         }
 
         [HttpPost("uploadScore")]
-        public IActionResult UploadScore(Player player)
+        public IActionResult UploadScore([FromBody] Player player)
         {
             _leaderBoardService.QueuePlayerScore(player);
             return Ok("Job enqueued.");
@@ -39,8 +33,7 @@ namespace LeaderBoardApp.Server.Controllers
         [HttpGet("getAllScores")]
         public ActionResult<IEnumerable<Player>> GetAllScores()
         {
-            var scores = _context.PlayersSet.ToList();
-            return Ok(scores);
+            return Ok(_context.PlayersSet.AsNoTracking().ToList());
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using LeaderBoardApp.Server.Models;
+﻿using LeaderBoardApp.Server.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace LeaderBoardApp.Server.Data
 {
@@ -17,6 +17,7 @@ namespace LeaderBoardApp.Server.Data
                 entity.Property(e => e.playerId).HasColumnName("playerId");
                 entity.Property(e => e.score).HasColumnName("score");
                 entity.Property(e => e.gameMode).HasColumnName("gameMode");
+                //entity.Property(e => e.status).HasColumnName("status");
             });
         }
     }

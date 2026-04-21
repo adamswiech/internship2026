@@ -74,20 +74,22 @@ function App() {
         <table>
           <thead>
             <tr>
-              <th>Id</th>
-              <th>UserId</th>
+              {/* <th>Id</th> */}
+              <th>PlayerId</th>
               <th>Score</th>
               <th>GameMode</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
             {scoresArr.length > 0 ? (
               scoresArr.map((item) => (
                 <tr key={item.id}>
-                  <td>{item.id}</td>
+                  {/* <td>{item.id}</td> */}
                   <td>{item.playerId}</td>
                   <td>{item.score}</td>
                   <td>{item.gameMode}</td>
+                  <td>{item.status}</td>
                 </tr>
               ))
             ) : (

@@ -24,5 +24,10 @@ namespace LeaderBoardApp.Server.Services
         {
             _jobClient.Enqueue<LeaderBoardService>(job => job.ProcessScore(player));
         }
+
+        public void FetchScores()
+        {
+
+        }
     }
 }

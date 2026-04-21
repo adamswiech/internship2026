@@ -9,7 +9,22 @@ builder.AddServiceDefaults();
 builder.Services.AddProblemDetails();
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
+builder.Services.AddControllers();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.SetIsOriginAllowed(origin =>
+              new Uri(origin).Host.EndsWith(".dev.localhost"))
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
+
+//Hangfire 
+builder.Services.AddScoped<LeaderBoardService>();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ConnString")));
 
@@ -24,22 +39,17 @@ builder.Services.AddHangfire((serviceProvider, configuration) => configuration
 
 builder.Services.AddHangfireServer();
 
-builder.Services.AddControllers();
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowFrontend", policy =>
-    {
-        policy.SetIsOriginAllowed(origin =>
-              new Uri(origin).Host.EndsWith(".dev.localhost"))
-              .AllowAnyHeader()
-              .AllowAnyMethod();
-    });
-});
-
-builder.Services.AddScoped<LeaderBoardService>();
-
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var recurringJobManager = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
+    recurringJobManager.AddOrUpdate<LeaderBoardService>(
+        "fetch-scores-every-30s",
+        service => service.FetchScores(),
+        "*/30 * * * * *"
+    );
+}
 
 if (app.Environment.IsDevelopment())
 {
