@@ -43,3 +43,4 @@ export function playerStat(player: player){
     <></>
   )
 }
+//TODO on click on username display user stats
