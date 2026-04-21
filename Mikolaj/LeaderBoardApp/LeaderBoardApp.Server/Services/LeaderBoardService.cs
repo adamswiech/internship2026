@@ -16,8 +16,20 @@ namespace LeaderBoardApp.Server.Services
             _jobClient = jobClient;
         }
 
-        public void ProcessScore(Player player)
+        public async Task ProcessScore(Player player)
         {
+            //async function that processes score of player
+
+            if (player.score > 1200) //change it to avg value 
+            {
+                player.status = "suspicious";
+            }
+            else
+            {
+                player.status = "verified";
+            }
+
+
             _context.PlayersSet.Add(player);
             _context.SaveChanges();
         }

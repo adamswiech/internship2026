@@ -14,7 +14,8 @@ export default class Api {
         body: `{
             "playerId" : "${playerId}",
             "score" : ${score},
-            "gameMode" : "${gameMode}"
+            "gameMode" : "${gameMode}",
+            "status" : "verifing"
         }`,
       },
     );

@@ -6,6 +6,6 @@
         public string playerId { get; set; }
         public int score { get; set; }
         public string gameMode { get; set; }
-        //public string status { get; set; }
+        public string status { get; set; }
     }
 }

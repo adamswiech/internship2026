@@ -1,5 +1,4 @@
-﻿using Hangfire;
-using LeaderBoardApp.Server.Data;
+﻿using LeaderBoardApp.Server.Data;
 using LeaderBoardApp.Server.Models;
 using LeaderBoardApp.Server.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +25,8 @@ namespace LeaderBoardApp.Server.Controllers
         [HttpPost("uploadScore")]
         public IActionResult UploadScore([FromBody] Player player)
         {
-            BackgroundJob.Enqueue<LeaderBoardService>(service => service.ProcessScore(player));
+            //BackgroundJob.Enqueue<LeaderBoardService>(service => service.ProcessScore(player));
+            _leaderBoardService.QueuePlayerScore(player); //same as above but using service file
             return Ok("Job enqueued.");
         }
 
