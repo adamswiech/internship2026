@@ -14,10 +14,12 @@ function App() {
 
   useEffect(() => {
     const getAllScores = async () => {
-      const response = await Api.getAllScores();
+      const response = await Api.leaderboard("solo");
 
       if (response.length != 0) {
         setScoresArr(response);
+        
+        console.log(response);
       }
     };
 
@@ -97,7 +99,7 @@ function App() {
           <table>
             <thead>
               <tr>
-                {/* <th>Id</th> */}
+                <th>Place</th>
                 <th>PlayerId</th>
                 <th>Score</th>
                 <th>GameMode</th>
@@ -106,9 +108,9 @@ function App() {
             </thead>
             <tbody>
               {scoresArr.length > 0 ? (
-                scoresArr.map((item) => (
-                  <tr key={item.id}>
-                    {/* <td>{item.id}</td> */}
+                scoresArr.map((item, i) => (
+                  <tr key={item.id} className={`place${++i}`}>
+                    <td>{i}</td>
                     <td>{item.playerId}</td>
                     <td>{item.score}</td>
                     <td>{item.gameMode}</td>

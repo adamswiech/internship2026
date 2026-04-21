@@ -36,17 +36,31 @@ namespace LeaderBoardApp.Server.Controllers
             }
         }
 
-        [HttpGet("getAllScores")]
-        public ActionResult<IEnumerable<Player>> GetAllScores()
-        {
-            //FUNCTION ONLY TO GET ALL PLAYERS WITHOUT USING HANGFIRE
-            return Ok(_context.PlayersSet.AsNoTracking().ToList());
-        }
-
-        //[HttpGet("leaderboard")]
-        //public ActionResult<IEnumerable<Player>> GetLeaderBoard(string gameMode)
+        //[HttpGet("getAllScores")]
+        //public ActionResult<IEnumerable<Player>> GetAllScores()
         //{
-
+        //    //FUNCTION ONLY TO GET ALL PLAYERS WITHOUT USING HANGFIRE
+        //    return Ok(_context.PlayersSet.AsNoTracking().ToList());
         //}
+
+        [HttpGet("leaderboard")]
+        public ActionResult<IEnumerable<Player>> GetLeaderBoard(string gameMode)
+        {
+            var scores = LeaderBoardService.CachedLeaderBoard
+                .Where(p => string.IsNullOrEmpty(gameMode) || p.gameMode == gameMode)
+                .ToList();
+
+            if (!scores.Any())
+            {
+                return Ok(_context.PlayersSet
+                    .AsNoTracking()
+                    .Where(p => string.IsNullOrEmpty(gameMode) || p.gameMode == gameMode)
+                    .OrderByDescending(p => p.score)
+                    .Take(10)
+                    .ToList());
+            }
+
+            return Ok(scores);
+        }
     }
 }

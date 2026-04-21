@@ -41,19 +41,15 @@ th {
   padding: 20px 10px;
 }
 
-tr:nth-child(even) {
-  background-color: gray;
+th, tr{
+  background-color: rgb(60, 60, 61);
 }
+
 
 select {
     width: 100%;
 }
 
-/* .table-container {
-    padding: 10px;
-    max-height: 600px;
-    overflow: auto;
-} */
 
 .input-container {
     display: flex;
@@ -74,4 +70,14 @@ select {
 
 .input-container input:focus, .input-container select:focus {
     outline: none;
+}
+
+.place1 {
+    background-color: gold;
+}
+.place2 {
+    background-color: silver !important;
+}
+.place3 {
+    background-color: brown;
 }

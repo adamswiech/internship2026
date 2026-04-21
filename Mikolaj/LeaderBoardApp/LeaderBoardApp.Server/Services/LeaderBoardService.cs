@@ -9,6 +9,7 @@ namespace LeaderBoardApp.Server.Services
     {
         private readonly AppDbContext _context;
         private readonly IBackgroundJobClient _jobClient;
+        public static List<Player> CachedLeaderBoard { get; private set; } = new();
         private int GetAvgScore()
         {
             if (!_context.PlayersSet.Any()) return 0;
@@ -24,7 +25,7 @@ namespace LeaderBoardApp.Server.Services
         public async Task ProcessScore(Player player)
         {
             var playerExists = _context.PlayersSet.FirstOrDefault(p => p.playerId == player.playerId);
-            var currentScore = 0;
+            var currentScore = 0; //if player exists - this is score of player
 
             if (playerExists != null)
             {
@@ -32,10 +33,11 @@ namespace LeaderBoardApp.Server.Services
             }
 
             var avgScore = 10 * GetAvgScore();
-            if ((player.score > avgScore && avgScore != 0)
-                ||
-                (player.score * 5 == currentScore))
+            if ((player.score > avgScore && avgScore != 0))
             {
+
+                //(player.score * 5 > currentScore))
+
                 player.status = "suspicious";
             }
             else
@@ -66,9 +68,14 @@ namespace LeaderBoardApp.Server.Services
             BackgroundJob.Enqueue(() => ProcessScore(player));
         }
 
-        public IEnumerable<Player> FetchScores()
+        public void RecalculateLeaderboard(string gameMode = "")
         {
-            return _context.PlayersSet.AsNoTracking().ToList();
+            CachedLeaderBoard = _context.PlayersSet
+        .AsNoTracking()
+        .Where(p => string.IsNullOrEmpty(gameMode) || p.gameMode == gameMode)
+        .OrderByDescending(p => p.score)
+        .Take(10)
+        .ToList();
         }
     }
 }

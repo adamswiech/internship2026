@@ -39,4 +39,17 @@ export default class Api {
 
     return await response.json();
   }
+
+  public static async leaderboard(gameMode: string): Promise<Player[]> {
+    const response = await fetch(
+      `https://localhost:7457/api/LeaderBoard/leaderboard?gameMode=${gameMode}`,
+    );
+    const jsonResponse: Player[] = await response.json();
+
+    if (!response.ok) {
+      throw new Error("HTTP error! status: " + response.status);
+    }
+
+    return jsonResponse;
+  }
 }

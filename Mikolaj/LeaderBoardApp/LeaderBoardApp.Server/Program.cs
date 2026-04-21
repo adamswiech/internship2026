@@ -41,15 +41,15 @@ builder.Services.AddHangfireServer();
 
 var app = builder.Build();
 
-//using (var scope = app.Services.CreateScope())
-//{
-//    var recurringJobManager = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
-//    recurringJobManager.AddOrUpdate<LeaderBoardService>(
-//        "fetch-scores-every-30s",
-//        service => service.FetchScores(),
-//        "*/30 * * * * *"
-//    );
-//}
+using (var scope = app.Services.CreateScope())
+{
+    var recurringJobManager = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
+    recurringJobManager.AddOrUpdate<LeaderBoardService>(
+        "recalculate-leaderboard-every-15s",
+        service => service.RecalculateLeaderboard(""),
+        "*/15 * * * * *"
+    );
+}
 
 if (app.Environment.IsDevelopment())
 {
