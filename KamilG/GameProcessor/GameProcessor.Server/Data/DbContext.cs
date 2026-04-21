@@ -9,6 +9,11 @@ namespace GameProcessor.Server.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Game>().ToTable("games", "dbo");
+        }
+
         public DbSet<Game> Games => Set<Game>();
 
         public Task<List<Game>> GetAllAsync()
