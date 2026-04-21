@@ -1,10 +1,10 @@
-import type { Top10 } from '../interfaces/interfaces';
+import type { Top10, player } from '../interfaces/interfaces';
 
 interface Top10LProps {
   top10: Top10[];
 }
 
-function Top10L({ top10 }: Top10LProps) {
+export default function Top10L({ top10 }: Top10LProps) {
   if (!top10 || top10.length === 0) {
     return <p>No leaderboard data available.</p>;
   }
@@ -19,18 +19,16 @@ function Top10L({ top10 }: Top10LProps) {
             <th>Score</th>
             <th>Time</th>
             <th>Game Mode</th>
-            <th>Suspected</th>
           </tr>
         </thead>
         <tbody>
           {top10.map((entry) => (
-            <tr key={entry.id}>
+            <tr key={entry.id} style={entry.score?.isSuspicious ? {backgroundColor: "red"} : {}}>
               <td>{entry.rank ?? 'N/A'}</td>
               <td>{entry.score?.username ?? '—'}</td>
               <td>{entry.score?.score ?? '—'}</td>
               <td>{entry.score?.time ?? '—'}</td>
               <td>{entry.score?.gameMode ?? '—'}</td>
-              <td>{entry.score?.isSuspicious ? 'Yes' : 'No'}</td>
             </tr>
           ))}
         </tbody>
@@ -39,4 +37,9 @@ function Top10L({ top10 }: Top10LProps) {
   )
 }
 
-export default Top10L
+export function playerStat(player: player){
+
+  return (
+    <></>
+  )
+}

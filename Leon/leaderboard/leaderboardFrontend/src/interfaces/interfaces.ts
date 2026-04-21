@@ -1,3 +1,4 @@
+
 export interface Score {
     id: number;
     username: string;
@@ -5,8 +6,18 @@ export interface Score {
     time: string;
     gameMode: string;
     isSuspicious: boolean | null;
+    player: player | null;
 }
 
+
+export interface player {
+    id: number;
+    username: string;
+    scoreQ: number;
+    avgScore: number;
+    highScore: number;
+    scores: Score[];
+}
 export interface Top10 {
     id: number;
     rank: number | null;
@@ -29,5 +40,4 @@ export interface snapshotEntry {
     gameMode: string;
     isSuspicious: boolean;
     top10snapshotId: number;
-    top10snapshot: Top10snapshot;
 }

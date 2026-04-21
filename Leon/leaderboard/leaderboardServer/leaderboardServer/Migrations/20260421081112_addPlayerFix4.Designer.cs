@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using leaderboardServer.Data;
 
@@ -11,9 +12,11 @@ using leaderboardServer.Data;
 namespace leaderboardServer.Migrations
 {
     [DbContext(typeof(dbContext))]
-    partial class dbContextModelSnapshot : ModelSnapshot
+    [Migration("20260421081112_addPlayerFix4")]
+    partial class addPlayerFix4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -12,7 +12,8 @@ namespace leaderboardServer.Data
         public DbSet<Score> Scores { get; set; }
         public DbSet<Top10> Top10 { get; set; }
         public DbSet<Top10snapshot> Top10snapshots { get; set; }
-        public DbSet<snapshotEntry> snapshotEntries { get; set; }
+        public DbSet<snapshotEntry> SnapshotEntries { get; set; }
+        public DbSet<player> Players { get; set; }
         public dbContext(DbContextOptions<dbContext> options)
         : base(options)
         {
@@ -38,7 +39,7 @@ namespace leaderboardServer.Data
                 e.HasIndex(x => x.rank).IsUnique();
             }
             );
-            b.Entity<Top10snapshot>(e=>
+            b.Entity<Top10snapshot>(e =>
             {
                 e.ToTable("Top10snapshots");
                 e.HasKey(x => x.id);
@@ -47,15 +48,28 @@ namespace leaderboardServer.Data
                     .HasForeignKey(x => x.Top10snapshotId)
                     .OnDelete(DeleteBehavior.Cascade);
                 e.HasIndex(x => x.date);
-                
+
             });
             b.Entity<snapshotEntry>(e =>
             {
-                e.ToTable("snapshotEntries");
+                e.ToTable("SnapshotEntries");
                 e.HasKey(x => x.id);
                 e.HasIndex(x => new { x.Top10snapshotId, x.rank }).IsUnique();
             });
+            b.Entity<player>(e =>
+            {
+                e.ToTable("Players");
+                e.HasKey(x => x.id);
+                e.HasIndex(x => x.username).IsUnique();
+                e.HasIndex(x => x.avgScore);
+                e.HasIndex(x => x.highScore);
 
+                e.HasMany(x => x.Scores)
+                    .WithOne(x => x.player)
+                    .HasForeignKey(x => x.username)
+                    .HasPrincipalKey(x => x.username)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
         }
     }
 }

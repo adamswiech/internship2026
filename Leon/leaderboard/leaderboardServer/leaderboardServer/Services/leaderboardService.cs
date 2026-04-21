@@ -1,5 +1,6 @@
 ﻿using Hangfire;
 using leaderboardServer.Data;
+using leaderboardServer.Migrations;
 using leaderboardServer.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
@@ -34,11 +35,54 @@ namespace leaderboardServer.Services
                 score.score > 10 * avg ||
                 (top > 0 && score.score > top * 5);
             
-            await addScore(score);
+            var jobId = BackgroundJob.Enqueue(() => addPlayer(score));
+            jobId = BackgroundJob.ContinueJobWith(jobId, () => addScore(score));
+            BackgroundJob.ContinueJobWith(jobId, () => updateAvg(score.username));
+
         }
 
 
+        [Queue("critical")]
+        public async Task updateAvg(string username)
+        {
+            await _context.Players.Include(x => x.Scores).SingleOrDefaultAsync(x => x.username == username).ContinueWith(Task =>
+                {
+                    var player = Task.Result;
+                    if (player != null)
+                    {
+                        player.avgScore = player.Scores.Average(x => x.score);
+                        _context.SaveChanges();
+                    }
+                });
+        }
 
+        [Queue("critical")]
+        public async Task addPlayer(Score score)
+        {
+            var player = await _context.Players.Include(x => x.Scores).SingleOrDefaultAsync(x => x.username == score.username);
+            if (player == null)
+            {
+                player Player = new player
+                {
+                    username = score.username,
+                    scoreQ = 1,
+                    avgScore = score.score,
+                    highScore = score.score,
+                };
+                await _context.Players.AddAsync(Player);
+                await _context.SaveChangesAsync();
+                return;
+            }
+            player.scoreQ += 1;
+            if (score.score > player.highScore)
+            {
+                player.highScore = score.score;
+            }
+            await _context.SaveChangesAsync();
+        }
+
+
+        [Queue("critical")]
         public async Task addScore(Score score)
         {
             _context.Scores.Add(score);
@@ -59,12 +103,12 @@ namespace leaderboardServer.Services
         [Queue("default")]
         public async Task simulate()
         {
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 10000; i++)
             {
                 var score = new Score
                 {
                     username = $"player_{i}",
-                    score = Random.Shared.Next(100, 10000),
+                    score = Random.Shared.Next(100, 100000),
                     gameMode = "solo",
                     time = TimeSpan.TryParse("10:10:11", out var result) ? result : TimeSpan.Zero
                 };
@@ -170,11 +214,16 @@ namespace leaderboardServer.Services
 
         public async Task<int> GetPlayerBest(string username)
         {
-            return await _context.Scores
-                .Where(x => x.username == username)
-                .OrderByDescending(x => x.score)
-                .Select(x => x.score)
-                .FirstOrDefaultAsync();
+
+            var res = await _context.Players.SingleOrDefaultAsync(x => x.username == username);
+            if (res == null)
+            {
+                return 0;
+            }
+            var b = res.highScore;
+            return b;
         }
     }
 }
+
+

@@ -13,7 +13,14 @@ const [top10, setTop10] = useState<Top10[]>([]);
 const [loading, setLoading] = useState(false);
 useEffect(() => {
     fetchTop10();
+    const timer = setInterval(() => {
+        console.log("ref Top");
+        fetchTop10();;
+    }, 1800000);
+    return () => clearInterval(timer);
 }, []);
+
+
 
 const fetchTop10 = async () => {
     setLoading(true);
@@ -38,7 +45,6 @@ const handleAddScore = async () => {
     };
     const result = await addScore(params);
         console.log('Add score result:', result);
-    await fetchTop10();
     } catch (error) {
         console.error('Error adding score:', error);
     }

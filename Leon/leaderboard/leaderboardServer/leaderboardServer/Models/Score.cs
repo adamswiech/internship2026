@@ -8,5 +8,6 @@
         public TimeSpan time { get; set; }
         public string gameMode { get; set; }
         public bool? isSuspicious { get; set; } = false;
+        public player? player { get; set; }
     }
 }

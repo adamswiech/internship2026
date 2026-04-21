@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using leaderboardServer.Data;
 
@@ -11,9 +12,11 @@ using leaderboardServer.Data;
 namespace leaderboardServer.Migrations
 {
     [DbContext(typeof(dbContext))]
-    partial class dbContextModelSnapshot : ModelSnapshot
+    [Migration("20260421073609_addPlayerFix")]
+    partial class addPlayerFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,11 +113,11 @@ namespace leaderboardServer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<double>("avgScore")
-                        .HasColumnType("float");
+                    b.Property<bool>("avgScore")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("highScore")
-                        .HasColumnType("int");
+                    b.Property<bool>("highScore")
+                        .HasColumnType("bit");
 
                     b.Property<int>("scoreQ")
                         .HasColumnType("int");
@@ -125,14 +128,16 @@ namespace leaderboardServer.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("avgScore");
+                    b.HasIndex("avgScore")
+                        .IsUnique();
 
-                    b.HasIndex("highScore");
+                    b.HasIndex("highScore")
+                        .IsUnique();
 
                     b.HasIndex("username")
                         .IsUnique();
 
-                    b.ToTable("Players", "dbo");
+                    b.ToTable("Slayers", "dbo");
                 });
 
             modelBuilder.Entity("leaderboardServer.Models.snapshotEntry", b =>
