@@ -25,11 +25,16 @@ namespace LeaderBoardApp.Server.Controllers
         [HttpPost("uploadScore")]
         public IActionResult UploadScore([FromBody] Player player)
         {
-            //BackgroundJob.Enqueue<LeaderBoardService>(service => service.ProcessScore(player));
-            _leaderBoardService.QueuePlayerScore(player); //same as above but using service file
-            return Ok("Job enqueued.");
+            try
+            {
+                _leaderBoardService.QueuePlayerScore(player);
+                return Ok("Job enqueued.");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
         }
-
 
         [HttpGet("getAllScores")]
         public ActionResult<IEnumerable<Player>> GetAllScores()
@@ -37,5 +42,11 @@ namespace LeaderBoardApp.Server.Controllers
             //FUNCTION ONLY TO GET ALL PLAYERS WITHOUT USING HANGFIRE
             return Ok(_context.PlayersSet.AsNoTracking().ToList());
         }
+
+        //[HttpGet("leaderboard")]
+        //public ActionResult<IEnumerable<Player>> GetLeaderBoard(string gameMode)
+        //{
+
+        //}
     }
 }

@@ -45,8 +45,33 @@ tr:nth-child(even) {
   background-color: gray;
 }
 
+select {
+    width: 100%;
+}
+
 /* .table-container {
     padding: 10px;
     max-height: 600px;
     overflow: auto;
 } */
+
+.input-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+}
+
+.input-container input, .input-container select {
+    padding: 10px 15px;
+    border-radius: 25px;
+    border: none;
+}
+
+.input-container select, option {
+    cursor: pointer !important;
+}
+
+.input-container input:focus, .input-container select:focus {
+    outline: none;
+}
