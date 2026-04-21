@@ -44,3 +44,9 @@ th {
 tr:nth-child(even) {
   background-color: gray;
 }
+
+/* .table-container {
+    padding: 10px;
+    max-height: 600px;
+    overflow: auto;
+} */

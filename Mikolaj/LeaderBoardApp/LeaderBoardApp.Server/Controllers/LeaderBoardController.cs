@@ -1,4 +1,5 @@
-﻿using LeaderBoardApp.Server.Data;
+﻿using Hangfire;
+using LeaderBoardApp.Server.Data;
 using LeaderBoardApp.Server.Models;
 using LeaderBoardApp.Server.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,7 @@ namespace LeaderBoardApp.Server.Controllers
         [HttpPost("uploadScore")]
         public IActionResult UploadScore([FromBody] Player player)
         {
-            _leaderBoardService.QueuePlayerScore(player);
+            BackgroundJob.Enqueue<LeaderBoardService>(service => service.ProcessScore(player));
             return Ok("Job enqueued.");
         }
 
@@ -33,6 +34,7 @@ namespace LeaderBoardApp.Server.Controllers
         [HttpGet("getAllScores")]
         public ActionResult<IEnumerable<Player>> GetAllScores()
         {
+            //FUNCTION ONLY TO GET ALL PLAYERS WITHOUT USING HANGFIRE
             return Ok(_context.PlayersSet.AsNoTracking().ToList());
         }
     }

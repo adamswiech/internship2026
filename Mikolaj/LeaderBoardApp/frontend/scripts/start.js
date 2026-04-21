@@ -13,4 +13,5 @@ await generateApiFile();
 // API_PATH={PATH TO YOUR API FILE - api.ts}
 //INSTAL DEPENDENCIES: npm install node-fetch@2.6.7 dotenv
 //1. fix getting header and body for post method 
-//2. 
+//2. responses of endpoints - sometimes json, text, nothing etc.
+//3. 

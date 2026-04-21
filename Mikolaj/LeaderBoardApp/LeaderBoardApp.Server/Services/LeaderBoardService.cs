@@ -1,6 +1,7 @@
 ﻿using Hangfire;
 using LeaderBoardApp.Server.Data;
 using LeaderBoardApp.Server.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace LeaderBoardApp.Server.Services
 {
@@ -22,12 +23,12 @@ namespace LeaderBoardApp.Server.Services
         }
         public void QueuePlayerScore(Player player)
         {
-            _jobClient.Enqueue<LeaderBoardService>(job => job.ProcessScore(player));
+            BackgroundJob.Enqueue(() => ProcessScore(player));
         }
 
-        public void FetchScores()
+        public IEnumerable<Player> FetchScores()
         {
-
+            return _context.PlayersSet.AsNoTracking().ToList();
         }
     }
 }

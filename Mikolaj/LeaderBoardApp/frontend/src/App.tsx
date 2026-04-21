@@ -8,7 +8,7 @@ function App() {
   const [gameMode, setGameMode] = useState("");
 
   const [scoresArr, setScoresArr] = useState<Player[]>([]);
-  const [reload, setReload] = useState(false);
+  const [reload, setReload] = useState("");
 
   useEffect(() => {
     const getAllScores = async () => {
@@ -20,12 +20,14 @@ function App() {
     };
 
     getAllScores();
+    setReload("");
   }, [reload]);
 
   const handleUploadData = async () => {
     const response = await Api.uploadScore(playerId, score, gameMode);
-
-    console.log(response);
+    if (response == "Job enqueued.") {
+      setReload("reload");
+    }
   };
 
   return (
@@ -62,8 +64,6 @@ function App() {
                 setGameMode("");
                 setScore(0);
                 setPlayerId("");
-
-                setReload(!reload);
               }
             }}
           >
@@ -71,34 +71,36 @@ function App() {
           </button>
         </div>
 
-        <table>
-          <thead>
-            <tr>
-              {/* <th>Id</th> */}
-              <th>PlayerId</th>
-              <th>Score</th>
-              <th>GameMode</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {scoresArr.length > 0 ? (
-              scoresArr.map((item) => (
-                <tr key={item.id}>
-                  {/* <td>{item.id}</td> */}
-                  <td>{item.playerId}</td>
-                  <td>{item.score}</td>
-                  <td>{item.gameMode}</td>
-                  <td>{item.status}</td>
-                </tr>
-              ))
-            ) : (
+        <div className="table-container">
+          <table>
+            <thead>
               <tr>
-                <td colSpan={4}>No data to display</td>
+                {/* <th>Id</th> */}
+                <th>PlayerId</th>
+                <th>Score</th>
+                <th>GameMode</th>
+                <th>Status</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {scoresArr.length > 0 ? (
+                scoresArr.map((item) => (
+                  <tr key={item.id}>
+                    {/* <td>{item.id}</td> */}
+                    <td>{item.playerId}</td>
+                    <td>{item.score}</td>
+                    <td>{item.gameMode}</td>
+                    <td>{item.status}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={4}>No data to display</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

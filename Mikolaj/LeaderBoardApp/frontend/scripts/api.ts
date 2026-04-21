@@ -18,7 +18,7 @@ export default class Api {
         }`,
       },
     );
-    const jsonResponse: any = await response.json();
+    const jsonResponse: any = await response.text();
 
     if (!response.ok) {
       throw new Error("HTTP error! status: " + response.status);
