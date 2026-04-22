@@ -26,6 +26,18 @@ namespace GameProcessor.Server.Controllers
             return Ok(games);
         }
 
+        [HttpGet("leaderboard")]
+        public async Task<ActionResult<IEnumerable<Game>>> GetLeaderboard(
+            [FromQuery] string? gameMode = null,
+            [FromQuery] int top = 10)
+        {
+            if (top <= 0 || top > 100)
+                top = 10;
+            var leaders = 1;
+
+            return Ok(leaders);
+        }
+
         [HttpPost]
         public async Task<ActionResult<Game>> Create(Game game)
         {
