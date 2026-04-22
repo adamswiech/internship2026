@@ -142,7 +142,7 @@ namespace Insert1000000
                         bulkCopy.ColumnMappings.Add("NrMieszkania", "NrMieszkania");
 
                         bulkCopy.WriteToServer(users);
-                        Console.WriteLine("Bulk insert completed successfully.");
+                        //Console.WriteLine("Bulk insert completed successfully.");
                     }
                     catch (Exception ex)
                     {
@@ -235,5 +235,15 @@ namespace Insert1000000
                 }
             }
         }
+        public static DateTime Round(DateTime dt)
+        {
+            // 100 ms = 1,000,000 ticks (since 1 tick = 100 nanoseconds)
+            const long ticksIn100Ms = TimeSpan.TicksPerMillisecond * 100;
+
+            long roundedTicks = (long)Math.Round(dt.Ticks / (double)ticksIn100Ms) * ticksIn100Ms;
+
+            return new DateTime(roundedTicks, dt.Kind);
+        }
     }
+
 }

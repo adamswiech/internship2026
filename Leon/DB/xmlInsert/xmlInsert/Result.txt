@@ -1,0 +1,25 @@
+Running No index
+No index 0 took 8048.2377 ms
+No index 1 took 9492.7812 ms
+No index 2 took 9615.5366 ms
+No index average time: 9051.666666666666666666666667 ms
+Running Index first_name
+Index first_name 0 took 15787.5632 ms
+Index first_name 1 took 19152.6445 ms
+Index first_name 2 took 19741.8959 ms
+Index first_name average time: 18226.666666666666666666666667 ms
+Running Index last_name
+Index last_name 0 took 16268.4884 ms
+Index last_name 1 took 18884.0576 ms
+Index last_name 2 took 18548.1805 ms
+Index last_name average time: 17900 ms
+Running Index first+last
+Index first+last 0 took 20054.414 ms
+Index first+last 1 took 34188.3572 ms
+Index first+last 2 took 43341.1111 ms
+Index first+last average time: 32527.666666666666666666666667 ms
+Running Index last+first
+Index last+first 0 took 19735.4712 ms
+Index last+first 1 took 34155.8834 ms
+Index last+first 2 took 42588.2387 ms
+Index last+first average time: 32159.333333333333333333333333 ms

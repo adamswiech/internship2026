@@ -1,0 +1,960 @@
+[2026-04-14 12:56:23.088] 
+[2026-04-14 12:56:23.098] ====================================================
+[2026-04-14 12:56:23.098] NEW RUN STARTED: 2026-04-14 12:56:23
+[2026-04-14 12:56:23.098] ====================================================
+[2026-04-14 12:56:23.098] 
+[2026-04-14 12:56:23.098] ==============================
+[2026-04-14 12:56:23.099] Running scenario: No index
+[2026-04-14 12:56:23.099] ==============================
+[2026-04-14 12:56:25.735] No index run 0 insert: 2098.4314 ms
+[2026-04-14 12:56:25.735] No index run 0 select: 496.8833 ms
+[2026-04-14 12:56:28.071] No index run 1 insert: 1822.1842 ms
+[2026-04-14 12:56:28.071] No index run 1 select: 481.4262 ms
+[2026-04-14 12:56:30.368] No index run 2 insert: 1836.6489 ms
+[2026-04-14 12:56:30.368] No index run 2 select: 432.7782 ms
+[2026-04-14 12:56:32.653] No index run 3 insert: 1774.8913 ms
+[2026-04-14 12:56:32.654] No index run 3 select: 483.4694 ms
+[2026-04-14 12:56:34.892] No index run 4 insert: 1773.3161 ms
+[2026-04-14 12:56:34.892] No index run 4 select: 427.1168 ms
+[2026-04-14 12:56:37.258] No index run 5 insert: 1906.6567 ms
+[2026-04-14 12:56:37.258] No index run 5 select: 429.0187 ms
+[2026-04-14 12:56:39.584] No index run 6 insert: 1790.1103 ms
+[2026-04-14 12:56:39.585] No index run 6 select: 502.7693 ms
+[2026-04-14 12:56:42.038] No index run 7 insert: 1919.8591 ms
+[2026-04-14 12:56:42.038] No index run 7 select: 509.8267 ms
+[2026-04-14 12:56:44.439] No index run 8 insert: 1893.082 ms
+[2026-04-14 12:56:44.439] No index run 8 select: 479.6844 ms
+[2026-04-14 12:56:46.733] No index run 9 insert: 1807.2166 ms
+[2026-04-14 12:56:46.734] No index run 9 select: 454.4179 ms
+[2026-04-14 12:56:49.087] No index run 10 insert: 1859.5793 ms
+[2026-04-14 12:56:49.087] No index run 10 select: 464.8986 ms
+[2026-04-14 12:56:51.484] No index run 11 insert: 1902.4098 ms
+[2026-04-14 12:56:51.485] No index run 11 select: 466.4386 ms
+[2026-04-14 12:56:53.837] No index run 12 insert: 1876.4613 ms
+[2026-04-14 12:56:53.837] No index run 12 select: 447.1257 ms
+[2026-04-14 12:56:56.125] No index run 13 insert: 1896.5356 ms
+[2026-04-14 12:56:56.125] No index run 13 select: 372.4599 ms
+[2026-04-14 12:56:58.485] No index run 14 insert: 1841.3034 ms
+[2026-04-14 12:56:58.485] No index run 14 select: 495.6218 ms
+[2026-04-14 12:57:00.811] No index run 15 insert: 1884.1633 ms
+[2026-04-14 12:57:00.812] No index run 15 select: 415.486 ms
+[2026-04-14 12:57:03.173] No index run 16 insert: 1902.3286 ms
+[2026-04-14 12:57:03.173] No index run 16 select: 435.6695 ms
+[2026-04-14 12:57:05.669] No index run 17 insert: 1950.5218 ms
+[2026-04-14 12:57:05.669] No index run 17 select: 521.6857 ms
+[2026-04-14 12:57:08.054] No index run 18 insert: 1882.6162 ms
+[2026-04-14 12:57:08.054] No index run 18 select: 473.609 ms
+[2026-04-14 12:57:10.434] No index run 19 insert: 1876.6769 ms
+[2026-04-14 12:57:10.435] No index run 19 select: 464.8724 ms
+[2026-04-14 12:57:10.438] ------------------------------
+[2026-04-14 12:57:10.438] No index AVG insert: 1874.3 ms
+[2026-04-14 12:57:10.438] No index AVG select: 462.2 ms
+[2026-04-14 12:57:10.438] ------------------------------
+[2026-04-14 12:57:10.439] ==============================
+[2026-04-14 12:57:10.439] Running scenario: Index first_name
+[2026-04-14 12:57:10.439] ==============================
+[2026-04-14 12:57:13.812] Index first_name run 0 insert: 3117.7871 ms
+[2026-04-14 12:57:13.812] Index first_name run 0 select: 226.9545 ms
+[2026-04-14 12:57:17.329] Index first_name run 1 insert: 3240.9991 ms
+[2026-04-14 12:57:17.329] Index first_name run 1 select: 239.4624 ms
+[2026-04-14 12:57:20.844] Index first_name run 2 insert: 3252.0275 ms
+[2026-04-14 12:57:20.844] Index first_name run 2 select: 230.921 ms
+[2026-04-14 12:57:24.291] Index first_name run 3 insert: 3195.1814 ms
+[2026-04-14 12:57:24.291] Index first_name run 3 select: 218.5744 ms
+[2026-04-14 12:57:27.841] Index first_name run 4 insert: 3252.2571 ms
+[2026-04-14 12:57:27.841] Index first_name run 4 select: 254.4829 ms
+[2026-04-14 12:57:31.331] Index first_name run 5 insert: 3255.5847 ms
+[2026-04-14 12:57:31.331] Index first_name run 5 select: 191.6351 ms
+[2026-04-14 12:57:34.767] Index first_name run 6 insert: 3189.0699 ms
+[2026-04-14 12:57:34.767] Index first_name run 6 select: 225.8658 ms
+[2026-04-14 12:57:38.257] Index first_name run 7 insert: 3208.0532 ms
+[2026-04-14 12:57:38.258] Index first_name run 7 select: 233.9885 ms
+[2026-04-14 12:57:41.847] Index first_name run 8 insert: 3320.2269 ms
+[2026-04-14 12:57:41.847] Index first_name run 8 select: 245.422 ms
+[2026-04-14 12:57:45.306] Index first_name run 9 insert: 3207.2085 ms
+[2026-04-14 12:57:45.306] Index first_name run 9 select: 218.826 ms
+[2026-04-14 12:57:48.861] Index first_name run 10 insert: 3313.8095 ms
+[2026-04-14 12:57:48.862] Index first_name run 10 select: 198.6478 ms
+[2026-04-14 12:57:52.294] Index first_name run 11 insert: 3184.2903 ms
+[2026-04-14 12:57:52.294] Index first_name run 11 select: 225.1621 ms
+[2026-04-14 12:57:55.865] Index first_name run 12 insert: 3292.8775 ms
+[2026-04-14 12:57:55.865] Index first_name run 12 select: 208.1042 ms
+[2026-04-14 12:57:59.477] Index first_name run 13 insert: 3340.9233 ms
+[2026-04-14 12:57:59.477] Index first_name run 13 select: 249.5866 ms
+[2026-04-14 12:58:03.217] Index first_name run 14 insert: 3476.177 ms
+[2026-04-14 12:58:03.217] Index first_name run 14 select: 205.4299 ms
+[2026-04-14 12:58:06.680] Index first_name run 15 insert: 3217.5249 ms
+[2026-04-14 12:58:06.680] Index first_name run 15 select: 221.0403 ms
+[2026-04-14 12:58:10.740] Index first_name run 16 insert: 3777.4169 ms
+[2026-04-14 12:58:10.740] Index first_name run 16 select: 226.0168 ms
+[2026-04-14 12:58:14.212] Index first_name run 17 insert: 3225.8137 ms
+[2026-04-14 12:58:14.212] Index first_name run 17 select: 220.6884 ms
+[2026-04-14 12:58:17.843] Index first_name run 18 insert: 3346.5618 ms
+[2026-04-14 12:58:17.843] Index first_name run 18 select: 237.7505 ms
+[2026-04-14 12:58:22.552] Index first_name run 19 insert: 4428.7179 ms
+[2026-04-14 12:58:22.552] Index first_name run 19 select: 228.2869 ms
+[2026-04-14 12:58:22.558] ------------------------------
+[2026-04-14 12:58:22.559] Index first_name AVG insert: 3341.65 ms
+[2026-04-14 12:58:22.559] Index first_name AVG select: 224.8 ms
+[2026-04-14 12:58:22.559] ------------------------------
+[2026-04-14 12:58:22.559] ==============================
+[2026-04-14 12:58:22.559] Running scenario: Index last_name
+[2026-04-14 12:58:22.560] ==============================
+[2026-04-14 12:58:26.653] Index last_name run 0 insert: 3755.8928 ms
+[2026-04-14 12:58:26.653] Index last_name run 0 select: 300.7677 ms
+[2026-04-14 12:58:30.638] Index last_name run 1 insert: 3669.8125 ms
+[2026-04-14 12:58:30.639] Index last_name run 1 select: 292.8195 ms
+[2026-04-14 12:58:34.437] Index last_name run 2 insert: 3477.6683 ms
+[2026-04-14 12:58:34.437] Index last_name run 2 select: 296.7861 ms
+[2026-04-14 12:58:38.411] Index last_name run 3 insert: 3625.7662 ms
+[2026-04-14 12:58:38.411] Index last_name run 3 select: 321.6542 ms
+[2026-04-14 12:58:42.362] Index last_name run 4 insert: 3626.5905 ms
+[2026-04-14 12:58:42.362] Index last_name run 4 select: 303.7457 ms
+[2026-04-14 12:58:46.235] Index last_name run 5 insert: 3540.1566 ms
+[2026-04-14 12:58:46.236] Index last_name run 5 select: 309.8516 ms
+[2026-04-14 12:58:50.229] Index last_name run 6 insert: 3647.6441 ms
+[2026-04-14 12:58:50.230] Index last_name run 6 select: 313.4959 ms
+[2026-04-14 12:58:54.161] Index last_name run 7 insert: 3652.4282 ms
+[2026-04-14 12:58:54.161] Index last_name run 7 select: 243.9422 ms
+[2026-04-14 12:58:58.259] Index last_name run 8 insert: 3769.8306 ms
+[2026-04-14 12:58:58.259] Index last_name run 8 select: 299.5197 ms
+[2026-04-14 12:59:02.344] Index last_name run 9 insert: 3774.9257 ms
+[2026-04-14 12:59:02.344] Index last_name run 9 select: 284.2461 ms
+[2026-04-14 12:59:06.384] Index last_name run 10 insert: 3725.8176 ms
+[2026-04-14 12:59:06.385] Index last_name run 10 select: 289.7628 ms
+[2026-04-14 12:59:10.594] Index last_name run 11 insert: 3931.4499 ms
+[2026-04-14 12:59:10.594] Index last_name run 11 select: 245.4466 ms
+[2026-04-14 12:59:14.752] Index last_name run 12 insert: 3814.9844 ms
+[2026-04-14 12:59:14.752] Index last_name run 12 select: 319.1144 ms
+[2026-04-14 12:59:18.928] Index last_name run 13 insert: 3847.3945 ms
+[2026-04-14 12:59:18.928] Index last_name run 13 select: 302.3177 ms
+[2026-04-14 12:59:23.157] Index last_name run 14 insert: 3946.2554 ms
+[2026-04-14 12:59:23.158] Index last_name run 14 select: 240.8566 ms
+[2026-04-14 12:59:27.538] Index last_name run 15 insert: 4030.7212 ms
+[2026-04-14 12:59:27.538] Index last_name run 15 select: 322.5853 ms
+[2026-04-14 12:59:31.939] Index last_name run 16 insert: 4038.265 ms
+[2026-04-14 12:59:31.940] Index last_name run 16 select: 317.0477 ms
+[2026-04-14 12:59:36.162] Index last_name run 17 insert: 3933.4854 ms
+[2026-04-14 12:59:36.162] Index last_name run 17 select: 257.0997 ms
+[2026-04-14 12:59:40.414] Index last_name run 18 insert: 3939.9047 ms
+[2026-04-14 12:59:40.414] Index last_name run 18 select: 281.8753 ms
+[2026-04-14 12:59:45.039] Index last_name run 19 insert: 4263.1749 ms
+[2026-04-14 12:59:45.039] Index last_name run 19 select: 324.4575 ms
+[2026-04-14 12:59:45.043] ------------------------------
+[2026-04-14 12:59:45.043] Index last_name AVG insert: 3800 ms
+[2026-04-14 12:59:45.043] Index last_name AVG select: 292.8 ms
+[2026-04-14 12:59:45.043] ------------------------------
+[2026-04-14 12:59:45.043] ==============================
+[2026-04-14 12:59:45.044] Running scenario: Index first+last
+[2026-04-14 12:59:45.044] ==============================
+[2026-04-14 12:59:49.565] Index first+last run 0 insert: 4249.0756 ms
+[2026-04-14 12:59:49.566] Index first+last run 0 select: 239.4808 ms
+[2026-04-14 12:59:54.241] Index first+last run 1 insert: 4409.1775 ms
+[2026-04-14 12:59:54.242] Index first+last run 1 select: 216.4881 ms
+[2026-04-14 12:59:58.706] Index first+last run 2 insert: 4214.5526 ms
+[2026-04-14 12:59:58.706] Index first+last run 2 select: 178.7873 ms
+[2026-04-14 13:00:03.535] Index first+last run 3 insert: 4659.8837 ms
+[2026-04-14 13:00:03.535] Index first+last run 3 select: 146.8236 ms
+[2026-04-14 13:00:08.003] Index first+last run 4 insert: 4267.9967 ms
+[2026-04-14 13:00:08.004] Index first+last run 4 select: 179.5197 ms
+[2026-04-14 13:00:12.532] Index first+last run 5 insert: 4314.5939 ms
+[2026-04-14 13:00:12.532] Index first+last run 5 select: 192.1828 ms
+[2026-04-14 13:00:17.067] Index first+last run 6 insert: 4303.5781 ms
+[2026-04-14 13:00:17.067] Index first+last run 6 select: 206.1924 ms
+[2026-04-14 13:00:21.626] Index first+last run 7 insert: 4331.1793 ms
+[2026-04-14 13:00:21.626] Index first+last run 7 select: 195.7037 ms
+[2026-04-14 13:00:26.125] Index first+last run 8 insert: 4225.4693 ms
+[2026-04-14 13:00:26.125] Index first+last run 8 select: 243.9287 ms
+[2026-04-14 13:00:30.785] Index first+last run 9 insert: 4422.5611 ms
+[2026-04-14 13:00:30.785] Index first+last run 9 select: 195.4919 ms
+[2026-04-14 13:00:35.342] Index first+last run 10 insert: 4382.0656 ms
+[2026-04-14 13:00:35.343] Index first+last run 10 select: 157.4225 ms
+[2026-04-14 13:00:39.988] Index first+last run 11 insert: 4402.8773 ms
+[2026-04-14 13:00:39.988] Index first+last run 11 select: 213.7327 ms
+[2026-04-14 13:00:44.604] Index first+last run 12 insert: 4424.2223 ms
+[2026-04-14 13:00:44.605] Index first+last run 12 select: 167.3422 ms
+[2026-04-14 13:00:49.120] Index first+last run 13 insert: 4266.4044 ms
+[2026-04-14 13:00:49.121] Index first+last run 13 select: 221.1552 ms
+[2026-04-14 13:00:53.631] Index first+last run 14 insert: 4220.4191 ms
+[2026-04-14 13:00:53.631] Index first+last run 14 select: 226.5404 ms
+[2026-04-14 13:00:58.191] Index first+last run 15 insert: 4333.3051 ms
+[2026-04-14 13:00:58.191] Index first+last run 15 select: 205.5891 ms
+[2026-04-14 13:01:02.776] Index first+last run 16 insert: 4372.0837 ms
+[2026-04-14 13:01:02.776] Index first+last run 16 select: 189.1335 ms
+[2026-04-14 13:01:07.249] Index first+last run 17 insert: 4239.7425 ms
+[2026-04-14 13:01:07.250] Index first+last run 17 select: 207.4934 ms
+[2026-04-14 13:01:11.862] Index first+last run 18 insert: 4347.4627 ms
+[2026-04-14 13:01:11.862] Index first+last run 18 select: 244.8585 ms
+[2026-04-14 13:01:16.492] Index first+last run 19 insert: 4386.1443 ms
+[2026-04-14 13:01:16.493] Index first+last run 19 select: 191.552 ms
+[2026-04-14 13:01:16.495] ------------------------------
+[2026-04-14 13:01:16.495] Index first+last AVG insert: 4338.2 ms
+[2026-04-14 13:01:16.495] Index first+last AVG select: 200.45 ms
+[2026-04-14 13:01:16.495] ------------------------------
+[2026-04-14 13:01:16.496] ==============================
+[2026-04-14 13:01:16.496] Running scenario: Index last+first
+[2026-04-14 13:01:16.496] ==============================
+[2026-04-14 13:01:20.991] Index last+first run 0 insert: 4244.75 ms
+[2026-04-14 13:01:20.991] Index last+first run 0 select: 219.8404 ms
+[2026-04-14 13:01:25.986] Index last+first run 1 insert: 4761.9992 ms
+[2026-04-14 13:01:25.986] Index last+first run 1 select: 200.8573 ms
+[2026-04-14 13:01:30.586] Index last+first run 2 insert: 4371.6033 ms
+[2026-04-14 13:01:30.586] Index last+first run 2 select: 203.6394 ms
+[2026-04-14 13:01:35.225] Index last+first run 3 insert: 4340.9575 ms
+[2026-04-14 13:01:35.226] Index last+first run 3 select: 234.674 ms
+[2026-04-14 13:01:42.350] Index last+first run 4 insert: 6713.2784 ms
+[2026-04-14 13:01:42.350] Index last+first run 4 select: 349.4424 ms
+[2026-04-14 13:01:49.108] Index last+first run 5 insert: 6524.7814 ms
+[2026-04-14 13:01:49.108] Index last+first run 5 select: 206.1848 ms
+[2026-04-14 13:01:55.050] Index last+first run 6 insert: 5691.4116 ms
+[2026-04-14 13:01:55.050] Index last+first run 6 select: 215.3698 ms
+[2026-04-14 13:02:00.426] Index last+first run 7 insert: 5147.7306 ms
+[2026-04-14 13:02:00.426] Index last+first run 7 select: 178.7202 ms
+[2026-04-14 13:02:05.822] Index last+first run 8 insert: 5126.4743 ms
+[2026-04-14 13:02:05.822] Index last+first run 8 select: 247.7316 ms
+[2026-04-14 13:02:11.047] Index last+first run 9 insert: 5026.9414 ms
+[2026-04-14 13:02:11.047] Index last+first run 9 select: 176.4758 ms
+[2026-04-14 13:02:16.351] Index last+first run 10 insert: 5097.906 ms
+[2026-04-14 13:02:16.351] Index last+first run 10 select: 186.0932 ms
+[2026-04-14 13:02:21.646] Index last+first run 11 insert: 5095.5355 ms
+[2026-04-14 13:02:21.647] Index last+first run 11 select: 178.7967 ms
+[2026-04-14 13:02:27.045] Index last+first run 12 insert: 5202.0965 ms
+[2026-04-14 13:02:27.045] Index last+first run 12 select: 172.2351 ms
+[2026-04-14 13:02:31.569] Index last+first run 13 insert: 4328.1902 ms
+[2026-04-14 13:02:31.570] Index last+first run 13 select: 164.0906 ms
+[2026-04-14 13:02:36.001] Index last+first run 14 insert: 4247.0759 ms
+[2026-04-14 13:02:36.001] Index last+first run 14 select: 160.8881 ms
+[2026-04-14 13:02:40.596] Index last+first run 15 insert: 4379.3926 ms
+[2026-04-14 13:02:40.597] Index last+first run 15 select: 195.5457 ms
+[2026-04-14 13:02:45.168] Index last+first run 16 insert: 4356.2889 ms
+[2026-04-14 13:02:45.169] Index last+first run 16 select: 193.3433 ms
+[2026-04-14 13:02:49.739] Index last+first run 17 insert: 4322.8119 ms
+[2026-04-14 13:02:49.739] Index last+first run 17 select: 227.4832 ms
+[2026-04-14 13:02:54.347] Index last+first run 18 insert: 4343.8535 ms
+[2026-04-14 13:02:54.347] Index last+first run 18 select: 202.1704 ms
+[2026-04-14 13:02:58.918] Index last+first run 19 insert: 4337.4974 ms
+[2026-04-14 13:02:58.918] Index last+first run 19 select: 211.0092 ms
+[2026-04-14 13:02:58.920] ------------------------------
+[2026-04-14 13:02:58.921] Index last+first AVG insert: 4882.45 ms
+[2026-04-14 13:02:58.921] Index last+first AVG select: 205.75 ms
+[2026-04-14 13:02:58.921] ------------------------------
+[2026-04-14 13:03:32.178] 
+[2026-04-14 13:03:32.185] ====================================================
+[2026-04-14 13:03:32.185] NEW RUN STARTED: 2026-04-14 13:03:32
+[2026-04-14 13:03:32.185] ====================================================
+[2026-04-14 13:03:32.185] 
+[2026-04-14 13:03:32.185] ==============================
+[2026-04-14 13:03:32.185] Running scenario: No index
+[2026-04-14 13:03:32.186] ==============================
+[2026-04-14 13:03:34.892] No index run 0 insert: 2218.4248 ms
+[2026-04-14 13:03:34.892] No index run 0 select: 417.9286 ms
+[2026-04-14 13:03:37.199] No index run 1 insert: 1786.3029 ms
+[2026-04-14 13:03:37.199] No index run 1 select: 497.4829 ms
+[2026-04-14 13:03:39.520] No index run 2 insert: 1886.6554 ms
+[2026-04-14 13:03:39.521] No index run 2 select: 397.8731 ms
+[2026-04-14 13:03:41.827] No index run 3 insert: 1846.3154 ms
+[2026-04-14 13:03:41.827] No index run 3 select: 427.4529 ms
+[2026-04-14 13:03:44.170] No index run 4 insert: 1840.1995 ms
+[2026-04-14 13:03:44.171] No index run 4 select: 472.9185 ms
+[2026-04-14 13:03:46.659] No index run 5 insert: 1973.5985 ms
+[2026-04-14 13:03:46.660] No index run 5 select: 487.0168 ms
+[2026-04-14 13:03:49.939] No index run 6 insert: 2661.2485 ms
+[2026-04-14 13:03:49.939] No index run 6 select: 582.4431 ms
+[2026-04-14 13:03:53.212] No index run 7 insert: 2668.5478 ms
+[2026-04-14 13:03:53.212] No index run 7 select: 572.6835 ms
+[2026-04-14 13:03:56.369] No index run 8 insert: 2589.9463 ms
+[2026-04-14 13:03:56.369] No index run 8 select: 526.9404 ms
+[2026-04-14 13:03:59.398] No index run 9 insert: 2509.6492 ms
+[2026-04-14 13:03:59.399] No index run 9 select: 496.1459 ms
+[2026-04-14 13:04:02.585] No index run 10 insert: 2560.7625 ms
+[2026-04-14 13:04:02.586] No index run 10 select: 589.2922 ms
+[2026-04-14 13:04:05.639] No index run 11 insert: 2493.7118 ms
+[2026-04-14 13:04:05.640] No index run 11 select: 531.2388 ms
+[2026-04-14 13:04:08.824] No index run 12 insert: 2533.4118 ms
+[2026-04-14 13:04:08.825] No index run 12 select: 628.7501 ms
+[2026-04-14 13:04:11.869] No index run 13 insert: 2441.1612 ms
+[2026-04-14 13:04:11.870] No index run 13 select: 560.7998 ms
+[2026-04-14 13:04:14.933] No index run 14 insert: 2490.9463 ms
+[2026-04-14 13:04:14.934] No index run 14 select: 542.2272 ms
+[2026-04-14 13:04:18.010] No index run 15 insert: 2563.1351 ms
+[2026-04-14 13:04:18.010] No index run 15 select: 485.3907 ms
+[2026-04-14 13:04:21.451] No index run 16 insert: 2847.2579 ms
+[2026-04-14 13:04:21.452] No index run 16 select: 568.9175 ms
+[2026-04-14 13:04:25.314] No index run 17 insert: 3213.0133 ms
+[2026-04-14 13:04:25.314] No index run 17 select: 614.9037 ms
+[2026-04-14 13:04:28.564] No index run 18 insert: 2625.7321 ms
+[2026-04-14 13:04:28.565] No index run 18 select: 592.7655 ms
+[2026-04-14 13:04:31.722] No index run 19 insert: 2605.0622 ms
+[2026-04-14 13:04:31.722] No index run 19 select: 529.4818 ms
+[2026-04-14 13:04:31.724] ------------------------------
+[2026-04-14 13:04:31.725] No index AVG insert: 2417.3 ms
+[2026-04-14 13:04:31.725] No index AVG select: 525.55 ms
+[2026-04-14 13:04:31.725] ------------------------------
+[2026-04-14 13:04:31.726] ==============================
+[2026-04-14 13:04:31.726] Running scenario: Index first_name
+[2026-04-14 13:04:31.726] ==============================
+[2026-04-14 13:04:36.009] Index first_name run 0 insert: 4012.7802 ms
+[2026-04-14 13:04:36.010] Index first_name run 0 select: 234.2177 ms
+[2026-04-14 13:04:40.368] Index first_name run 1 insert: 4112.3421 ms
+[2026-04-14 13:04:40.368] Index first_name run 1 select: 206.6088 ms
+[2026-04-14 13:04:44.581] Index first_name run 2 insert: 3953.2688 ms
+[2026-04-14 13:04:44.581] Index first_name run 2 select: 222.8175 ms
+[2026-04-14 13:04:48.895] Index first_name run 3 insert: 4081.2864 ms
+[2026-04-14 13:04:48.895] Index first_name run 3 select: 207.4099 ms
+[2026-04-14 13:04:53.135] Index first_name run 4 insert: 3970.4965 ms
+[2026-04-14 13:04:53.135] Index first_name run 4 select: 241.1796 ms
+[2026-04-14 13:04:57.409] Index first_name run 5 insert: 4024.2175 ms
+[2026-04-14 13:04:57.409] Index first_name run 5 select: 193.7504 ms
+[2026-04-14 13:05:01.677] Index first_name run 6 insert: 4021.3398 ms
+[2026-04-14 13:05:01.677] Index first_name run 6 select: 215.1865 ms
+[2026-04-14 13:05:06.167] Index first_name run 7 insert: 4220.7919 ms
+[2026-04-14 13:05:06.167] Index first_name run 7 select: 214.9412 ms
+[2026-04-14 13:05:10.292] Index first_name run 8 insert: 3847.3173 ms
+[2026-04-14 13:05:10.292] Index first_name run 8 select: 223.1746 ms
+[2026-04-14 13:05:14.878] Index first_name run 9 insert: 4380.2402 ms
+[2026-04-14 13:05:14.878] Index first_name run 9 select: 156.1596 ms
+[2026-04-14 13:05:18.990] Index first_name run 10 insert: 3913.9727 ms
+[2026-04-14 13:05:18.990] Index first_name run 10 select: 177.1266 ms
+[2026-04-14 13:05:23.221] Index first_name run 11 insert: 3957.9064 ms
+[2026-04-14 13:05:23.221] Index first_name run 11 select: 242.2816 ms
+[2026-04-14 13:05:28.166] Index first_name run 12 insert: 4646.7396 ms
+[2026-04-14 13:05:28.167] Index first_name run 12 select: 233.9666 ms
+[2026-04-14 13:05:32.731] Index first_name run 13 insert: 4326.4045 ms
+[2026-04-14 13:05:32.731] Index first_name run 13 select: 173.898 ms
+[2026-04-14 13:05:36.984] Index first_name run 14 insert: 4014.6107 ms
+[2026-04-14 13:05:36.984] Index first_name run 14 select: 214.6116 ms
+[2026-04-14 13:05:41.288] Index first_name run 15 insert: 4077.3268 ms
+[2026-04-14 13:05:41.288] Index first_name run 15 select: 191.394 ms
+[2026-04-14 13:05:45.333] Index first_name run 16 insert: 3827.1918 ms
+[2026-04-14 13:05:45.333] Index first_name run 16 select: 194.1632 ms
+[2026-04-14 13:05:49.641] Index first_name run 17 insert: 4092.0024 ms
+[2026-04-14 13:05:49.641] Index first_name run 17 select: 188.0089 ms
+[2026-04-14 13:05:53.887] Index first_name run 18 insert: 3994.1612 ms
+[2026-04-14 13:05:53.888] Index first_name run 18 select: 221.4442 ms
+[2026-04-14 13:05:58.134] Index first_name run 19 insert: 3980.2341 ms
+[2026-04-14 13:05:58.134] Index first_name run 19 select: 220.6169 ms
+[2026-04-14 13:05:58.148] ------------------------------
+[2026-04-14 13:05:58.149] Index first_name AVG insert: 4072.3 ms
+[2026-04-14 13:05:58.149] Index first_name AVG select: 208.2 ms
+[2026-04-14 13:05:58.149] ------------------------------
+[2026-04-14 13:05:58.149] ==============================
+[2026-04-14 13:05:58.149] Running scenario: Index last_name
+[2026-04-14 13:05:58.149] ==============================
+[2026-04-14 13:06:02.490] Index last_name run 0 insert: 3928.281 ms
+[2026-04-14 13:06:02.490] Index last_name run 0 select: 336.0537 ms
+[2026-04-14 13:06:06.804] Index last_name run 1 insert: 4011.5466 ms
+[2026-04-14 13:06:06.804] Index last_name run 1 select: 275.9099 ms
+[2026-04-14 13:06:11.057] Index last_name run 2 insert: 3913.971 ms
+[2026-04-14 13:06:11.057] Index last_name run 2 select: 313.2624 ms
+[2026-04-14 13:06:15.415] Index last_name run 3 insert: 4079.142 ms
+[2026-04-14 13:06:15.415] Index last_name run 3 select: 251.416 ms
+[2026-04-14 13:06:19.614] Index last_name run 4 insert: 3893.3643 ms
+[2026-04-14 13:06:19.614] Index last_name run 4 select: 269.765 ms
+[2026-04-14 13:06:23.965] Index last_name run 5 insert: 4082.8351 ms
+[2026-04-14 13:06:23.965] Index last_name run 5 select: 244.4668 ms
+[2026-04-14 13:06:28.139] Index last_name run 6 insert: 3888.1024 ms
+[2026-04-14 13:06:28.139] Index last_name run 6 select: 266.1596 ms
+[2026-04-14 13:06:32.758] Index last_name run 7 insert: 4313.7079 ms
+[2026-04-14 13:06:32.758] Index last_name run 7 select: 281.3201 ms
+[2026-04-14 13:06:37.634] Index last_name run 8 insert: 4560.6314 ms
+[2026-04-14 13:06:37.634] Index last_name run 8 select: 289.9309 ms
+[2026-04-14 13:06:41.995] Index last_name run 9 insert: 4077.7807 ms
+[2026-04-14 13:06:41.995] Index last_name run 9 select: 246.4609 ms
+[2026-04-14 13:06:46.285] Index last_name run 10 insert: 3953.5374 ms
+[2026-04-14 13:06:46.285] Index last_name run 10 select: 309.3379 ms
+[2026-04-14 13:06:50.486] Index last_name run 11 insert: 3919.3414 ms
+[2026-04-14 13:06:50.486] Index last_name run 11 select: 258.4353 ms
+[2026-04-14 13:06:55.086] Index last_name run 12 insert: 4276.6421 ms
+[2026-04-14 13:06:55.086] Index last_name run 12 select: 287.2709 ms
+[2026-04-14 13:06:59.345] Index last_name run 13 insert: 3948.1611 ms
+[2026-04-14 13:06:59.345] Index last_name run 13 select: 291.2846 ms
+[2026-04-14 13:07:03.668] Index last_name run 14 insert: 3976.4575 ms
+[2026-04-14 13:07:03.668] Index last_name run 14 select: 316.863 ms
+[2026-04-14 13:07:07.997] Index last_name run 15 insert: 4046.9501 ms
+[2026-04-14 13:07:07.998] Index last_name run 15 select: 256.3418 ms
+[2026-04-14 13:07:12.206] Index last_name run 16 insert: 3902.2671 ms
+[2026-04-14 13:07:12.207] Index last_name run 16 select: 282.3723 ms
+[2026-04-14 13:07:16.536] Index last_name run 17 insert: 4010.4191 ms
+[2026-04-14 13:07:16.536] Index last_name run 17 select: 292.9633 ms
+[2026-04-14 13:07:20.809] Index last_name run 18 insert: 3984.7859 ms
+[2026-04-14 13:07:20.809] Index last_name run 18 select: 255.4001 ms
+[2026-04-14 13:07:25.043] Index last_name run 19 insert: 3970.4259 ms
+[2026-04-14 13:07:25.043] Index last_name run 19 select: 236.7781 ms
+[2026-04-14 13:07:25.048] ------------------------------
+[2026-04-14 13:07:25.048] Index last_name AVG insert: 4036.4 ms
+[2026-04-14 13:07:25.048] Index last_name AVG select: 277.6 ms
+[2026-04-14 13:07:25.048] ------------------------------
+[2026-04-14 13:07:25.048] ==============================
+[2026-04-14 13:07:25.048] Running scenario: Index first+last
+[2026-04-14 13:07:25.048] ==============================
+[2026-04-14 13:07:29.806] Index first+last run 0 insert: 4501.2215 ms
+[2026-04-14 13:07:29.806] Index first+last run 0 select: 221.4447 ms
+[2026-04-14 13:07:35.021] Index first+last run 1 insert: 4948.8215 ms
+[2026-04-14 13:07:35.021] Index first+last run 1 select: 241.3285 ms
+[2026-04-14 13:07:41.838] Index first+last run 2 insert: 6556.1214 ms
+[2026-04-14 13:07:41.838] Index first+last run 2 select: 220.2275 ms
+[2026-04-14 13:07:47.739] Index first+last run 3 insert: 5649.0008 ms
+[2026-04-14 13:07:47.739] Index first+last run 3 select: 205.3194 ms
+[2026-04-14 13:07:53.853] Index first+last run 4 insert: 5850.0719 ms
+[2026-04-14 13:07:53.854] Index first+last run 4 select: 226.6664 ms
+[2026-04-14 13:07:58.909] Index first+last run 5 insert: 4835.9878 ms
+[2026-04-14 13:07:58.909] Index first+last run 5 select: 192.9295 ms
+[2026-04-14 13:08:04.200] Index first+last run 6 insert: 5081.5429 ms
+[2026-04-14 13:08:04.200] Index first+last run 6 select: 185.7082 ms
+[2026-04-14 13:08:09.146] Index first+last run 7 insert: 4732.2903 ms
+[2026-04-14 13:08:09.146] Index first+last run 7 select: 177.731 ms
+[2026-04-14 13:08:14.869] Index first+last run 8 insert: 5376.338 ms
+[2026-04-14 13:08:14.870] Index first+last run 8 select: 318.8598 ms
+[2026-04-14 13:08:21.456] Index first+last run 9 insert: 6353.0881 ms
+[2026-04-14 13:08:21.456] Index first+last run 9 select: 200.674 ms
+[2026-04-14 13:08:25.947] Index first+last run 10 insert: 4265.8557 ms
+[2026-04-14 13:08:25.947] Index first+last run 10 select: 198.6102 ms
+[2026-04-14 13:08:32.556] Index first+last run 11 insert: 6421.7297 ms
+[2026-04-14 13:08:32.556] Index first+last run 11 select: 159.849 ms
+[2026-04-14 13:08:37.459] Index first+last run 12 insert: 4714.7527 ms
+[2026-04-14 13:08:37.459] Index first+last run 12 select: 157.6511 ms
+[2026-04-14 13:08:42.174] Index first+last run 13 insert: 4457.1169 ms
+[2026-04-14 13:08:42.174] Index first+last run 13 select: 232.0205 ms
+[2026-04-14 13:08:47.759] Index first+last run 14 insert: 5391.7135 ms
+[2026-04-14 13:08:47.759] Index first+last run 14 select: 147.69 ms
+[2026-04-14 13:08:52.422] Index first+last run 15 insert: 4436.5793 ms
+[2026-04-14 13:08:52.422] Index first+last run 15 select: 190.3364 ms
+[2026-04-14 13:08:57.045] Index first+last run 16 insert: 4366.5578 ms
+[2026-04-14 13:08:57.045] Index first+last run 16 select: 228.6251 ms
+[2026-04-14 13:09:01.669] Index first+last run 17 insert: 4332.9531 ms
+[2026-04-14 13:09:01.670] Index first+last run 17 select: 230.3339 ms
+[2026-04-14 13:09:06.241] Index first+last run 18 insert: 4352.9472 ms
+[2026-04-14 13:09:06.241] Index first+last run 18 select: 154.3348 ms
+[2026-04-14 13:09:10.790] Index first+last run 19 insert: 4318.0393 ms
+[2026-04-14 13:09:10.791] Index first+last run 19 select: 212.6501 ms
+[2026-04-14 13:09:10.793] ------------------------------
+[2026-04-14 13:09:10.793] Index first+last AVG insert: 5046.65 ms
+[2026-04-14 13:09:10.793] Index first+last AVG select: 204.6 ms
+[2026-04-14 13:09:10.793] ------------------------------
+[2026-04-14 13:09:10.793] ==============================
+[2026-04-14 13:09:10.794] Running scenario: Index last+first
+[2026-04-14 13:09:10.794] ==============================
+[2026-04-14 13:09:15.385] Index last+first run 0 insert: 4412.7795 ms
+[2026-04-14 13:09:15.385] Index last+first run 0 select: 140.5688 ms
+[2026-04-14 13:09:19.930] Index last+first run 1 insert: 4336.1261 ms
+[2026-04-14 13:09:19.931] Index last+first run 1 select: 176.1603 ms
+[2026-04-14 13:09:24.456] Index last+first run 2 insert: 4310.9069 ms
+[2026-04-14 13:09:24.457] Index last+first run 2 select: 192.3831 ms
+[2026-04-14 13:09:29.114] Index last+first run 3 insert: 4448.4451 ms
+[2026-04-14 13:09:29.115] Index last+first run 3 select: 184.8616 ms
+[2026-04-14 13:09:33.722] Index last+first run 4 insert: 4408.0117 ms
+[2026-04-14 13:09:33.723] Index last+first run 4 select: 169.3992 ms
+[2026-04-14 13:09:38.444] Index last+first run 5 insert: 4537.5281 ms
+[2026-04-14 13:09:38.445] Index last+first run 5 select: 165.0873 ms
+[2026-04-14 13:09:42.967] Index last+first run 6 insert: 4312.5881 ms
+[2026-04-14 13:09:42.967] Index last+first run 6 select: 183.9265 ms
+[2026-04-14 13:09:47.652] Index last+first run 7 insert: 4450.5681 ms
+[2026-04-14 13:09:47.652] Index last+first run 7 select: 205.6312 ms
+[2026-04-14 13:09:53.356] Index last+first run 8 insert: 5481.4693 ms
+[2026-04-14 13:09:53.356] Index last+first run 8 select: 160.3945 ms
+[2026-04-14 13:09:57.912] Index last+first run 9 insert: 4362.5825 ms
+[2026-04-14 13:09:57.912] Index last+first run 9 select: 158.7929 ms
+[2026-04-14 13:10:02.460] Index last+first run 10 insert: 4324.0611 ms
+[2026-04-14 13:10:02.460] Index last+first run 10 select: 192.1402 ms
+[2026-04-14 13:10:07.076] Index last+first run 11 insert: 4425.2153 ms
+[2026-04-14 13:10:07.077] Index last+first run 11 select: 165.7888 ms
+[2026-04-14 13:10:11.667] Index last+first run 12 insert: 4331.5263 ms
+[2026-04-14 13:10:11.667] Index last+first run 12 select: 233.6059 ms
+[2026-04-14 13:10:16.546] Index last+first run 13 insert: 4654.6585 ms
+[2026-04-14 13:10:16.547] Index last+first run 13 select: 170.833 ms
+[2026-04-14 13:10:21.143] Index last+first run 14 insert: 4329.5662 ms
+[2026-04-14 13:10:21.144] Index last+first run 14 select: 236.1949 ms
+[2026-04-14 13:10:25.737] Index last+first run 15 insert: 4368.0848 ms
+[2026-04-14 13:10:25.737] Index last+first run 15 select: 179.3705 ms
+[2026-04-14 13:10:30.472] Index last+first run 16 insert: 4497.4936 ms
+[2026-04-14 13:10:30.472] Index last+first run 16 select: 213.3249 ms
+[2026-04-14 13:10:35.144] Index last+first run 17 insert: 4439.0125 ms
+[2026-04-14 13:10:35.144] Index last+first run 17 select: 167.2379 ms
+[2026-04-14 13:10:39.741] Index last+first run 18 insert: 4388.2954 ms
+[2026-04-14 13:10:39.741] Index last+first run 18 select: 180.6693 ms
+[2026-04-14 13:10:44.433] Index last+first run 19 insert: 4474.7373 ms
+[2026-04-14 13:10:44.433] Index last+first run 19 select: 189.7409 ms
+[2026-04-14 13:10:44.437] ------------------------------
+[2026-04-14 13:10:44.437] Index last+first AVG insert: 4464.25 ms
+[2026-04-14 13:10:44.437] Index last+first AVG select: 182.8 ms
+[2026-04-14 13:10:44.437] ------------------------------
+[2026-04-14 13:11:00.744] 
+[2026-04-14 13:11:00.751] ====================================================
+[2026-04-14 13:11:00.751] NEW RUN STARTED: 2026-04-14 13:11:00
+[2026-04-14 13:11:00.751] ====================================================
+[2026-04-14 13:11:00.752] 
+[2026-04-14 13:11:00.752] ==============================
+[2026-04-14 13:11:00.752] Running scenario: No index
+[2026-04-14 13:11:00.752] ==============================
+[2026-04-14 13:11:03.639] No index run 0 insert: 2286.5976 ms
+[2026-04-14 13:11:03.640] No index run 0 select: 540.5331 ms
+[2026-04-14 13:11:07.038] No index run 1 insert: 2758.6661 ms
+[2026-04-14 13:11:07.038] No index run 1 select: 613.7687 ms
+[2026-04-14 13:11:10.543] No index run 2 insert: 3020.3034 ms
+[2026-04-14 13:11:10.544] No index run 2 select: 461.4531 ms
+[2026-04-14 13:11:14.141] No index run 3 insert: 3065.2531 ms
+[2026-04-14 13:11:14.141] No index run 3 select: 506.0579 ms
+[2026-04-14 13:11:17.530] No index run 4 insert: 2936.9964 ms
+[2026-04-14 13:11:17.531] No index run 4 select: 423.3056 ms
+[2026-04-14 13:11:21.024] No index run 5 insert: 3008.6572 ms
+[2026-04-14 13:11:21.024] No index run 5 select: 454.9521 ms
+[2026-04-14 13:11:24.541] No index run 6 insert: 3047.6708 ms
+[2026-04-14 13:11:24.541] No index run 6 select: 448.0407 ms
+[2026-04-14 13:11:28.137] No index run 7 insert: 3054.265 ms
+[2026-04-14 13:11:28.138] No index run 7 select: 495.9934 ms
+[2026-04-14 13:11:31.588] No index run 8 insert: 2946.6519 ms
+[2026-04-14 13:11:31.588] No index run 8 select: 480.5664 ms
+[2026-04-14 13:11:35.017] No index run 9 insert: 2948.2166 ms
+[2026-04-14 13:11:35.018] No index run 9 select: 452.0595 ms
+[2026-04-14 13:11:38.494] No index run 10 insert: 3049.9097 ms
+[2026-04-14 13:11:38.494] No index run 10 select: 398.8731 ms
+[2026-04-14 13:11:41.981] No index run 11 insert: 3008.7513 ms
+[2026-04-14 13:11:41.981] No index run 11 select: 449.9871 ms
+[2026-04-14 13:11:45.398] No index run 12 insert: 2965.9476 ms
+[2026-04-14 13:11:45.398] No index run 12 select: 425.3431 ms
+[2026-04-14 13:11:48.926] No index run 13 insert: 3089.7277 ms
+[2026-04-14 13:11:48.926] No index run 13 select: 416.9281 ms
+[2026-04-14 13:11:52.335] No index run 14 insert: 2900.3982 ms
+[2026-04-14 13:11:52.335] No index run 14 select: 481.2415 ms
+[2026-04-14 13:11:55.773] No index run 15 insert: 2973.9805 ms
+[2026-04-14 13:11:55.773] No index run 15 select: 441.5105 ms
+[2026-04-14 13:11:59.199] No index run 16 insert: 2952.3261 ms
+[2026-04-14 13:11:59.199] No index run 16 select: 448.2735 ms
+[2026-04-14 13:12:03.160] No index run 17 insert: 3366.9358 ms
+[2026-04-14 13:12:03.161] No index run 17 select: 566.0796 ms
+[2026-04-14 13:12:06.898] No index run 18 insert: 3286.6184 ms
+[2026-04-14 13:12:06.899] No index run 18 select: 428.4019 ms
+[2026-04-14 13:12:10.336] No index run 19 insert: 3012.2562 ms
+[2026-04-14 13:12:10.336] No index run 19 select: 402.7769 ms
+[2026-04-14 13:12:10.339] ------------------------------
+[2026-04-14 13:12:10.339] No index AVG insert: 2983.4 ms
+[2026-04-14 13:12:10.339] No index AVG select: 466.3 ms
+[2026-04-14 13:12:10.340] ------------------------------
+[2026-04-14 13:12:10.340] ==============================
+[2026-04-14 13:12:10.340] Running scenario: Index first_name
+[2026-04-14 13:12:10.340] ==============================
+[2026-04-14 13:12:15.043] Index first_name run 0 insert: 4483.0775 ms
+[2026-04-14 13:12:15.043] Index first_name run 0 select: 184.3396 ms
+[2026-04-14 13:12:19.527] Index first_name run 1 insert: 4264.0194 ms
+[2026-04-14 13:12:19.527] Index first_name run 1 select: 182.5313 ms
+[2026-04-14 13:12:23.992] Index first_name run 2 insert: 4234.598 ms
+[2026-04-14 13:12:23.992] Index first_name run 2 select: 209.6262 ms
+[2026-04-14 13:12:28.596] Index first_name run 3 insert: 4410.2559 ms
+[2026-04-14 13:12:28.596] Index first_name run 3 select: 160.301 ms
+[2026-04-14 13:12:33.186] Index first_name run 4 insert: 4409.1362 ms
+[2026-04-14 13:12:33.186] Index first_name run 4 select: 155.6438 ms
+[2026-04-14 13:12:37.921] Index first_name run 5 insert: 4528.9647 ms
+[2026-04-14 13:12:37.921] Index first_name run 5 select: 181.2178 ms
+[2026-04-14 13:12:42.709] Index first_name run 6 insert: 4581.5863 ms
+[2026-04-14 13:12:42.710] Index first_name run 6 select: 188.3026 ms
+[2026-04-14 13:12:47.194] Index first_name run 7 insert: 4265.965 ms
+[2026-04-14 13:12:47.194] Index first_name run 7 select: 178.8962 ms
+[2026-04-14 13:12:51.773] Index first_name run 8 insert: 4390.2507 ms
+[2026-04-14 13:12:51.773] Index first_name run 8 select: 162.3215 ms
+[2026-04-14 13:12:56.455] Index first_name run 9 insert: 4462.7382 ms
+[2026-04-14 13:12:56.455] Index first_name run 9 select: 191.9151 ms
+[2026-04-14 13:13:01.040] Index first_name run 10 insert: 4395.21 ms
+[2026-04-14 13:13:01.041] Index first_name run 10 select: 163.803 ms
+[2026-04-14 13:13:05.691] Index first_name run 11 insert: 4401.8901 ms
+[2026-04-14 13:13:05.692] Index first_name run 11 select: 219.8229 ms
+[2026-04-14 13:13:11.002] Index first_name run 12 insert: 5072.6264 ms
+[2026-04-14 13:13:11.002] Index first_name run 12 select: 197.1086 ms
+[2026-04-14 13:13:15.892] Index first_name run 13 insert: 4618.8942 ms
+[2026-04-14 13:13:15.893] Index first_name run 13 select: 240.6013 ms
+[2026-04-14 13:13:20.453] Index first_name run 14 insert: 4334.8033 ms
+[2026-04-14 13:13:20.453] Index first_name run 14 select: 174.7011 ms
+[2026-04-14 13:13:25.032] Index first_name run 15 insert: 4376.8078 ms
+[2026-04-14 13:13:25.032] Index first_name run 15 select: 178.3822 ms
+[2026-04-14 13:13:29.553] Index first_name run 16 insert: 4301.0381 ms
+[2026-04-14 13:13:29.553] Index first_name run 16 select: 193.1715 ms
+[2026-04-14 13:13:34.171] Index first_name run 17 insert: 4362.6514 ms
+[2026-04-14 13:13:34.171] Index first_name run 17 select: 230.0872 ms
+[2026-04-14 13:13:38.939] Index first_name run 18 insert: 4535.9908 ms
+[2026-04-14 13:13:38.939] Index first_name run 18 select: 169.9543 ms
+[2026-04-14 13:13:43.631] Index first_name run 19 insert: 4491.4634 ms
+[2026-04-14 13:13:43.631] Index first_name run 19 select: 176.2169 ms
+[2026-04-14 13:13:43.634] ------------------------------
+[2026-04-14 13:13:43.634] Index first_name AVG insert: 4445.55 ms
+[2026-04-14 13:13:43.634] Index first_name AVG select: 186.45 ms
+[2026-04-14 13:13:43.634] ------------------------------
+[2026-04-14 13:13:43.634] ==============================
+[2026-04-14 13:13:43.634] Running scenario: Index last_name
+[2026-04-14 13:13:43.634] ==============================
+[2026-04-14 13:13:48.230] Index last_name run 0 insert: 4319.8111 ms
+[2026-04-14 13:13:48.230] Index last_name run 0 select: 242.5736 ms
+[2026-04-14 13:13:52.893] Index last_name run 1 insert: 4384.4901 ms
+[2026-04-14 13:13:52.893] Index last_name run 1 select: 252.7814 ms
+[2026-04-14 13:13:57.548] Index last_name run 2 insert: 4375.9988 ms
+[2026-04-14 13:13:57.548] Index last_name run 2 select: 254.9772 ms
+[2026-04-14 13:14:02.295] Index last_name run 3 insert: 4448.4988 ms
+[2026-04-14 13:14:02.295] Index last_name run 3 select: 273.0103 ms
+[2026-04-14 13:14:06.881] Index last_name run 4 insert: 4317.6645 ms
+[2026-04-14 13:14:06.882] Index last_name run 4 select: 229.5508 ms
+[2026-04-14 13:14:11.723] Index last_name run 5 insert: 4547.7681 ms
+[2026-04-14 13:14:11.723] Index last_name run 5 select: 266.9981 ms
+[2026-04-14 13:14:16.999] Index last_name run 6 insert: 4975.5195 ms
+[2026-04-14 13:14:16.999] Index last_name run 6 select: 270.096 ms
+[2026-04-14 13:14:22.000] Index last_name run 7 insert: 4665.5865 ms
+[2026-04-14 13:14:22.000] Index last_name run 7 select: 279.4522 ms
+[2026-04-14 13:14:26.630] Index last_name run 8 insert: 4323.6435 ms
+[2026-04-14 13:14:26.630] Index last_name run 8 select: 279.4487 ms
+[2026-04-14 13:14:31.446] Index last_name run 9 insert: 4535.9391 ms
+[2026-04-14 13:14:31.446] Index last_name run 9 select: 249.2343 ms
+[2026-04-14 13:14:36.136] Index last_name run 10 insert: 4395.9782 ms
+[2026-04-14 13:14:36.136] Index last_name run 10 select: 266.7889 ms
+[2026-04-14 13:14:40.915] Index last_name run 11 insert: 4523.7944 ms
+[2026-04-14 13:14:40.915] Index last_name run 11 select: 235.266 ms
+[2026-04-14 13:14:45.560] Index last_name run 12 insert: 4390.3041 ms
+[2026-04-14 13:14:45.560] Index last_name run 12 select: 227.9077 ms
+[2026-04-14 13:14:50.275] Index last_name run 13 insert: 4423.7172 ms
+[2026-04-14 13:14:50.275] Index last_name run 13 select: 251.1437 ms
+[2026-04-14 13:14:54.877] Index last_name run 14 insert: 4308.051 ms
+[2026-04-14 13:14:54.877] Index last_name run 14 select: 271.3955 ms
+[2026-04-14 13:14:59.426] Index last_name run 15 insert: 4299.8192 ms
+[2026-04-14 13:14:59.426] Index last_name run 15 select: 219.551 ms
+[2026-04-14 13:15:04.080] Index last_name run 16 insert: 4322.1222 ms
+[2026-04-14 13:15:04.080] Index last_name run 16 select: 290.2955 ms
+[2026-04-14 13:15:08.705] Index last_name run 17 insert: 4338.2695 ms
+[2026-04-14 13:15:08.705] Index last_name run 17 select: 246.5368 ms
+[2026-04-14 13:15:13.329] Index last_name run 18 insert: 4358.1392 ms
+[2026-04-14 13:15:13.329] Index last_name run 18 select: 244.3546 ms
+[2026-04-14 13:15:18.324] Index last_name run 19 insert: 4647.2637 ms
+[2026-04-14 13:15:18.324] Index last_name run 19 select: 315.0665 ms
+[2026-04-14 13:15:18.328] ------------------------------
+[2026-04-14 13:15:18.329] Index last_name AVG insert: 4444.55 ms
+[2026-04-14 13:15:18.329] Index last_name AVG select: 257.85 ms
+[2026-04-14 13:15:18.329] ------------------------------
+[2026-04-14 13:15:18.329] ==============================
+[2026-04-14 13:15:18.329] Running scenario: Index first+last
+[2026-04-14 13:15:18.329] ==============================
+[2026-04-14 13:15:23.912] Index first+last run 0 insert: 5333.825 ms
+[2026-04-14 13:15:23.913] Index first+last run 0 select: 218.6662 ms
+[2026-04-14 13:15:29.029] Index first+last run 1 insert: 4889.5777 ms
+[2026-04-14 13:15:29.030] Index first+last run 1 select: 167.302 ms
+[2026-04-14 13:15:34.162] Index first+last run 2 insert: 4886.1054 ms
+[2026-04-14 13:15:34.162] Index first+last run 2 select: 213.1203 ms
+[2026-04-14 13:15:39.028] Index first+last run 3 insert: 4710.1017 ms
+[2026-04-14 13:15:39.028] Index first+last run 3 select: 134.5074 ms
+[2026-04-14 13:15:43.905] Index first+last run 4 insert: 4680.2354 ms
+[2026-04-14 13:15:43.905] Index first+last run 4 select: 156.8382 ms
+[2026-04-14 13:15:48.943] Index first+last run 5 insert: 4821.288 ms
+[2026-04-14 13:15:48.943] Index first+last run 5 select: 189.2788 ms
+[2026-04-14 13:15:53.860] Index first+last run 6 insert: 4721.5292 ms
+[2026-04-14 13:15:53.860] Index first+last run 6 select: 159.9375 ms
+[2026-04-14 13:15:58.788] Index first+last run 7 insert: 4739.7562 ms
+[2026-04-14 13:15:58.788] Index first+last run 7 select: 166.6474 ms
+[2026-04-14 13:16:03.975] Index first+last run 8 insert: 4981.0478 ms
+[2026-04-14 13:16:03.975] Index first+last run 8 select: 169.7752 ms
+[2026-04-14 13:16:08.981] Index first+last run 9 insert: 4823.1404 ms
+[2026-04-14 13:16:08.981] Index first+last run 9 select: 159.2851 ms
+[2026-04-14 13:16:13.924] Index first+last run 10 insert: 4742.0077 ms
+[2026-04-14 13:16:13.924] Index first+last run 10 select: 173.0497 ms
+[2026-04-14 13:16:19.023] Index first+last run 11 insert: 4884.8785 ms
+[2026-04-14 13:16:19.023] Index first+last run 11 select: 186.9219 ms
+[2026-04-14 13:16:24.196] Index first+last run 12 insert: 4948.3014 ms
+[2026-04-14 13:16:24.196] Index first+last run 12 select: 186.9755 ms
+[2026-04-14 13:16:29.710] Index first+last run 13 insert: 5317.4875 ms
+[2026-04-14 13:16:29.710] Index first+last run 13 select: 168.4876 ms
+[2026-04-14 13:16:34.545] Index first+last run 14 insert: 4623.1607 ms
+[2026-04-14 13:16:34.546] Index first+last run 14 select: 186.1255 ms
+[2026-04-14 13:16:39.042] Index first+last run 15 insert: 4174.7073 ms
+[2026-04-14 13:16:39.042] Index first+last run 15 select: 292.4521 ms
+[2026-04-14 13:16:47.226] Index first+last run 16 insert: 7800.9782 ms
+[2026-04-14 13:16:47.226] Index first+last run 16 select: 318.7217 ms
+[2026-04-14 13:16:54.529] Index first+last run 17 insert: 6983.6932 ms
+[2026-04-14 13:16:54.529] Index first+last run 17 select: 281.8517 ms
+[2026-04-14 13:17:02.181] Index first+last run 18 insert: 7260.2064 ms
+[2026-04-14 13:17:02.181] Index first+last run 18 select: 329.0791 ms
+[2026-04-14 13:17:08.654] Index first+last run 19 insert: 6285.003 ms
+[2026-04-14 13:17:08.654] Index first+last run 19 select: 132.6184 ms
+[2026-04-14 13:17:08.658] ------------------------------
+[2026-04-14 13:17:08.658] Index first+last AVG insert: 5279.95 ms
+[2026-04-14 13:17:08.658] Index first+last AVG select: 199.05 ms
+[2026-04-14 13:17:08.658] ------------------------------
+[2026-04-14 13:17:08.659] ==============================
+[2026-04-14 13:17:08.659] Running scenario: Index last+first
+[2026-04-14 13:17:08.659] ==============================
+[2026-04-14 13:17:16.004] Index last+first run 0 insert: 7048.9556 ms
+[2026-04-14 13:17:16.005] Index last+first run 0 select: 271.6925 ms
+[2026-04-14 13:17:23.848] Index last+first run 1 insert: 7549.2606 ms
+[2026-04-14 13:17:23.849] Index last+first run 1 select: 259.1052 ms
+[2026-04-14 13:17:31.236] Index last+first run 2 insert: 7071.6585 ms
+[2026-04-14 13:17:31.236] Index last+first run 2 select: 283.3162 ms
+[2026-04-14 13:17:38.922] Index last+first run 3 insert: 7395.8554 ms
+[2026-04-14 13:17:38.922] Index last+first run 3 select: 220.4889 ms
+[2026-04-14 13:17:46.908] Index last+first run 4 insert: 7699.6294 ms
+[2026-04-14 13:17:46.909] Index last+first run 4 select: 226.8327 ms
+[2026-04-14 13:17:54.808] Index last+first run 5 insert: 7556.1937 ms
+[2026-04-14 13:17:54.808] Index last+first run 5 select: 274.8575 ms
+[2026-04-14 13:18:02.757] Index last+first run 6 insert: 7577.9633 ms
+[2026-04-14 13:18:02.757] Index last+first run 6 select: 303.7321 ms
+[2026-04-14 13:18:10.257] Index last+first run 7 insert: 7220.8766 ms
+[2026-04-14 13:18:10.257] Index last+first run 7 select: 227.9837 ms
+[2026-04-14 13:18:17.208] Index last+first run 8 insert: 6708.2989 ms
+[2026-04-14 13:18:17.208] Index last+first run 8 select: 191.5639 ms
+[2026-04-14 13:18:25.398] Index last+first run 9 insert: 7960.5498 ms
+[2026-04-14 13:18:25.398] Index last+first run 9 select: 186.6794 ms
+[2026-04-14 13:18:33.480] Index last+first run 10 insert: 7847.9765 ms
+[2026-04-14 13:18:33.481] Index last+first run 10 select: 205.9511 ms
+[2026-04-14 13:18:40.506] Index last+first run 11 insert: 6751.9132 ms
+[2026-04-14 13:18:40.506] Index last+first run 11 select: 230.3318 ms
+[2026-04-14 13:18:48.803] Index last+first run 12 insert: 7957.8009 ms
+[2026-04-14 13:18:48.803] Index last+first run 12 select: 296.4607 ms
+[2026-04-14 13:18:57.092] Index last+first run 13 insert: 7928.6348 ms
+[2026-04-14 13:18:57.092] Index last+first run 13 select: 319.3036 ms
+[2026-04-14 13:19:04.958] Index last+first run 14 insert: 7571.8 ms
+[2026-04-14 13:19:04.959] Index last+first run 14 select: 226.6566 ms
+[2026-04-14 13:19:12.396] Index last+first run 15 insert: 7101.4816 ms
+[2026-04-14 13:19:12.396] Index last+first run 15 select: 308.9159 ms
+[2026-04-14 13:19:19.865] Index last+first run 16 insert: 7102.0472 ms
+[2026-04-14 13:19:19.866] Index last+first run 16 select: 319.1989 ms
+[2026-04-14 13:19:27.334] Index last+first run 17 insert: 7100.0146 ms
+[2026-04-14 13:19:27.334] Index last+first run 17 select: 325.0237 ms
+[2026-04-14 13:19:33.947] Index last+first run 18 insert: 6260.3777 ms
+[2026-04-14 13:19:33.947] Index last+first run 18 select: 307.7511 ms
+[2026-04-14 13:19:40.727] Index last+first run 19 insert: 6441.6226 ms
+[2026-04-14 13:19:40.728] Index last+first run 19 select: 285.321 ms
+[2026-04-14 13:19:40.740] ------------------------------
+[2026-04-14 13:19:40.741] Index last+first AVG insert: 7292.05 ms
+[2026-04-14 13:19:40.741] Index last+first AVG select: 263 ms
+[2026-04-14 13:19:40.741] ------------------------------
+ [2026-04-15 13:12:57.095] 
+[2026-04-15 13:12:57.107] ====================================================
+[2026-04-15 13:12:57.107] NEW RUN STARTED: 2026-04-15 13:12:57
+[2026-04-15 13:12:57.108] ====================================================
+[2026-04-15 13:12:57.108] 
+[2026-04-15 13:12:57.108] ==============================
+[2026-04-15 13:12:57.108] Running scenario: No index
+[2026-04-15 13:12:57.108] ==============================
+[2026-04-15 13:12:59.911] No index run 0 insert: 2244.266 ms
+[2026-04-15 13:12:59.911] No index run 0 select: 414.6334 ms
+[2026-04-15 13:13:03.448] No index run 1 insert: 2792.5112 ms
+[2026-04-15 13:13:03.449] No index run 1 select: 715.2982 ms
+[2026-04-15 13:13:08.461] No index run 2 insert: 4108.1169 ms
+[2026-04-15 13:13:08.465] No index run 2 select: 877.6389 ms
+[2026-04-15 13:13:14.237] No index run 3 insert: 4999.0793 ms
+[2026-04-15 13:13:14.237] No index run 3 select: 597.4168 ms
+[2026-04-15 13:13:18.659] No index run 4 insert: 3735.4369 ms
+[2026-04-15 13:13:18.660] No index run 4 select: 659.0129 ms
+[2026-04-15 13:13:23.196] No index run 5 insert: 3875.182 ms
+[2026-04-15 13:13:23.196] No index run 5 select: 631.0937 ms
+[2026-04-15 13:13:27.751] No index run 6 insert: 3910.1263 ms
+[2026-04-15 13:13:27.751] No index run 6 select: 619.2775 ms
+[2026-04-15 13:13:32.065] No index run 7 insert: 3675.6811 ms
+[2026-04-15 13:13:32.065] No index run 7 select: 609.3679 ms
+[2026-04-15 13:13:36.327] No index run 8 insert: 3655.4534 ms
+[2026-04-15 13:13:36.327] No index run 8 select: 580.5123 ms
+[2026-04-15 13:13:40.778] No index run 9 insert: 3811.8785 ms
+[2026-04-15 13:13:40.779] No index run 9 select: 613.2987 ms
+[2026-04-15 13:13:44.928] No index run 10 insert: 3581.2375 ms
+[2026-04-15 13:13:44.928] No index run 10 select: 538.7307 ms
+[2026-04-15 13:13:48.911] No index run 11 insert: 3384.7998 ms
+[2026-04-15 13:13:48.911] No index run 11 select: 574.9504 ms
+[2026-04-15 13:13:53.067] No index run 12 insert: 3544.599 ms
+[2026-04-15 13:13:53.068] No index run 12 select: 585.7189 ms
+[2026-04-15 13:13:57.148] No index run 13 insert: 3501.1884 ms
+[2026-04-15 13:13:57.148] No index run 13 select: 551.5398 ms
+[2026-04-15 13:14:01.246] No index run 14 insert: 3514.6817 ms
+[2026-04-15 13:14:01.246] No index run 14 select: 549.7485 ms
+[2026-04-15 13:14:05.090] No index run 15 insert: 3315.4862 ms
+[2026-04-15 13:14:05.090] No index run 15 select: 503.7418 ms
+[2026-04-15 13:14:08.865] No index run 16 insert: 3196.0378 ms
+[2026-04-15 13:14:08.865] No index run 16 select: 555.7558 ms
+[2026-04-15 13:14:12.906] No index run 17 insert: 3340.9901 ms
+[2026-04-15 13:14:12.907] No index run 17 select: 673.2126 ms
+[2026-04-15 13:14:16.999] No index run 18 insert: 3484.4198 ms
+[2026-04-15 13:14:16.999] No index run 18 select: 583.2653 ms
+[2026-04-15 13:14:21.093] No index run 19 insert: 3534.7349 ms
+[2026-04-15 13:14:21.093] No index run 19 select: 535.5243 ms
+[2026-04-15 13:14:21.096] ------------------------------
+[2026-04-15 13:14:21.097] No index AVG insert: 3559.85 ms
+[2026-04-15 13:14:21.097] No index AVG select: 598 ms
+[2026-04-15 13:14:21.097] ------------------------------
+[2026-04-15 13:14:21.098] ==============================
+[2026-04-15 13:14:21.098] Running scenario: Index first_name
+[2026-04-15 13:14:21.098] ==============================
+[2026-04-15 13:14:26.224] Index first_name run 0 insert: 4901.3322 ms
+[2026-04-15 13:14:26.224] Index first_name run 0 select: 190.3138 ms
+[2026-04-15 13:14:31.080] Index first_name run 1 insert: 4635.8243 ms
+[2026-04-15 13:14:31.080] Index first_name run 1 select: 194.1203 ms
+[2026-04-15 13:14:36.026] Index first_name run 2 insert: 4722.0003 ms
+[2026-04-15 13:14:36.026] Index first_name run 2 select: 191.6158 ms
+[2026-04-15 13:14:41.165] Index first_name run 3 insert: 4923.7259 ms
+[2026-04-15 13:14:41.165] Index first_name run 3 select: 194.296 ms
+[2026-04-15 13:14:45.834] Index first_name run 4 insert: 4469.973 ms
+[2026-04-15 13:14:45.834] Index first_name run 4 select: 179.8761 ms
+[2026-04-15 13:14:50.514] Index first_name run 5 insert: 4445.5076 ms
+[2026-04-15 13:14:50.515] Index first_name run 5 select: 196.0256 ms
+[2026-04-15 13:14:55.305] Index first_name run 6 insert: 4526.5763 ms
+[2026-04-15 13:14:55.305] Index first_name run 6 select: 240.6542 ms
+[2026-04-15 13:15:00.630] Index first_name run 7 insert: 5117.5912 ms
+[2026-04-15 13:15:00.630] Index first_name run 7 select: 178.3825 ms
+[2026-04-15 13:15:05.109] Index first_name run 8 insert: 4261.3311 ms
+[2026-04-15 13:15:05.109] Index first_name run 8 select: 182.8285 ms
+[2026-04-15 13:15:09.585] Index first_name run 9 insert: 4281.0849 ms
+[2026-04-15 13:15:09.585] Index first_name run 9 select: 166.5713 ms
+[2026-04-15 13:15:14.091] Index first_name run 10 insert: 4306.2579 ms
+[2026-04-15 13:15:14.091] Index first_name run 10 select: 172.659 ms
+[2026-04-15 13:15:19.166] Index first_name run 11 insert: 4819.3486 ms
+[2026-04-15 13:15:19.166] Index first_name run 11 select: 213.6089 ms
+[2026-04-15 13:15:24.158] Index first_name run 12 insert: 4766.9207 ms
+[2026-04-15 13:15:24.158] Index first_name run 12 select: 183.237 ms
+[2026-04-15 13:15:28.894] Index first_name run 13 insert: 4497.5103 ms
+[2026-04-15 13:15:28.895] Index first_name run 13 select: 211.7682 ms
+[2026-04-15 13:15:33.736] Index first_name run 14 insert: 4567.2564 ms
+[2026-04-15 13:15:33.736] Index first_name run 14 select: 235.5218 ms
+[2026-04-15 13:15:38.423] Index first_name run 15 insert: 4475.0067 ms
+[2026-04-15 13:15:38.423] Index first_name run 15 select: 189.1099 ms
+[2026-04-15 13:15:43.049] Index first_name run 16 insert: 4413.9691 ms
+[2026-04-15 13:15:43.049] Index first_name run 16 select: 188.6828 ms
+[2026-04-15 13:15:47.655] Index first_name run 17 insert: 4408.3001 ms
+[2026-04-15 13:15:47.655] Index first_name run 17 select: 179.2941 ms
+[2026-04-15 13:15:52.291] Index first_name run 18 insert: 4412.3232 ms
+[2026-04-15 13:15:52.291] Index first_name run 18 select: 202.2279 ms
+[2026-04-15 13:15:56.969] Index first_name run 19 insert: 4477.5098 ms
+[2026-04-15 13:15:56.969] Index first_name run 19 select: 179.0351 ms
+[2026-04-15 13:15:56.973] ------------------------------
+[2026-04-15 13:15:56.973] Index first_name AVG insert: 4571 ms
+[2026-04-15 13:15:56.973] Index first_name AVG select: 193.05 ms
+[2026-04-15 13:15:56.974] ------------------------------
+[2026-04-15 13:15:56.974] ==============================
+[2026-04-15 13:15:56.974] Running scenario: Index last_name
+[2026-04-15 13:15:56.974] ==============================
+[2026-04-15 13:16:01.686] Index last_name run 0 insert: 4411.719 ms
+[2026-04-15 13:16:01.686] Index last_name run 0 select: 265.9696 ms
+[2026-04-15 13:16:06.382] Index last_name run 1 insert: 4397.0931 ms
+[2026-04-15 13:16:06.383] Index last_name run 1 select: 276.0741 ms
+[2026-04-15 13:16:11.037] Index last_name run 2 insert: 4337.9282 ms
+[2026-04-15 13:16:11.037] Index last_name run 2 select: 290.983 ms
+[2026-04-15 13:16:15.722] Index last_name run 3 insert: 4378.7142 ms
+[2026-04-15 13:16:15.722] Index last_name run 3 select: 276.5881 ms
+[2026-04-15 13:16:20.685] Index last_name run 4 insert: 4690.908 ms
+[2026-04-15 13:16:20.686] Index last_name run 4 select: 243.0608 ms
+[2026-04-15 13:16:25.780] Index last_name run 5 insert: 4781.4521 ms
+[2026-04-15 13:16:25.780] Index last_name run 5 select: 290.4203 ms
+[2026-04-15 13:16:30.615] Index last_name run 6 insert: 4575.9027 ms
+[2026-04-15 13:16:30.615] Index last_name run 6 select: 227.3145 ms
+[2026-04-15 13:16:35.416] Index last_name run 7 insert: 4483.0453 ms
+[2026-04-15 13:16:35.416] Index last_name run 7 select: 292.0258 ms
+[2026-04-15 13:16:40.137] Index last_name run 8 insert: 4428.5726 ms
+[2026-04-15 13:16:40.138] Index last_name run 8 select: 272.0272 ms
+[2026-04-15 13:16:44.845] Index last_name run 9 insert: 4406.8116 ms
+[2026-04-15 13:16:44.846] Index last_name run 9 select: 272.9463 ms
+[2026-04-15 13:16:49.513] Index last_name run 10 insert: 4372.0168 ms
+[2026-04-15 13:16:49.513] Index last_name run 10 select: 272.5058 ms
+[2026-04-15 13:16:54.172] Index last_name run 11 insert: 4382.133 ms
+[2026-04-15 13:16:54.172] Index last_name run 11 select: 258.9552 ms
+[2026-04-15 13:16:58.900] Index last_name run 12 insert: 4446.8348 ms
+[2026-04-15 13:16:58.900] Index last_name run 12 select: 256.6988 ms
+[2026-04-15 13:17:03.617] Index last_name run 13 insert: 4411.1657 ms
+[2026-04-15 13:17:03.617] Index last_name run 13 select: 283.1497 ms
+[2026-04-15 13:17:08.275] Index last_name run 14 insert: 4351.6792 ms
+[2026-04-15 13:17:08.276] Index last_name run 14 select: 273.0835 ms
+[2026-04-15 13:17:12.916] Index last_name run 15 insert: 4360.0747 ms
+[2026-04-15 13:17:12.916] Index last_name run 15 select: 254.8155 ms
+[2026-04-15 13:17:17.586] Index last_name run 16 insert: 4392.0454 ms
+[2026-04-15 13:17:17.586] Index last_name run 16 select: 252.9775 ms
+[2026-04-15 13:17:22.284] Index last_name run 17 insert: 4408.1399 ms
+[2026-04-15 13:17:22.285] Index last_name run 17 select: 267.628 ms
+[2026-04-15 13:17:26.958] Index last_name run 18 insert: 4386.1595 ms
+[2026-04-15 13:17:26.958] Index last_name run 18 select: 262.5623 ms
+[2026-04-15 13:17:32.109] Index last_name run 19 insert: 4817.4687 ms
+[2026-04-15 13:17:32.109] Index last_name run 19 select: 310.333 ms
+[2026-04-15 13:17:32.112] ------------------------------
+[2026-04-15 13:17:32.112] Index last_name AVG insert: 4460.55 ms
+[2026-04-15 13:17:32.112] Index last_name AVG select: 269.5 ms
+[2026-04-15 13:17:32.112] ------------------------------
+[2026-04-15 13:17:32.112] ==============================
+[2026-04-15 13:17:32.112] Running scenario: Index first+last
+[2026-04-15 13:17:32.112] ==============================
+[2026-04-15 13:17:37.375] Index first+last run 0 insert: 5050.5208 ms
+[2026-04-15 13:17:37.375] Index first+last run 0 select: 183.1124 ms
+[2026-04-15 13:17:42.435] Index first+last run 1 insert: 4883.7141 ms
+[2026-04-15 13:17:42.435] Index first+last run 1 select: 150.1666 ms
+[2026-04-15 13:17:47.669] Index first+last run 2 insert: 5048.8821 ms
+[2026-04-15 13:17:47.669] Index first+last run 2 select: 157.7034 ms
+[2026-04-15 13:17:52.749] Index first+last run 3 insert: 4882.8472 ms
+[2026-04-15 13:17:52.750] Index first+last run 3 select: 173.2276 ms
+[2026-04-15 13:17:58.129] Index first+last run 4 insert: 5191.7147 ms
+[2026-04-15 13:17:58.129] Index first+last run 4 select: 157.713 ms
+[2026-04-15 13:18:03.168] Index first+last run 5 insert: 4834.3531 ms
+[2026-04-15 13:18:03.168] Index first+last run 5 select: 176.1544 ms
+[2026-04-15 13:18:08.302] Index first+last run 6 insert: 4884.189 ms
+[2026-04-15 13:18:08.302] Index first+last run 6 select: 215.7959 ms
+[2026-04-15 13:18:13.489] Index first+last run 7 insert: 4977.7215 ms
+[2026-04-15 13:18:13.489] Index first+last run 7 select: 179.9567 ms
+[2026-04-15 13:18:18.504] Index first+last run 8 insert: 4803.4209 ms
+[2026-04-15 13:18:18.505] Index first+last run 8 select: 181.1125 ms
+[2026-04-15 13:18:23.552] Index first+last run 9 insert: 4859.3051 ms
+[2026-04-15 13:18:23.552] Index first+last run 9 select: 165.1616 ms
+[2026-04-15 13:18:28.676] Index first+last run 10 insert: 4916.5558 ms
+[2026-04-15 13:18:28.676] Index first+last run 10 select: 177.1647 ms
+[2026-04-15 13:18:33.702] Index first+last run 11 insert: 4825.4885 ms
+[2026-04-15 13:18:33.703] Index first+last run 11 select: 179.497 ms
+[2026-04-15 13:18:39.176] Index first+last run 12 insert: 5302.5418 ms
+[2026-04-15 13:18:39.176] Index first+last run 12 select: 147.2193 ms
+[2026-04-15 13:18:44.110] Index first+last run 13 insert: 4726.2663 ms
+[2026-04-15 13:18:44.110] Index first+last run 13 select: 180.1331 ms
+[2026-04-15 13:18:49.107] Index first+last run 14 insert: 4797.4586 ms
+[2026-04-15 13:18:49.107] Index first+last run 14 select: 180.0952 ms
+[2026-04-15 13:18:54.111] Index first+last run 15 insert: 4814.5965 ms
+[2026-04-15 13:18:54.112] Index first+last run 15 select: 163.5308 ms
+[2026-04-15 13:18:59.020] Index first+last run 16 insert: 4712.7565 ms
+[2026-04-15 13:18:59.020] Index first+last run 16 select: 160.8741 ms
+[2026-04-15 13:19:03.896] Index first+last run 17 insert: 4673.8928 ms
+[2026-04-15 13:19:03.896] Index first+last run 17 select: 177.0777 ms
+[2026-04-15 13:19:08.851] Index first+last run 18 insert: 4769.295 ms
+[2026-04-15 13:19:08.851] Index first+last run 18 select: 160.6664 ms
+[2026-04-15 13:19:13.796] Index first+last run 19 insert: 4720.1397 ms
+[2026-04-15 13:19:13.796] Index first+last run 19 select: 189.1256 ms
+[2026-04-15 13:19:13.799] ------------------------------
+[2026-04-15 13:19:13.799] Index first+last AVG insert: 4883.25 ms
+[2026-04-15 13:19:13.799] Index first+last AVG select: 172.4 ms
+[2026-04-15 13:19:13.799] ------------------------------
+[2026-04-15 13:19:13.799] ==============================
+[2026-04-15 13:19:13.799] Running scenario: Index last+first
+[2026-04-15 13:19:13.799] ==============================
+[2026-04-15 13:19:18.648] Index last+first run 0 insert: 4626.6425 ms
+[2026-04-15 13:19:18.648] Index last+first run 0 select: 190.6931 ms
+[2026-04-15 13:19:23.598] Index last+first run 1 insert: 4780.734 ms
+[2026-04-15 13:19:23.598] Index last+first run 1 select: 143.8687 ms
+[2026-04-15 13:19:28.514] Index last+first run 2 insert: 4715.5748 ms
+[2026-04-15 13:19:28.515] Index last+first run 2 select: 172.3156 ms
+[2026-04-15 13:19:33.448] Index last+first run 3 insert: 4731.7666 ms
+[2026-04-15 13:19:33.449] Index last+first run 3 select: 178.5917 ms
+[2026-04-15 13:19:38.661] Index last+first run 4 insert: 5011.8268 ms
+[2026-04-15 13:19:38.661] Index last+first run 4 select: 180.9116 ms
+[2026-04-15 13:19:44.135] Index last+first run 5 insert: 5290.983 ms
+[2026-04-15 13:19:44.135] Index last+first run 5 select: 161.6302 ms
+[2026-04-15 13:19:49.186] Index last+first run 6 insert: 4861.7751 ms
+[2026-04-15 13:19:49.187] Index last+first run 6 select: 158.6285 ms
+[2026-04-15 13:19:54.287] Index last+first run 7 insert: 4924.3974 ms
+[2026-04-15 13:19:54.287] Index last+first run 7 select: 149.4299 ms
+[2026-04-15 13:19:59.576] Index last+first run 8 insert: 5097.7067 ms
+[2026-04-15 13:19:59.576] Index last+first run 8 select: 167.1119 ms
+[2026-04-15 13:20:05.242] Index last+first run 9 insert: 5471.1389 ms
+[2026-04-15 13:20:05.242] Index last+first run 9 select: 166.6178 ms
+[2026-04-15 13:20:10.230] Index last+first run 10 insert: 4822.968 ms
+[2026-04-15 13:20:10.230] Index last+first run 10 select: 143.5909 ms
+[2026-04-15 13:20:15.163] Index last+first run 11 insert: 4761.5271 ms
+[2026-04-15 13:20:15.163] Index last+first run 11 select: 149.4404 ms
+[2026-04-15 13:20:20.130] Index last+first run 12 insert: 4784.3494 ms
+[2026-04-15 13:20:20.130] Index last+first run 12 select: 156.4858 ms
+[2026-04-15 13:20:25.400] Index last+first run 13 insert: 5100.8811 ms
+[2026-04-15 13:20:25.400] Index last+first run 13 select: 145.3535 ms
+[2026-04-15 13:20:30.445] Index last+first run 14 insert: 4871.4975 ms
+[2026-04-15 13:20:30.445] Index last+first run 14 select: 151.5922 ms
+[2026-04-15 13:20:35.480] Index last+first run 15 insert: 4835.8854 ms
+[2026-04-15 13:20:35.480] Index last+first run 15 select: 165.5655 ms
+[2026-04-15 13:20:40.596] Index last+first run 16 insert: 4923.9672 ms
+[2026-04-15 13:20:40.596] Index last+first run 16 select: 168.4838 ms
+[2026-04-15 13:20:45.836] Index last+first run 17 insert: 4994.192 ms
+[2026-04-15 13:20:45.836] Index last+first run 17 select: 216.5279 ms
+[2026-04-15 13:20:51.513] Index last+first run 18 insert: 5451.5977 ms
+[2026-04-15 13:20:51.513] Index last+first run 18 select: 173.2504 ms
+[2026-04-15 13:20:57.377] Index last+first run 19 insert: 5695.7293 ms
+[2026-04-15 13:20:57.377] Index last+first run 19 select: 142.4 ms
+[2026-04-15 13:20:57.381] ------------------------------
+[2026-04-15 13:20:57.382] Index last+first AVG insert: 4987.1 ms
+[2026-04-15 13:20:57.382] Index last+first AVG select: 163.6 ms
+[2026-04-15 13:20:57.382] ------------------------------

@@ -32,18 +32,16 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 
-
-
-
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowMyOrigin",
         policy =>
         {
-            policy.WithOrigins("http://localhost:3000") 
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
+            policy.WithOrigins("http://localhost:3000")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin()
+                    .AllowCredentials();
         });
 });
 
@@ -69,7 +67,7 @@ app.UseRequestLocalization(new RequestLocalizationOptions
     SupportedUICultures = new[] { CultureInfo.InvariantCulture }
 });
 
-app.UseCors("AllowMyOrigin");
+app.UseCors("AllowFrontend");
 
 app.UseHttpsRedirection();
 
