@@ -35,10 +35,14 @@ namespace LeaderBoardApp.Server.Services
             var avgScore = 10 * GetAvgScore();
             if ((player.score > avgScore && avgScore != 0))
             {
-
-                //(player.score * 5 > currentScore))
-
                 player.status = "suspicious";
+            }
+            else if (currentScore != 0)
+            {
+                if ((player.score > 5 * currentScore))
+                {
+                    player.status = "suspicious";
+                }
             }
             else
             {

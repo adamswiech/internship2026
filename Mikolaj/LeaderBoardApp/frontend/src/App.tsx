@@ -78,7 +78,7 @@ function App() {
 
           <button
             onClick={() => {
-              if (gameMode == "" || playerId == "") {
+              if (playerId == "") {
                 console.log("Set data to inputs before submit");
                 return;
               } else {
@@ -119,7 +119,7 @@ function App() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={4}>No data to display</td>
+                  <td colSpan={5}>No data to display</td>
                 </tr>
               )}
             </tbody>
