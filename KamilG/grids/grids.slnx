@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="frontend/frontend.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="grids.AppHost/grids.AppHost.csproj" />
+  <Project Path="grids.Server/grids.Server.csproj" />
+</Solution>

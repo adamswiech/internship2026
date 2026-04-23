@@ -8,14 +8,13 @@ namespace sql_to_csv
 {
     public class Convert
     {
-        public static void ConvertToCsv()
+        public static void ConvertToCsv(string constr, string csvPath)
         {
-            const string constr = @"Data Source=(localdb)\MSSQLLocalDB;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Application Name=""SQL Server Management Studio"";Command Timeout=0";
+            //const string constr = @"Data Source=(localdb)\MSSQLLocalDB;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Application Name=""SQL Server Management Studio"";Command Timeout=0";
             string query = "SELECT * FROM dane;";
-            string outputPath = @"C:\Users\VULCAN\Documents\repo\internship2026\KamilG\sql-to-csv\export.csv";
 
-            ExportQueryToCsv(constr, query, outputPath);
-            Console.WriteLine($"Zapisano CSV: {outputPath}");
+            ExportQueryToCsv(constr, query, csvPath);
+            Console.WriteLine($"Zapisano CSV");
         }
 
         static void ExportQueryToCsv(string connectionString, string query, string outputPath)

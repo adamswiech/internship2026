@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="frontend/frontend.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="GameProcessor.AppHost/GameProcessor.AppHost.csproj" />
+  <Project Path="GameProcessor.Server/GameProcessor.Server.csproj" />
+</Solution>

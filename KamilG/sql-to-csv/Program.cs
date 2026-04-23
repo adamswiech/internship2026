@@ -9,7 +9,7 @@ internal class Program
     static void Main()
     {
         Connect();
-        Console.ReadKey();
+        //Console.ReadKey();
     }
 
     static void Connect()
@@ -22,29 +22,35 @@ internal class Program
 
         conn = new SqlConnection(constr);
 
-        //// to open the connection
-        //conn.Open();
+        //to open the connection
+        conn.Open();
+        Console.WriteLine("Connection Open!");
+        string csvPath = @"C:\Users\VULCAN\Documents\repo\internship2026\KamilG\sql-to-csv\export.csv";
+        string Xmlpath = @"C:\Users\VULCAN\Documents\repo\internship2026\KamilG\sql-to-csv\export.xml";
 
-        //Console.WriteLine("Connection Open!");
+
+
+        // DB -> CSV generator
         //Stopwatch stopWatch1 = new Stopwatch();
         //stopWatch1.Start();
-        //sql_to_csv.Convert.ConvertToCsv();
+        //sql_to_csv.Convert.ConvertToCsv(constr, csvPath);
         //stopWatch1.Stop();
         //TimeSpan Time1 = stopWatch1.Elapsed;
         //Console.WriteLine("Single: " + Time1);
 
-        using (XmlWriter writer = XmlWriter.Create("books.xml"))
-        {
-            writer.WriteStartElement("book");
-            writer.WriteElementString("title", "Graphics Programming using GDI+");
-            writer.WriteElementString("author", "Mahesh Chand");
-            writer.WriteStartElement("publication");
-            writer.WriteElementString("publisher", "Addison-Wesley");
-            writer.WriteEndElement();
-            writer.WriteElementString("price", "64.95");
-            Console.WriteLine("XML file created successfully.");
-            writer.WriteEndElement();
-            writer.Flush();
-        }
+        //DB -> XML generator
+        //sql_to_csv.xml.xmlE(constr, "SELECT * FROM dane;", Xmlpath);
+
+
+        // XML -> DB generator
+        Stopwatch stopWatch1 = new Stopwatch();
+        stopWatch1.Start();
+        sql_to_csv.xmlToDb.xmlToDbE(conn, Xmlpath);
+        stopWatch1.Stop();
+        TimeSpan Time1 = stopWatch1.Elapsed;
+        Console.WriteLine(Time1);
+
+
+        
     }
 }

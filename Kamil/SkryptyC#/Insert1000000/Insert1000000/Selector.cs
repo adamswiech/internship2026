@@ -85,15 +85,9 @@ namespace Insert1000000
 
 
 
-
-
-
-
-
-
         public void Select()
         {
-            string query = "select  * from users ";
+            string query = "select  * from users";
             var path = Path.GetFullPath(@"..\..\..\output.csv");
             this.Select(query, path);
         }
@@ -205,5 +199,34 @@ namespace Insert1000000
             } //merge files
         }
 
+
+        public void Select2(string query)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+
+                SqlCommand command = new SqlCommand(query, connection);
+
+                try
+                {
+
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    object[] output = new object[reader.FieldCount];
+                    var firstRecord = true;
+                    for (int i = 0; i < reader.FieldCount; i++)
+                        output[i] = reader.GetName(i);
+
+
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error: " + ex.Message);
+                }
+            }
+
+        }
     }
 }
