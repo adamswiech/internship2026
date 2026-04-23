@@ -3,7 +3,8 @@ import Entity from "./components/entity/Entity";
 
 function App() {
   const entityRef = useRef(null);
-  const delay = 30;
+  const [tmp, setTmp] = useState(false);
+  const delay = 100;
 
   useEffect(() => {
     if (entityRef.current.style.marginTop == "") {
@@ -17,15 +18,17 @@ function App() {
     console.log(velocity);
 
     const stopInterval = () => {
+      console.log(`x = ${entityRef.current.x}`);
+      console.log(`y = ${entityRef.current.y}`);
       clearInterval(interval);
     };
 
-    entityRef.current.up = true;
-    entityRef.current.down = false;
-
     const interval = setInterval(() => {
-      entityRef.current.x = parseInt(entityRef.current.style.marginLeft);
-      entityRef.current.y = parseInt(entityRef.current.style.marginTop);
+      let distanceX = 5;
+      let distanceY = 5;
+
+      entityRef.current.x = parseInt(entityRef.current.style.left);
+      entityRef.current.y = parseInt(entityRef.current.style.top);
 
       const entityVector = [entityRef.current.x, entityRef.current.y];
 
@@ -49,16 +52,10 @@ function App() {
       //   `entityRef.current.style.marginTop = ${entityRef.current.style.marginTop}, entityRef.current.style.marginLeft = ${entityRef.current.style.marginLeft}`,
       // );
 
-      // console.log(`x = ${entityRef.current.x}`);
-      // console.log(`y = ${entityRef.current.y}`);
+        entityRef.current.style.left = `${entityRef.current.x + distanceX}px`;
+        entityRef.current.style.top = `${entityRef.current.y + distanceY}px`;
 
-      if (parseInt(entityRef.current.y) <= 0) {
-        entityRef.current.up = false;
-        entityRef.current.down = true;
-        //based on vector value try to decide if you have to + or - velocity from value of margin
-      } else if (parseInt(entityRef.current.y) >= 480) {
-        entityRef.current.up = true;
-        entityRef.current.down = false;
+        entityRef.current.i++;
       }
 
       if (parseInt(entityRef.current.x) <= 0) {
