@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace KSeF_app_fix.Server.Models
 {
@@ -24,6 +25,7 @@ namespace KSeF_app_fix.Server.Models
         public string? Reason { get; set; }
         public decimal? Amount { get; set; }
         public int? SettlementId { get; set; }
+        [JsonIgnore]
         public Settlement Settlement { get; set; }
 
     }
@@ -34,6 +36,7 @@ namespace KSeF_app_fix.Server.Models
         public string? Reason { get; set; }
         public decimal? Amount { get; set; }
         public int? SettlementId { get; set; }
+        [JsonIgnore]
         public Settlement Settlement { get; set; }
 
     }

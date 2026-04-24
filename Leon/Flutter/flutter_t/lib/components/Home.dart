@@ -1,0 +1,29 @@
+import 'package:flutter/material.dart';
+
+
+
+
+class Home extends StatefulWidget {
+  const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text("Home",
+        style: TextStyle(
+          color: Colors.black54,
+          fontWeight: FontWeight(900),
+          fontSize: 50,
+          fontFamily: 'ComicSansLDF',
+        ),
+      ),
+    );
+  }
+
+}

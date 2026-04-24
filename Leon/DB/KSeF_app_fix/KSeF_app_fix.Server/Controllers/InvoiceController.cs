@@ -57,10 +57,15 @@ namespace KSeF_app_fix.Server.Controllers
             var invoices = await _service.GetAllInvoicesAsync();
             return Ok(invoices);
         }
+        [HttpGet("GetAllInvoicesDTOs")]
+        public async Task<ActionResult<List<InvoiceDTOs>>> GetAllDTOs()
+        {
+            var invoices = await _service.GetAllInvoiceDTOsAsync();
+            return Ok(invoices);
+        }
 
     }
 }
 
 
 
-//TODO: Generate Api
