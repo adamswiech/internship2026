@@ -1,5 +1,3 @@
-
-
 interface Point {
   x: number;
   y: number;
@@ -9,7 +7,7 @@ function createNewPoints(points: Point[], l: number): Point[] {
   let newPoints : Point[]= [];
   for(let i = 0; i < 4; i++)
   {
-    //for parent sqrt
+
     let A = points[i];
     let B = points[(i + 1) % 4];
     let X = A.x - B.x;

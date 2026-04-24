@@ -15,14 +15,7 @@ CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
 CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
 // Add services to the container.
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
-if (string.IsNullOrEmpty(connectionString))
-    throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-
-Console.WriteLine("=== Connection String ===");
-Console.WriteLine($"Connection string: '{connectionString}'");
-
+var connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Ksef ;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Application Name=SQL Server Management Studio;Command Timeout=0";
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString)
     );
@@ -39,9 +32,7 @@ builder.Services.AddCors(options =>
         {
             policy.WithOrigins("http://localhost:3000")
                     .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowAnyOrigin()
-                    .AllowCredentials();
+                    .AllowAnyMethod();
         });
 });
 

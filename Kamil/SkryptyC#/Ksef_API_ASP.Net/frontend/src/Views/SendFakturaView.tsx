@@ -29,7 +29,10 @@ const sendFakturaView = ()=>{
     };
     const sendXml = ()  => {
         if(xmlString.length > 0)
+        {
+            console.log(123);
             FakturaApi.InsertFakturaFromXml(xmlString);
+        }
     }
     return (
         <div className="sendXmlView">

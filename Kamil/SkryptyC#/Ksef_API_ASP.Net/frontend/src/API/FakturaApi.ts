@@ -5,8 +5,9 @@ export const FakturaApi = {
 
     GetFaktura: async () : Promise<FakturaDTO[]> => {
         try {
+            debugger;
+            const tmp = process.env;
             const response  = await fetch(`https://${process.env.REACT_APP_HOSTAPI}:${process.env.REACT_APP_PORTAPI}/Faktura/GetFaktura?`);
-
             if (!response.ok) 
                 throw new Error(`Network response was not ok: ${response.status}`);
 
@@ -19,7 +20,7 @@ export const FakturaApi = {
     }, 
     InsertFakturaFromXml: async (data: string): Promise<FakturaDTO> => {
         try {
-        const response = await fetch(`https://${process.env.REACT_APP_HOSTAPI}:${process.env.REACT_APP_PORTAPI}/Faktura/InsertFakturaFromXml`, {
+        const response = await fetch(`https://${process.env.REACT_APP_HOSTAPI}${process.env.REACT_APP_PORTAPI}/Faktura/InsertFakturaFromXml`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -39,7 +40,7 @@ export const FakturaApi = {
     },
     GetPodmiot: async () : Promise<Podmiot> => {
         try {
-            const response  = await fetch(`https://${process.env.REACT_APP_HOSTAPI}:${process.env.REACT_APP_PORTAPI}/Faktura/GetPodmiot?`);
+            const response  = await fetch(`https://${process.env.REACT_APP_HOSTAPI}${process.env.REACT_APP_PORTAPI}/Faktura/GetPodmiot?`);
 
             if (!response.ok) 
                 throw new Error(`Network response was not ok: ${response.status}`);
@@ -53,7 +54,7 @@ export const FakturaApi = {
     }, 
     GetIloscFaktur: async () : Promise<number> => {
         try {
-            const response  = await fetch(`https://${process.env.REACT_APP_HOSTAPI}:${process.env.REACT_APP_PORTAPI}/Faktura/GetIloscFaktur?`);
+            const response  = await fetch(`https://${process.env.REACT_APP_HOSTAPI}${process.env.REACT_APP_PORTAPI}/Faktura/GetIloscFaktur?`);
 
             if (!response.ok) 
                 throw new Error(`Network response was not ok: ${response.status}`);
@@ -67,7 +68,7 @@ export const FakturaApi = {
     }, 
     GetCzyIstniejeFaktura: async () : Promise<boolean> => {
         try {
-            const response  = await fetch(`https://${process.env.REACT_APP_HOSTAPI}:${process.env.REACT_APP_PORTAPI}/Faktura/GetCzyIstniejeFaktura?`);
+            const response  = await fetch(`https://${process.env.REACT_APP_HOSTAPI}${process.env.REACT_APP_PORTAPI}/Faktura/GetCzyIstniejeFaktura?`);
 
             if (!response.ok) 
                 throw new Error(`Network response was not ok: ${response.status}`);

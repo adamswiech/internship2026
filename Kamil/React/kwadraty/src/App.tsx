@@ -23,7 +23,7 @@ function App() {
     <section>
       <p>depth = {counter}</p>
       <p>l = {l}</p>
-      <Box counter={counter} points={squarePoints} l={l} />
+      <Box counter={counter} points={rectanglePoints} l={l} />
       <label htmlFor=""> 
         larp
         <input type="range" min="0" max="1" step="0.001" value={l} onChange={(e) => setL(parseFloat(e.target.value))} />

@@ -11,7 +11,6 @@ namespace Ksef.Models
         public int FakturaId { get; set; }
         public int NrWiersza { get; set; }
 
-        [Column("KursWaluty", TypeName = "decimal(18, 6)")]
         public decimal KursWaluty { get; set; }
         public string P_7 { get; set; } //nazwa usługi
         public decimal P_8A { get; set; } //miara

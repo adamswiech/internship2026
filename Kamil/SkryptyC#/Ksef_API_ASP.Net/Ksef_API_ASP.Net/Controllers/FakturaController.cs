@@ -65,7 +65,6 @@ public class FakturaController : Controller
 
                 }).ToList(),
             })
-            .AsEnumerable()
             .ToList();
 
         return result;
@@ -87,7 +86,7 @@ public class FakturaController : Controller
                 Nazwa = xml.Podmiot1.DaneIdentyfikacyjne.Nazwa,
                 KodKraju = xml.Podmiot1.Adres.KodKraju,
                 AdresL1 = xml.Podmiot1.Adres.AdresL1,
-            } ,
+            },
             Podmiot2 = new Podmiot
             {
                 Nip = xml.Podmiot2.DaneIdentyfikacyjne.NIP,
